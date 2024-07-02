@@ -1,0 +1,23 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #282c34;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .sign-in-button {
+    background-color: #61dafb;
+    border: none;
+    padding: 8px 16px;
+    color: #282c34;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
