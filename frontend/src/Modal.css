@@ -70,3 +70,23 @@
   background-color: #ccc;
   color: black;
 }
+.toggle-form p {
+  margin-top: 10px;
+}
+
+.toggle-form button {
+  background: none;
+  border: none;
+  color: #61dafb;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.toggle-form button:hover {
+  text-decoration: none;
+}
+.error {
+  color: red;
+  margin-top: 10px;
+}
