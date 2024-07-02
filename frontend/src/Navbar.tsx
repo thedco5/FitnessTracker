@@ -13,7 +13,7 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
   const handleClose = () => setShowModal(false);
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
-  // Close dropdown when clicking outside
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -27,7 +27,6 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
     };
   }, [dropdownRef]);
 
-  // Close dropdown when changing the page
   useEffect(() => {
     setShowDropdown(false);
   }, [location]);
