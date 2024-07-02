@@ -5,28 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "user")
-@Table(name = "user", schema = "zettafit")
+@Entity(name = "saved")
+@Table(name = "saved", schema = "zettafit")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class SavedExercise {
 
     @Id
-    @OneToMany(mappedBy = "author") // unsure
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
 
-    @Column
-    private String email;
-
-    @Column
-    private String password;
-
-    @Column
-    private int exercises_finished;
+    @ManyToOne
+    @JoinColumn(name = "exercise_id")
+    private Exercise exercise;
 
 }
