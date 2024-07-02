@@ -1,15 +1,36 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 import './Navbar.css';
 
 const Navbar = ({ isSignedIn, setIsSignedIn }) => {
   const [showModal, setShowModal] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+  const location = useLocation();
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
   const toggleDropdown = () => setShowDropdown(!showDropdown);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+  // Close dropdown when changing the page
+  useEffect(() => {
+    setShowDropdown(false);
+  }, [location]);
 
   return (
     <>
@@ -22,10 +43,10 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
           {isSignedIn ? (
             <div className="account">
               <button className="account-button" onClick={toggleDropdown}>
-                <img src="src\images\image.jpg" alt="Profile" className="profile-pic" />
+                <img src="src/images/image.jpg" alt="Profile" className="profile-pic" />
               </button>
               {showDropdown && (
-                <div className="dropdown-menu">
+                <div className="dropdown-menu" ref={dropdownRef}>
                   <p>Username: Smetkata</p>
                   <p>Email: andonov@gmail.com</p>
                   <button onClick={() => setIsSignedIn(false)}>Sign Out</button>
