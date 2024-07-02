@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    build:
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5432:5432"
