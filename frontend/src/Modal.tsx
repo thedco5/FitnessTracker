@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Modal.css';
 
-const Modal = ({ show, handleClose }) => {
+const Modal = ({ show, handleClose, setIsSignedIn }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -9,66 +9,27 @@ const Modal = ({ show, handleClose }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState('');
 
-
   const handleSignIn = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('https:placeholder', { 
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log(data); 
-        handleClose(); 
-      } else {
-        setError(data.message || 'Sign-in failed. Please check your credentials.');
-      }
-    } catch (error) {
-      setError('Sign-in failed. Please try again later.');
-    }
+    setIsSignedIn(true); 
+    handleClose();
   };
-
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('https:placeholder', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log(data); 
-        handleClose(); 
-      } else {
-        setError(data.message || 'Sign-up failed. Please check your details.');
-      }
-    } catch (error) {
-      setError('Sign-up failed. Please try again later.');
-    }
+    setIsSignedIn(true); 
+    handleClose();
   };
 
-  
   const switchToSignUp = () => {
     setIsSignUp(true);
     setError('');
   };
 
-
   const switchToSignIn = () => {
     setIsSignUp(false);
     setError('');
   };
-
 
   useEffect(() => {
     if (!show) {
@@ -121,6 +82,7 @@ const Modal = ({ show, handleClose }) => {
             <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
             <button type="button" onClick={() => { setError(''); handleClose(); }}>Close</button>
           </div>
+          <button type="button" onClick={() => { setIsSignedIn(true); handleClose(); }}>Go</button>
         </form>
         <div className="toggle-form">
           {isSignUp ? (
