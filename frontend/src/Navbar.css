@@ -1,4 +1,4 @@
-/* Navbar styles */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -71,6 +71,7 @@
 
 .sign-in-button:hover {
   background-color: #21a1f1; 
+  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5); 
 }
 
 .sign-in-button:focus {
@@ -78,7 +79,7 @@
 }
 
 .sign-in-button:active {
-  background-color: #1a8cd8; 
+  background-color: #30cae9; 
 }
 
 .account-button {
@@ -101,7 +102,7 @@
   box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5); 
 }
 
-/* Dropdown styles */
+
 .dropdown-menu {
   position: fixed;
   right: 0;
@@ -116,7 +117,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden; /* Prevents overflow */
+  overflow: hidden; 
 }
 
 .dropdown-menu .profile-header {
@@ -126,7 +127,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Ensures no overflow */
+  overflow: hidden;
 }
 
 .dropdown-menu .profile-header img {
@@ -155,4 +156,9 @@
   cursor: pointer;
   border-radius: 4px;
   margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu button:hover {
+  background-color: #30cae9; 
 }
