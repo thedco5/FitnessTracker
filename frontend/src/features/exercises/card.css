@@ -1,0 +1,51 @@
+/* src/card.css */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 2rem;
+}
+@media(min-width: 768px){
+    .cards-container{
+        flex-direction: row;
+    }
+}
+.ExerciseCard {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    background-color: #1e1e1e;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+@media(min-width: 768px){
+    .ExerciseCard{
+        max-width: 300px;
+        margin: 0;
+    }
+}
+
+.ExerciseCard-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.ExerciseCard-info {
+    padding: 10px 0;
+}
+
+.ExerciseCard-title {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.ExerciseCard-description {
+    margin: 5px 0 0;
+}

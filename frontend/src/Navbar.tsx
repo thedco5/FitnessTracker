@@ -53,7 +53,8 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
       <nav className="navbar">
         <div className="navbar-left">
           <Link to="/">Home</Link>
-          <Link to="/exercise">Exercise</Link>
+          <Link to="/workouts">Workouts</Link>
+          <Link to="/exercise">Exercises</Link>
         </div>
         <div className="navbar-right">
           {isSignedIn ? (
