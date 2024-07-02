@@ -16,7 +16,6 @@ import zetta.fitnesstrackerbackend.vo.Visibility;
 public class Exercise {
 
     @Id
-    @OneToMany(mappedBy = "exercise") // unsure
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

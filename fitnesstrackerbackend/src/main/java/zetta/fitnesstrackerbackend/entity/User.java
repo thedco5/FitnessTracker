@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
-    @OneToMany(mappedBy = "author") // unsure
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
