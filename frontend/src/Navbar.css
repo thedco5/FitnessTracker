@@ -10,17 +10,126 @@
   color: white;
   text-decoration: none;
   margin: 0 10px;
+  position: relative;
+  transition: color 0.3s ease;
 }
+
+.navbar a::before,
+.navbar a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -1.5px;
+  height: 1.5px;
+  width: 0;
+  background-color: #61dafb; 
+  transition: width 0.3s ease, left 0.3s ease, background-color 0.3s ease; 
+}
+
+.navbar a::before {
+  transform: translateX(-50%);
+}
+
+.navbar a::after {
+  transform: translateX(50%);
+}
+
+.navbar a:hover::before,
+.navbar a:hover::after {
+  width: 60%;
+  left: 20%;
+  background-color: #61dafb; 
+}
+
+.navbar a:hover {
+  color: #61dafb; 
+}
+
 
 .sign-in-button {
-  background-color: #61dafb;
-  border: none;
-  padding: 8px 16px;
-  color: #282c34;
+  appearance: none;
+  background-color: #61dafb; 
+  border: 2px solid #1A1A1A;
+  border-radius: 15px; 
+  box-sizing: border-box;
+  color: #282c34; 
   cursor: pointer;
-  border-radius: 4px;
+  display: inline-block;
+  line-height: normal;
+  margin: 0;
+  outline: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto; 
+  will-change: transform;
 }
 
+.sign-in-button:hover {
+  background-color: #21a1f1; 
+}
+
+.sign-in-button:focus {
+  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5); 
+}
+
+.sign-in-button:active {
+  background-color: #1a8cd8; 
+}
+
+
+
+.sign-in-button:hover {
+  background-color: #00D6DE; 
+  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5);
+}
+
+.sign-in-button:focus {
+  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5); 
+}
+.sign-in-button:active {
+  background-color: #1a8cd8; 
+}
+
+
+
+
+.button-28:disabled {
+  pointer-events: none;
+}
+
+.button-28:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.button-28:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+
+.button-28:disabled {
+  pointer-events: none;
+}
+
+.button-28:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.button-28:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
 .account-button {
   background: none;
   border: none;
