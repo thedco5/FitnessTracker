@@ -1,23 +1,64 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #282c34;
-  }
-  
-  .navbar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 10px;
-  }
-  
-  .sign-in-button {
-    background-color: #61dafb;
-    border: none;
-    padding: 8px 16px;
-    color: #282c34;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #282c34;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.sign-in-button {
+  background-color: #61dafb;
+  border: none;
+  padding: 8px 16px;
+  color: #282c34;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.account-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.account-button img.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #61dafb;
+  object-fit: cover;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 20px;
+  top: 60px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.dropdown-menu p {
+  margin: 5px 0;
+  color: #282c34;
+}
+
+.dropdown-menu button {
+  background-color: #61dafb;
+  border: none;
+  padding: 8px 16px;
+  color: #282c34;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+}
