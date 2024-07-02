@@ -11,9 +11,12 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
-  const toggleDropdown = () => setShowDropdown(!showDropdown);
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
+    setShowDropdown(prevShowDropdown => !prevShowDropdown);
+  };
 
-
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -27,6 +30,7 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
     };
   }, [dropdownRef]);
 
+  // Close dropdown when changing the page
   useEffect(() => {
     setShowDropdown(false);
   }, [location]);
@@ -46,9 +50,14 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
               </button>
               {showDropdown && (
                 <div className="dropdown-menu" ref={dropdownRef}>
-                  <p>Username: Smetkata</p>
-                  <p>Email: andonov@gmail.com</p>
-                  <button onClick={() => setIsSignedIn(false)}>Sign Out</button>
+                  <div className="profile-header">
+                    <img src="src/images/image.jpg" alt="Profile" />
+                  </div>
+                  <div className="profile-details">
+                    <p>Username: Smetkata</p>
+                    <p>Email: andonov@gmail.com</p>
+                    <button onClick={() => setIsSignedIn(false)}>Sign Out</button>
+                  </div>
                 </div>
               )}
             </div>
