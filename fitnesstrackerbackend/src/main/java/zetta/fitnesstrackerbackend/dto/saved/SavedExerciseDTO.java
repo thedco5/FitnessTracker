@@ -16,7 +16,6 @@ public class SavedExerciseDTO {
     private UUID id;
 
     private UserDTO author;
-
     private ExerciseDTO exercise;
 
 }

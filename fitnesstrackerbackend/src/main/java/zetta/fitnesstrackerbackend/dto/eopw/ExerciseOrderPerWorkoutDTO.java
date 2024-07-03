@@ -19,7 +19,6 @@ public class ExerciseOrderPerWorkoutDTO {
     private int position;
 
     private ExerciseDTO exercise;
-
     private WorkoutDTO workout;
 
 }
