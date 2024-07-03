@@ -23,7 +23,6 @@ public class CommentDTO {
     private LocalDateTime timestamp;
 
     private UserDTO author;
-
     private ExerciseDTO exercise;
 
 }

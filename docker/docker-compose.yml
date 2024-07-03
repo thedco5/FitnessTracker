@@ -1,4 +1,5 @@
 services:
+
   postgres:
     image: postgres
     container_name: postgres
@@ -6,5 +7,24 @@ services:
       dockerfile: Dockerfile
     environment:
       POSTGRES_PASSWORD: mysecretpassword
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.1
+    container_name: keycloak
+    ports:
+      - "8888:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: start-dev
+
+
+
+volumes:
+  postgres_data:
