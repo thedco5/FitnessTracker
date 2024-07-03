@@ -1,0 +1,112 @@
+.workoutsListWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #ffffff;
+    padding: 16px;
+}
+
+.WorkoutCardWrapper {
+    display: flex;
+    gap: 16px;
+    border: 1px solid #444;
+    background-color: #333;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #fff;
+    text-align: left;
+    text-decoration: none;
+}
+
+.WorkoutImage {
+    width: 200px;
+    height: auto;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.WorkoutCardDetails {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.workoutCreatedBy {
+    font-size: 0.9em;
+    color: #bbb;
+}
+
+.workoutName {
+    text-align: center;
+    margin: 0;
+}
+
+.workoutLikes {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.likeIcon {
+    margin-right: 8px;
+    color: #ff4757;
+}
+
+.workoutLikes span {
+    display: flex;
+    align-items: center;
+}
+.workoutPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    color: #fff;
+    padding: 16px;
+}
+
+.workoutImage {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.workoutDetails {
+    text-align: left;
+    width: 100%;
+    max-width: 600px;
+}
+
+.workoutCreatedBy {
+    font-size: 1em;
+    color: #bbb;
+    text-align: left;
+}
+
+.workoutName {
+    text-align: center;
+    margin: 16px 0;
+}
+
+.workoutLikes {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 1.2em;
+    margin-bottom: 16px;
+}
+
+.likeIcon {
+    margin-right: 8px;
+    color: #ff4757;
+}
+
+.exercisesList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
