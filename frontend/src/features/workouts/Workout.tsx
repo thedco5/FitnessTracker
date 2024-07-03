@@ -1,22 +1,22 @@
 import React from 'react';
-import {useParams} from "react-router-dom";
-import {workoutMockup} from "./constants.ts";
-import {exercisesMockup} from "../exercises/constants.ts";
-import {ExerciseCard} from "../exercises";
+import { useParams } from "react-router-dom";
+import { workoutMockup } from "./constants.ts";
+import { exercisesMockup } from "../exercises/constants.ts";
+import { ExerciseCard } from "../exercises";
 import './workouts.css';
 
 export const Workout = () => {
-    const {workoutId} = useParams();
+    const { workoutId } = useParams();
     const currentWorkout = workoutMockup.find(el => el.id === workoutId) || 'not found';
     if (currentWorkout === 'not found') {
         return <div>Workout not found</div>;
     }
 
-    const {name, likes, createdBy, exersises, image} = currentWorkout;
+    const { name, likes, createdBy, exercises, image } = currentWorkout;
 
     const getExercise = (id) => {
         const exercise = exercisesMockup.find(element => element.id === id);
-        return exercise ? <ExerciseCard key={exercise.id} id={exercise.id} name={exercise.name} description={exercise.description} image={exercise.image}/> : null;
+        return exercise ? <ExerciseCard key={exercise.id} id={exercise.id} name={exercise.name} description={exercise.description} image={exercise.image} /> : null;
     };
 
     return (
@@ -29,7 +29,7 @@ export const Workout = () => {
                     <span className="likeIcon">❤️</span> {likes.length}
                 </div>
                 <div className="exercisesList">
-                    {exersises.map(exerciseId => getExercise(exerciseId))}
+                    {exercises.map(exerciseId => getExercise(exerciseId))}
                 </div>
             </div>
         </div>

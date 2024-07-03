@@ -23,6 +23,8 @@
     color: white;
     padding: 10px;
     text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
 }
 @media(min-width: 768px){
     .ExerciseCard{
@@ -48,4 +50,28 @@
 
 .ExerciseCard-description {
     margin: 5px 0 0;
+}
+
+.ExerciseCard-details {
+    display: none;
+    padding: 10px;
+    text-align: left;
+    background-color: #2e2e2e;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.ExerciseCard:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.ExerciseCard:hover > .ExerciseCard-details {
+    display: block;
+    transition: display 0.3s ease;
 }
