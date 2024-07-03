@@ -1,35 +1,31 @@
-package zetta.fitnesstrackerbackend.entity;
+package zetta.fitnesstrackerbackend.dto.user;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.vo.Gender;
 
-@Entity(name = "user")
-@Table(name = "user", schema = "zettafit")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @NotBlank
     private String name;
 
-    @Column
+    @NotBlank
     private String email;
 
-    @Column
+    @NotBlank
     private String password;
 
-    @Column
     private int exercises_finished;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private Gender gender;
 
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.vo.Difficulty;
 import zetta.fitnesstrackerbackend.vo.DurationType;
+import zetta.fitnesstrackerbackend.vo.Gender;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
 @Entity(name = "workout")
@@ -42,6 +43,13 @@ public class Workout {
 
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @OneToOne
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image image;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

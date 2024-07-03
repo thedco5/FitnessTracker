@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity(name = "comment")
 @Table(name = "comment", schema = "zettafit")
@@ -18,6 +21,10 @@ public class Comment {
 
     @Column
     private String content;
+
+    @Column
+    @CreationTimestamp
+    private LocalDateTime timestamp;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

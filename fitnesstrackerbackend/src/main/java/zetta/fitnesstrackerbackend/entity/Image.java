@@ -4,14 +4,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import zetta.fitnesstrackerbackend.vo.Gender;
 
-@Entity(name = "user")
-@Table(name = "user", schema = "zettafit")
+@Entity(name = "image")
+@Table(name = "image", schema = "zettafit")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,15 +20,7 @@ public class User {
     private String name;
 
     @Column
-    private String email;
-
-    @Column
-    private String password;
-
-    @Column
-    private int exercises_finished;
-
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    @Lob
+    private byte[] data;
 
 }

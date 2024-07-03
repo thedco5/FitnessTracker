@@ -1,57 +1,48 @@
-package zetta.fitnesstrackerbackend.entity;
+package zetta.fitnesstrackerbackend.dto.exercise;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import zetta.fitnesstrackerbackend.dto.user.UserDTO;
+import zetta.fitnesstrackerbackend.entity.Image;
 import zetta.fitnesstrackerbackend.vo.Difficulty;
 import zetta.fitnesstrackerbackend.vo.DurationType;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
-@Entity(name = "exercise")
-@Table(name = "exercise", schema = "zettafit")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Exercise {
+public class ExerciseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @NotBlank
     private String name;
 
-    @Column
+    @NotBlank
     private String description;
 
-    @Column
     private int timesFinished;
 
-    @Column
     private int likes;
 
-    @Column
     private int calories;
 
-    @Column
     private int duration;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private DurationType durationType;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private Difficulty difficulty;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private Visibility visibility;
 
-    @OneToOne
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private User author;
+    private UserDTO author;
 
 }
