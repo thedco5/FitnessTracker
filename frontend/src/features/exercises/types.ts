@@ -25,6 +25,11 @@ export interface Exercise {
     id: string;
     name: string;
     type: "time" | "weight";
+    calories: string;
+    duration: string;
+    durationType: string;
+    difficulty: string;
+    visibility: string;
 }
 
 export interface Comment {
