@@ -1,30 +1,26 @@
 package zetta.fitnesstrackerbackend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import zetta.fitnesstrackerbackend.dto.user.UserDTO;
+import zetta.fitnesstrackerbackend.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserController {
 
-    @PostMapping("/create")
-    public ResponseEntity<String> create() {
-        return ResponseEntity.ok("Create User");
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("/find") // aint working
-    public ResponseEntity<String> find() {
-        return ResponseEntity.ok("Find User, id = ");
-    }
-
-    @PostMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable String id) {
-        return ResponseEntity.ok("Update User, id = " + id);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable String id) {
-        return ResponseEntity.ok("Delete User, id = " + id);
+    @PostMapping("/auth/signup")
+    public ResponseEntity<String> signup(@RequestBody @Validated UserDTO userDTO) {
+        return userService.createUser(userDTO);
     }
 
 }

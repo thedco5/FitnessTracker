@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity(name = "image")
 @Table(name = "image", schema = "zettafit")
 @Data
@@ -13,8 +15,9 @@ import lombok.NoArgsConstructor;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID id;
 
     @Column
     private String name;

@@ -7,14 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.vo.Gender;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
 
-    private Long id;
+    private UUID id;
 
-    @NotBlank
     private String name;
 
     @NotBlank
@@ -25,7 +26,6 @@ public class UserDTO {
 
     private int exercises_finished;
 
-    @NotNull
     private Gender gender;
 
 }

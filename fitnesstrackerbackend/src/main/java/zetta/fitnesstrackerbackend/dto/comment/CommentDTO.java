@@ -8,13 +8,14 @@ import zetta.fitnesstrackerbackend.dto.exercise.ExerciseDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentDTO {
 
-    private Long id;
+    private UUID id;
 
     @NotBlank
     private String content;

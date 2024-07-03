@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import zetta.fitnesstrackerbackend.vo.Gender;
+
+import java.util.UUID;
 
 @Entity(name = "user")
 @Table(name = "user", schema = "zettafit")
@@ -14,8 +17,9 @@ import zetta.fitnesstrackerbackend.vo.Gender;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID id;
 
     @Column
     private String name;

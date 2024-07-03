@@ -7,14 +7,16 @@ import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
 import zetta.fitnesstrackerbackend.dto.exercise.ExerciseDTO;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExerciseOrderPerWorkoutDTO {
 
-    private Long id;
+    private UUID id;
 
-    private int order;
+    private int position;
 
     private ExerciseDTO exercise;
 

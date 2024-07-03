@@ -11,12 +11,14 @@ import zetta.fitnesstrackerbackend.vo.Difficulty;
 import zetta.fitnesstrackerbackend.vo.Gender;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class WorkoutDTO {
 
-    private Long id;
+    private UUID id;
 
     @NotBlank
     private String name;

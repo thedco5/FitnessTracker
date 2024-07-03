@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity(name = "exercise_workout")
 @Table(name = "exercise_workout", schema = "zettafit")
 @Data
@@ -13,11 +15,12 @@ import lombok.NoArgsConstructor;
 public class ExerciseOrderPerWorkout {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID id;
 
     @Column
-    private int order;
+    private int position;
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")

@@ -9,6 +9,8 @@ import zetta.fitnesstrackerbackend.vo.DurationType;
 import zetta.fitnesstrackerbackend.vo.Gender;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
+import java.util.UUID;
+
 @Entity(name = "workout")
 @Table(name = "workout", schema = "zettafit")
 @Data
@@ -17,8 +19,9 @@ import zetta.fitnesstrackerbackend.vo.Visibility;
 public class Workout {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID id;
 
     @Column
     private String name;
