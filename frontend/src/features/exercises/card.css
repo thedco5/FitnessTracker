@@ -76,3 +76,11 @@
     display: block;
     transition: display 0.3s ease;
 }
+
+
+@media(max-width: 767px) {
+    .cards-container {
+        align-items: center; 
+        margin-right: 5.5%;
+    }
+}
