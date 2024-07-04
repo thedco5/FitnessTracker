@@ -43,7 +43,6 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
     };
   }, [dropdownRef]);
 
-
   useEffect(() => {
     setShowDropdown(false);
   }, [location]);
