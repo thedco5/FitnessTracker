@@ -1,3 +1,4 @@
+/* Navbar.css */
 
 .navbar {
   display: flex;
@@ -23,8 +24,8 @@
   bottom: -1.5px;
   height: 1.5px;
   width: 0;
-  background-color: #61dafb; 
-  transition: width 0.3s ease, left 0.3s ease, background-color 0.3s ease; 
+  background-color: #61dafb;
+  transition: width 0.3s ease, left 0.3s ease, background-color 0.3s ease;
 }
 
 .navbar a::before {
@@ -39,20 +40,20 @@
 .navbar a:hover::after {
   width: 60%;
   left: 20%;
-  background-color: #61dafb; 
+  background-color: #61dafb;
 }
 
 .navbar a:hover {
-  color: #61dafb; 
+  color: #61dafb;
 }
 
 .sign-in-button {
   appearance: none;
-  background-color: #61dafb; 
+  background-color: #61dafb;
   border: 2px solid #1A1A1A;
-  border-radius: 15px; 
+  border-radius: 15px;
   box-sizing: border-box;
-  color: #282c34; 
+  color: #282c34;
   cursor: pointer;
   display: inline-block;
   line-height: normal;
@@ -65,21 +66,21 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: auto; 
+  width: auto;
   will-change: transform;
 }
 
 .sign-in-button:hover {
-  background-color: #21a1f1; 
-  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5); 
+  background-color: #21a1f1;
+  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5);
 }
 
 .sign-in-button:focus {
-  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5); 
+  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5);
 }
 
 .sign-in-button:active {
-  background-color: #30cae9; 
+  background-color: #30cae9;
 }
 
 .account-button {
@@ -99,9 +100,8 @@
 
 .account-button:hover img.profile-pic {
   transition: 0.3s;
-  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5); 
+  box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5);
 }
-
 
 .dropdown-menu {
   position: fixed;
@@ -113,11 +113,11 @@
   border-left: 1px solid #ccc;
   padding: 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  z-index: 1000;
+  z-index: 1001;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .dropdown-menu .profile-header {
@@ -160,5 +160,12 @@
 }
 
 .dropdown-menu button:hover {
-  background-color: #30cae9; 
+  background-color: #30cae9;
+}
+
+
+@media (max-width: 768px) {
+  .dropdown-menu {
+    width: 66.67%; 
+  }
 }
