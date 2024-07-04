@@ -1,11 +1,13 @@
 package zetta.fitnesstrackerbackend.controller;
 
+import org.keycloak.representations.AccessTokenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import zetta.fitnesstrackerbackend.dto.user.LoginDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.service.KeycloakAdminService;
 
@@ -20,9 +22,12 @@ public class PublicController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody @Validated UserDTO userDTO) {
-        keycloakAdminService.createUser(userDTO.getUsername(), userDTO.getEmail(), userDTO.getPassword());
-        logger.info("New user created");
-        return ResponseEntity.ok("Successfully signed up user");
+        return keycloakAdminService.signup(userDTO);
+    }
+
+    @PostMapping("/login")
+    public AccessTokenResponse loginUser(@RequestBody LoginDTO loginDTO) {
+        return keycloakAdminService.loginUser(loginDTO);
     }
 
     @GetMapping("/test")

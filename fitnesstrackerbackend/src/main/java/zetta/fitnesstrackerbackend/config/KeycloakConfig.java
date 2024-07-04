@@ -12,12 +12,12 @@ public class KeycloakConfig {
     @Bean
     public Keycloak keycloak() {
         return KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8888/auth")
-                .realm("zettafit")
-                .clientId("zettafit-api")
-                .grantType(OAuth2Constants.PASSWORD)
+                .serverUrl("http://localhost:8888")
+                .realm("master")
+                .clientId("admin-cli")
                 .username("admin")
                 .password("admin")
+                .grantType(OAuth2Constants.PASSWORD)
                 .build();
     }
 

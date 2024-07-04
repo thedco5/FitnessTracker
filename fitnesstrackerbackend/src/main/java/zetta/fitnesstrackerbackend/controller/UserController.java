@@ -24,9 +24,4 @@ public class UserController {
         return ResponseEntity.ok("[TEST] user_controller");
     }
 
-    @PostMapping("/auth/signup")
-    public ResponseEntity<String> signup(@RequestBody @Validated UserDTO userDTO) {
-        return userService.createUser(userDTO);
-    }
-
 }
