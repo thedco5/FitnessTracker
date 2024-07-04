@@ -4,7 +4,7 @@ import Modal from './modalx';
 import { workoutMockup } from "./constants.ts";
 import { Workout } from "./types.ts";
 import './workouts.css';
-import './searchbar.css'; // Import the searchbar CSS
+import './searchbar.css'; 
 
 const addWorkoutToDatabase = async (workout) => {
     return new Promise((resolve) => {
