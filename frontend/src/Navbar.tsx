@@ -6,6 +6,7 @@ import './Navbar.css';
 const Navbar = ({ isSignedIn, setIsSignedIn }) => {
   const [showModal, setShowModal] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [profilePic, setProfilePic] = useState('src/images/image.jpg');
   const dropdownRef = useRef(null);
   const location = useLocation();
 
@@ -28,6 +29,17 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
   const handleSignIn = () => {
     setIsSignedIn(true);
     setShowDropdown(false);
+  };
+
+  const handleProfilePicChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePic(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   useEffect(() => {
@@ -59,12 +71,16 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
           {isSignedIn ? (
             <div className="account">
               <button className="account-button" onClick={toggleDropdown}>
-                <img src="src/images/image.jpg" alt="Profile" className="profile-pic" />
+                <img src={profilePic} alt="Profile" className="profile-pic" />
               </button>
               {showDropdown && (
                 <div className="dropdown-menu" ref={dropdownRef}>
                   <div className="profile-header">
-                    <img src="src/images/image.jpg" alt="Profile" />
+                    <img src={profilePic} alt="Profile" className="profile-pic" />
+                    <label className="change-pic-icon">
+                      +
+                      <input type="file" accept="image/*" onChange={handleProfilePicChange} />
+                    </label>
                   </div>
                   <div className="profile-details">
                     <p>Username: Smetkata</p>
