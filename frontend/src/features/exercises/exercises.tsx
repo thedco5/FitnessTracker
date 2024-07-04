@@ -1,14 +1,15 @@
-
-import React, { useState } from 'react';
+// exercises.tsx
+import React, { useState, useEffect } from 'react';
 import { exercisesMockup } from "./constants";
 import { ExerciseCard } from "./exercise";
 import { Modal } from './modalx';
 import './card.css';
-import './modalx.css'; 
+import './modalx.css';
+import './searchbar.css'; 
 
 const addExerciseToDatabase = async (exercise) => {
     return new Promise((resolve) => {
-        setTimeout(() => resolve({ success: true, data: exercise }), 500);
+        setTimeout(() => resolve({ success: true, data: { ...exercise, likes: 0 } }), 500); 
     });
 };
 
@@ -25,6 +26,14 @@ export const Exercises = ({ isSignedIn }) => {
         difficulty: 'medium', 
         visibility: 'public'
     });
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredExercises, setFilteredExercises] = useState([]);
+
+    useEffect(() => {
+        setFilteredExercises(exercises.filter(exercise =>
+            exercise.name.toLowerCase().includes(searchTerm.toLowerCase())
+        ));
+    }, [exercises, searchTerm]);
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -54,6 +63,7 @@ export const Exercises = ({ isSignedIn }) => {
             durationType: formData.durationType, 
             difficulty: formData.difficulty, 
             visibility: formData.visibility, 
+            likes: 0, 
             type: 'weight', 
         };
 
@@ -79,13 +89,28 @@ export const Exercises = ({ isSignedIn }) => {
         closeModal();
     };
 
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
     return (
         <div>
             {isSignedIn && (
                 <button className="add-exercise-button" onClick={openModal}>Add Exercise</button>
             )}
+            <div className="container">
+                <input
+                    type="text"
+                    placeholder="Search exercises by name..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
+                <div className="search"></div>
+            </div>
             <div className="cards-container">
-                {exercises.map(el => <ExerciseCard key={el.id} {...el} calories={el.calories} duration={el.duration} durationType={el.durationType} difficulty={el.difficulty} visibility={el.visibility} />)}
+                {filteredExercises.map(el => (
+                    <ExerciseCard key={el.id} {...el} calories={el.calories} duration={el.duration} durationType={el.durationType} difficulty={el.difficulty} />
+                ))}
             </div>
             <Modal
                 showModal={showModal}
