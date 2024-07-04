@@ -16,7 +16,7 @@ export interface TrainingProgram {
         weight?: number;
         minutes?: number;
     }[];
-    likes: string[]; // userIds
+    likes: string[]; 
 }
 
 export interface Exercise {
@@ -30,6 +30,7 @@ export interface Exercise {
     durationType: string;
     difficulty: string;
     visibility: string;
+    likes:number;
 }
 
 export interface Comment {
