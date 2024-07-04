@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.vo.Difficulty;
 import zetta.fitnesstrackerbackend.vo.DurationType;
+import zetta.fitnesstrackerbackend.vo.ExerciseType;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
 import java.util.UUID;
@@ -45,6 +46,9 @@ public class Exercise {
 
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
+
+    @Enumerated(EnumType.STRING)
+    private ExerciseType type;
 
     @Enumerated(EnumType.STRING)
     private Visibility visibility;

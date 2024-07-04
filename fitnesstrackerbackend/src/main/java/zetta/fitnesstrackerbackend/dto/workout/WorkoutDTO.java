@@ -9,6 +9,7 @@ import zetta.fitnesstrackerbackend.dto.image.ImageDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.entity.Image;
 import zetta.fitnesstrackerbackend.vo.Difficulty;
+import zetta.fitnesstrackerbackend.vo.ExerciseType;
 import zetta.fitnesstrackerbackend.vo.Gender;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
@@ -34,6 +35,9 @@ public class WorkoutDTO {
 
     @NotNull
     private Difficulty difficulty;
+
+    @NotNull
+    private ExerciseType type;
 
     @NotNull
     private Visibility visibility;

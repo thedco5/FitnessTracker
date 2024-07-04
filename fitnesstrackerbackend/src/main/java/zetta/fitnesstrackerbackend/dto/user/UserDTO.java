@@ -19,6 +19,9 @@ public class UserDTO {
     private String name;
 
     @NotBlank
+    private String username;
+
+    @NotBlank
     private String email;
 
     @NotBlank
