@@ -39,4 +39,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @OneToOne
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image image;
+
 }

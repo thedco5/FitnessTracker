@@ -1,10 +1,10 @@
 package zetta.fitnesstrackerbackend.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import zetta.fitnesstrackerbackend.dto.image.ImageDTO;
 import zetta.fitnesstrackerbackend.vo.Gender;
 
 import java.util.UUID;
@@ -30,5 +30,7 @@ public class UserDTO {
     private int exercises_finished;
 
     private Gender gender;
+
+    private ImageDTO image;
 
 }

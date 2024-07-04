@@ -9,7 +9,7 @@ import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.service.UserService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -19,14 +19,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
-    }
-
-    @GetMapping("/hello-admin")
-    public String hello2() {
-        return "hello admin";
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("[TEST] user_controller");
     }
 
     @PostMapping("/auth/signup")
