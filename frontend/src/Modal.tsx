@@ -3,6 +3,7 @@ import './Modal.css';
 
 const Modal = ({ show, handleClose, setIsSignedIn }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
+  const [emailOrUsername, setEmailOrUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -11,14 +12,50 @@ const Modal = ({ show, handleClose, setIsSignedIn }) => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    setIsSignedIn(true); 
-    handleClose();
+    try {
+      const response = await fetch('https://your-backend-api.com/auth/signin', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ emailOrUsername, password }),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(data); 
+        setIsSignedIn(true);
+        handleClose(); 
+      } else {
+        setError(data.message || 'Sign-in failed. Please check your credentials.');
+      }
+    } catch (error) {
+      setError('Sign-in failed. Please try again later.');
+    }
   };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    setIsSignedIn(true); 
-    handleClose();
+    try {
+      const response = await fetch('https://your-backend-api.com/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(data); 
+        setIsSignedIn(true);
+        handleClose(); 
+      } else {
+        setError(data.message || 'Sign-up failed. Please check your details.');
+      }
+    } catch (error) {
+      setError('Sign-up failed. Please try again later.');
+    }
   };
 
   const switchToSignUp = () => {
@@ -29,6 +66,11 @@ const Modal = ({ show, handleClose, setIsSignedIn }) => {
   const switchToSignIn = () => {
     setIsSignUp(false);
     setError('');
+  };
+
+  const handleGo = () => {
+    setIsSignedIn(true);
+    handleClose();
   };
 
   useEffect(() => {
@@ -56,13 +98,15 @@ const Modal = ({ show, handleClose, setIsSignedIn }) => {
             </div>
           )}
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor={isSignUp ? "email" : "emailOrUsername"}>
+              {isSignUp ? "Email:" : "Email or Username:"}
+            </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type={isSignUp ? "email" : "text"}
+              id={isSignUp ? "email" : "emailOrUsername"}
+              name={isSignUp ? "email" : "emailOrUsername"}
+              value={isSignUp ? email : emailOrUsername}
+              onChange={(e) => isSignUp ? setEmail(e.target.value) : setEmailOrUsername(e.target.value)}
               required
             />
           </div>
@@ -81,8 +125,8 @@ const Modal = ({ show, handleClose, setIsSignedIn }) => {
           <div className="modal-buttons">
             <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
             <button type="button" onClick={() => { setError(''); handleClose(); }}>Close</button>
+            <button type="button" onClick={handleGo}>Go</button>
           </div>
-          <button type="button" onClick={() => { setIsSignedIn(true); handleClose(); }}>Go</button>
         </form>
         <div className="toggle-form">
           {isSignUp ? (
