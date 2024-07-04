@@ -15,6 +15,7 @@ export const exercisesMockup: Exercise[] = [
         duration: '30',
         durationType: 'minutes',
         difficulty: 'medium',
+        likes: 0,
         visibility: 'public'
     },
     {
@@ -27,6 +28,7 @@ export const exercisesMockup: Exercise[] = [
         duration: '45',
         durationType: 'minutes',
         difficulty: 'hard',
+        likes: 0,
         visibility: 'private'
     },
     {
@@ -39,6 +41,9 @@ export const exercisesMockup: Exercise[] = [
         duration: '20',
         durationType: 'minutes',
         difficulty: 'easy',
+        likes: 0,
         visibility: 'public'
+        
     },
 ];
+
