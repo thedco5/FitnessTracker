@@ -1,22 +1,28 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent, MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 import './Navbar.css';
 
-const Navbar = ({ isSignedIn, setIsSignedIn }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [profilePic, setProfilePic] = useState('src/images/image.jpg');
-  const dropdownRef = useRef(null);
+interface NavbarProps {
+  isSignedIn: boolean;
+  setIsSignedIn: (isSignedIn: boolean) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn }) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [profilePic, setProfilePic] = useState<string>('src/images/image.jpg');
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   const handleShow = () => {
     setShowModal(true);
     setShowDropdown(false);
   };
+
   const handleClose = () => setShowModal(false);
 
-  const toggleDropdown = (e) => {
+  const toggleDropdown = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setShowDropdown(prevShowDropdown => !prevShowDropdown);
   };
@@ -31,29 +37,31 @@ const Navbar = ({ isSignedIn, setIsSignedIn }) => {
     setShowDropdown(false);
   };
 
-  const handleProfilePicChange = (event) => {
-    const file = event.target.files[0];
+  const handleProfilePicChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfilePic(reader.result);
+        setProfilePic(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: Event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setShowDropdown(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside as EventListener);
+    document.addEventListener('touchstart', handleClickOutside as EventListener);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside as EventListener);
+      document.removeEventListener('touchstart', handleClickOutside as EventListener);
     };
-  }, [dropdownRef]);
+  }, []);
 
   useEffect(() => {
     setShowDropdown(false);
