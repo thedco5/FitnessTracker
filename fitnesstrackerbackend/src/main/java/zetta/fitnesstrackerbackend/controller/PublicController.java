@@ -23,13 +23,11 @@ public class PublicController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody @Validated UserDTO userDTO) {
-        System.out.println(userDTO);
         return keycloakAdminService.signup(userDTO);
     }
 
     @PostMapping("/login")
     public AccessTokenResponse loginUser(@RequestBody LoginDTO loginDTO) {
-        System.out.println("login");
         return keycloakAdminService.loginUser(loginDTO);
     }
 
