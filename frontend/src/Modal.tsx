@@ -19,12 +19,15 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
   const handleSignIn = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://your-backend-api.com/auth/signin', { 
+      const response = await fetch('http://localhost:8080/api/public/login', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ emailOrUsername, password }),
+        body: JSON.stringify({ 
+          "username" : emailOrUsername, 
+          "password" : password 
+        }),
       });
       const data = await response.json();
 
@@ -36,19 +39,23 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
         setError(data.message || 'Sign-in failed. Please check your credentials.');
       }
     } catch (error) {
-      setError('Sign-in failed. Please try again later.');
+      setError('Sign-in failed. Please try again later.' + error);
     }
   };
 
   const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://your-backend-api.com/auth/signup', {
+      const response = await fetch('http://localhost:8080/api/public/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ 
+          username : "placeholder", 
+          email : email, 
+          password : password 
+        }),
       });
       const data = await response.json();
 
@@ -56,11 +63,12 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
         console.log(data); 
         setIsSignedIn(true);
         handleClose(); 
+        setError("");
       } else {
         setError(data.message || 'Sign-up failed. Please check your details.');
       }
     } catch (error) {
-      setError('Sign-up failed. Please try again later.');
+      setError('Sign-up failed. Please try again later.' + error);
     }
   };
 

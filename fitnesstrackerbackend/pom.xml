@@ -90,6 +90,9 @@
 			<artifactId>keycloak-admin-client</artifactId>
 			<version>25.0.1</version>
 		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
