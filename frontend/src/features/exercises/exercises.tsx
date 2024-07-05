@@ -1,22 +1,22 @@
-// exercises.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { exercisesMockup } from "./constants";
 import { ExerciseCard } from "./exercise";
 import { Modal } from './modalx';
+import { Exercise, FormData, ExercisesProps } from './types';
 import './card.css';
 import './modalx.css';
 import './searchbar.css'; 
 
-const addExerciseToDatabase = async (exercise) => {
+const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
     return new Promise((resolve) => {
         setTimeout(() => resolve({ success: true, data: { ...exercise, likes: 0 } }), 500); 
     });
 };
 
-export const Exercises = ({ isSignedIn }) => {
-    const [exercises, setExercises] = useState(exercisesMockup);
+export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
+    const [exercises, setExercises] = useState<Exercise[]>(exercisesMockup);
     const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         name: '', 
         description: '', 
         image: null,
@@ -27,7 +27,7 @@ export const Exercises = ({ isSignedIn }) => {
         visibility: 'public'
     });
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredExercises, setFilteredExercises] = useState([]);
+    const [filteredExercises, setFilteredExercises] = useState<Exercise[]>([]);
 
     useEffect(() => {
         setFilteredExercises(exercises.filter(exercise =>
@@ -38,22 +38,24 @@ export const Exercises = ({ isSignedIn }) => {
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
         setFormData({ ...formData, image: file });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!formData.image) return;
 
         const imageUrl = URL.createObjectURL(formData.image);
 
-        const newExercise = {
+        const newExercise: Exercise = {
             id: (exercises.length + 1).toString(),
             name: formData.name,
             description: formData.description,
@@ -89,7 +91,7 @@ export const Exercises = ({ isSignedIn }) => {
         closeModal();
     };
 
-    const handleSearchChange = (e) => {
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
 
