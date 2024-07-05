@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.keycloak.admin.client.Keycloak;
@@ -44,13 +45,15 @@ public class KeycloakAdminService {
     private static final Logger logger = LoggerFactory.getLogger(KeycloakAdminService.class);
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     private Keycloak keycloak;
 
     @Autowired
-    public KeycloakAdminService(UserService userService) {
+    public KeycloakAdminService(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public ResponseEntity<String> signup(UserDTO userDTO) {
@@ -83,6 +86,7 @@ public class KeycloakAdminService {
                 UsersResource usersResource = keycloak.realm(KEYCLOAK_REALM).users();
                 List<UserRepresentation> userList = usersResource.search(userDTO.getUsername());
                 if (1 == userList.size()) {
+                    userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
                     userDTO.setId(UUID.fromString(userList.get(0).getId()));
                     return userService.createUser(userDTO);
                 } else {

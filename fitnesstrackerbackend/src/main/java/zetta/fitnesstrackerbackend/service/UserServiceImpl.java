@@ -9,7 +9,8 @@ import zetta.fitnesstrackerbackend.mapper.UserMapper;
 import zetta.fitnesstrackerbackend.repository.UserRepository;
 import zetta.fitnesstrackerbackend.vo.Gender;
 
-import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,6 +37,16 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return ResponseEntity.ok("Successfully signed up user!");
+    }
+
+    @Override
+    public UserDTO getUser(UUID id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isEmpty())
+            return null;
+        UserDTO userDTO = userMapper.toUserDTO(userOptional.get());
+        userDTO.setPassword(null);
+        return userDTO;
     }
 
 }

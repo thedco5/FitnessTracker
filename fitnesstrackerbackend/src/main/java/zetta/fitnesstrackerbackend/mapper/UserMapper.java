@@ -10,5 +10,6 @@ import zetta.fitnesstrackerbackend.entity.User;
 public interface UserMapper {
 
     User toUserEntity(UserDTO userDTO);
+    UserDTO toUserDTO(User user);
 
 }
