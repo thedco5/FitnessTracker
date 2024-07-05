@@ -5,12 +5,23 @@ import { Modal } from './modalx';
 import { Exercise, FormData, ExercisesProps } from './types';
 import './card.css';
 import './modalx.css';
-import './searchbar.css'; 
+import './searchbar.css';
 
 const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
-    return new Promise((resolve) => {
-        setTimeout(() => resolve({ success: true, data: { ...exercise, likes: 0 } }), 500); 
+    const response = await fetch('https://your-backend-api.com/exercises', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(exercise),
     });
+
+    if (!response.ok) {
+        throw new Error('Failed to add exercise to database');
+    }
+
+    const data = await response.json();
+    return { success: true, data };
 };
 
 export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
@@ -53,42 +64,47 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
 
         if (!formData.image) return;
 
-        const imageUrl = URL.createObjectURL(formData.image);
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            const base64Image = reader.result as string;
 
-        const newExercise: Exercise = {
-            id: (exercises.length + 1).toString(),
-            name: formData.name,
-            description: formData.description,
-            image: imageUrl, 
-            calories: formData.calories, 
-            duration: formData.duration, 
-            durationType: formData.durationType, 
-            difficulty: formData.difficulty, 
-            visibility: formData.visibility, 
-            likes: 0, 
-            type: 'weight', 
+            const newExercise: Exercise = {
+                id: (exercises.length + 1).toString(),
+                name: formData.name,
+                description: formData.description,
+                image: base64Image,
+                calories: formData.calories,
+                duration: formData.duration,
+                durationType: formData.durationType,
+                difficulty: formData.difficulty,
+                visibility: formData.visibility,
+                likes: 0,
+                type: 'weight',
+            };
+
+            try {
+                const response = await addExerciseToDatabase(newExercise);
+                if (response.success) {
+                    setExercises([...exercises, response.data]);
+                }
+            } catch (error) {
+                console.error('Error adding exercise:', error);
+            }
+
+            setFormData({
+                name: '',
+                description: '',
+                image: null,
+                calories: '',
+                duration: '',
+                durationType: 'reps',
+                difficulty: 'medium',
+                visibility: 'public'
+            });
+            closeModal();
         };
 
-        try {
-            const response = await addExerciseToDatabase(newExercise);
-            if (response.success) {
-                setExercises([...exercises, response.data]);
-            }
-        } catch (error) {
-            console.error('Error adding exercise:', error);
-        }
-
-        setFormData({
-            name: '', 
-            description: '', 
-            image: null,
-            calories: '', 
-            duration: '', 
-            durationType: 'reps', 
-            difficulty: 'medium', 
-            visibility: 'public'
-        });
-        closeModal();
+        reader.readAsDataURL(formData.image);
     };
 
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
