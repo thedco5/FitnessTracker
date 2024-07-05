@@ -1,6 +1,5 @@
 package zetta.fitnesstrackerbackend.dto.image;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,10 +14,7 @@ public class ImageDTO {
 
     private UUID id;
 
-    @NotBlank
-    private String name;
-
     @NotNull
-    private byte[] data;
+    private String data;
 
 }

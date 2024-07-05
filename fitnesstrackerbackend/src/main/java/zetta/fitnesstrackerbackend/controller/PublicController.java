@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zetta.fitnesstrackerbackend.dto.user.LoginDTO;
+import zetta.fitnesstrackerbackend.dto.user.RefreshTokenDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.service.KeycloakAdminService;
 
@@ -28,6 +29,11 @@ public class PublicController {
     @PostMapping("/login")
     public AccessTokenResponse loginUser(@RequestBody LoginDTO loginDTO) {
         return keycloakAdminService.loginUser(loginDTO);
+    }
+
+    @PostMapping("/refresh")
+    public AccessTokenResponse refreshToken(@RequestBody RefreshTokenDTO refreshTokenDTO) {
+        return keycloakAdminService.refreshToken(refreshTokenDTO);
     }
 
     @GetMapping("/test")

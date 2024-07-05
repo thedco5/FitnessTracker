@@ -20,10 +20,7 @@ public class Image {
     private UUID id;
 
     @Column
-    private String name;
-
-    @Column
     @Lob
-    private byte[] data;
+    private String data;
 
 }
