@@ -1,7 +1,8 @@
 import React from 'react';
+import { ModalProps } from './types';
 import './modalx.css';
 
-export const Modal = ({ showModal, closeModal, handleSubmit, handleChange, handleImageChange, formData }) => {
+export const Modal: React.FC<ModalProps> = ({ showModal, closeModal, handleSubmit, handleChange, handleImageChange, formData }) => {
     const showHideClassName = showModal ? "modal display-block" : "modal display-none";
 
     return (
