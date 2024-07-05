@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import './Modal.css';
 
-const Modal = ({ show, handleClose, setIsSignedIn }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-  const [emailOrUsername, setEmailOrUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [error, setError] = useState('');
+interface ModalProps {
+  show: boolean;
+  handleClose: () => void;
+  setIsSignedIn: (isSignedIn: boolean) => void;
+}
 
-  const handleSignIn = async (e) => {
+const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
+  const showHideClassName = show ? "modal display-block" : "modal display-none";
+  const [emailOrUsername, setEmailOrUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  const handleSignIn = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch('https://your-backend-api.com/auth/signin', { 
@@ -34,7 +40,7 @@ const Modal = ({ show, handleClose, setIsSignedIn }) => {
     }
   };
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch('https://your-backend-api.com/auth/signup', {
