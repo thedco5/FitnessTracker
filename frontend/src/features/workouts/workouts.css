@@ -1,117 +1,122 @@
-.workoutsListWrapper {
+.workouts-list-wrapper {
+    min-height: 90vh;
+    max-width: 100%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    background-color: #ffffff;
-    padding: 16px;
+    gap: 24px;
+    background-color: #4a5568;
+    padding: 24px;
 }
 
-.WorkoutCardWrapper {
+.workout-card {
     display: flex;
-    gap: 16px;
-    border: 1px solid #444;
-    background-color: #333;
-    border-radius: 8px;
+    justify-content: center;
+    background-color: #FFFFFF;
+    border-radius: 12px;
     overflow: hidden;
-    color: #ffffff;
-    text-align: left;
-    text-decoration: none;
-}
-
-.WorkoutCardWrapper:hover {
-    transform: scale(1.01);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transition:  0.4s ease;
-}
-.WorkoutImage {
-    width: 200px;
-    height: auto;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.WorkoutCardDetails {
-    flex: 1;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.workoutCreatedBy {
-    font-size: 0.9em;
-    color: #bbb;
-}
-
-.workoutName {
-    text-align: center;
-    margin: 0;
-}
-
-.workoutLikes {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.likeIcon {
-    margin-right: 8px;
-    color: #ff4757;
-}
-
-.workoutLikes span {
-    display: flex;
-    align-items: center;
-}
-.workoutPage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #ffffff;
     color: #000000;
+    text-decoration: none;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.workout-card:hover {
+    transform: scale(1.02);
+}
+
+.workout-card-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.workout-card-info {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.workout-card-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 60%;
     padding: 16px;
 }
 
-.workoutImage {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 16px;
-}
-
-.workoutDetails {
-    text-align: left;
-    width: 100%;
-    max-width: 600px;
-}
-
-.workoutCreatedBy {
-    font-size: 1em;
-    color: #bbb;
-    text-align: left;
-}
-
-.workoutName {
-    text-align: center;
-    margin: 16px 0;
-}
-
-.workoutLikes {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    font-size: 1.2em;
-    margin-bottom: 16px;
-}
-
-.likeIcon {
-    margin-right: 8px;
-    color: #ff4757;
-}
-
-.exercisesList {
+.workout-card-actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    justify-content: flex-start;
+    width: 40%;
+    text-align: right;
+}
+
+.workout-card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.workout-card-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+}
+
+.workout-card-stats span {
+    display: flex;
+    align-items: center;
+    font-size: 18px; /* Увеличиваем размер текста */
+}
+
+.workout-card-stats img {
+    width: 16px; /* Уменьшаем размер иконок */
+    height: 16px; /* Уменьшаем размер иконок */
+    margin-right: 8px; /* Добавляем отступ между иконкой и текстом */
+}
+
+.workout-card-description {
+    font-size: 16px;
+    color: #2D3748;
+    margin-bottom: 16px;
+    flex-grow: 1;
+}
+
+.workout-card-like {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.likeIcons {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #2D3748;
+    font-size: 24px;
+}
+
+.workout-card-image {
+    width: 25%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.add-exercise-button {
+    background-color: #38A169;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 24px;
 }

@@ -5,11 +5,17 @@ export interface User {
     trainingProgramsList: string[];
 }
 
+export interface WorkoutExCard {
+    id: string;
+    repeat?: number;
+    time?: number;
+    exId: string;
+}
 export interface Workout {
     id: string;
     name: string;
     createdBy: string;
-    exercises: string[];
+    exercises: WorkoutExCard[];
     likes: string[];
     image: string;
 }
