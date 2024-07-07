@@ -1,0 +1,135 @@
+.workoutPage {
+    max-width: 1024px;
+    width: 100%;
+    margin: 2rem auto;
+    display: flex;
+    gap: 1rem;
+    color: white;
+}
+
+.container-workout {
+    padding: 16px;
+    background-color: #f6f6f6;
+    border-radius: 12px;
+}
+
+.columnsWrapper {
+    display: flex;
+    gap: 3rem;
+    width: 100%;
+}
+
+.leftColumnWrapper {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0; /* Adjust this value to control the sticky position */
+    align-self: flex-start; /* Ensures the column starts from the top */
+    flex: 1;
+    box-sizing: border-box;
+    background-color: #ffffff; /* Optional: adds a background to the sticky section */
+    z-index: 10; /* Ensures the sticky section stays on top */
+}
+
+.rightColumnWrapper {
+    width: 60%;
+}
+
+.workoutDetails {
+    position: sticky;
+    top: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.workoutImage {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.workoutInfo {
+    display: flex;
+    justify-content: space-between;
+    color: gray;
+}
+
+.likeIcon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #2D3748;
+    font-size: 24px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.workoutName {
+    font-size: 24px;
+    line-height: 100%;
+    font-weight: 500;
+    color: white;
+}
+
+.workoutCreatedBy, .workoutDescription {
+    color: gray;
+}
+
+.workoutCreator, .workoutsTitle, .workoutMinutes, .workoutKcal {
+    color: #000000;
+    margin: 0;
+}
+
+.exercise-item {
+    background-color: #4a5568;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+}
+
+.exercise-details {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.exercies-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.exercise-name, .exercise-duration {
+    margin: 0;
+}
+
+.exercise-repetitions {
+    color: #9C74F5;
+}
+
+.exercise-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.exercise-actions button {
+    background-color: #9C74F5;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.exercise-actions button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}

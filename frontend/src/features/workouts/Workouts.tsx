@@ -4,26 +4,61 @@ import Modal from './modalx';
 import { workoutMockup } from "./constants.ts";
 import { Workout } from "./types.ts";
 import './workouts.css';
-import './searchbar.css'; 
-
+import './searchbar.css';
+import likeoff from '../../Images/likeoff.svg';
+import likeon from '../../Images/likeon.svg';
+import Caloriesblack from '../../Images/CaloriesBlack.svg';
+import timeblack from '../../Images/Timeblack.svg';
+import WorkOut from '../../Images/WorkOut.svg';
 const addWorkoutToDatabase = async (workout) => {
     return new Promise((resolve) => {
         setTimeout(() => resolve({ success: true, data: workout }), 500);
     });
 };
 
-const WorkoutCard = ({ workout }: Workout) => {
+const WorkoutCard = ({ workout }: { workout: Workout }) => {
+    const myUserId = "12345"; // Замените на реальный ID пользователя
+    const [currentLikes, setCurrentLikes] = useState(workout.likes);
+
+    const hasLike = currentLikes?.includes(myUserId);
+
+    const handleChangeLike = () => {
+        if (hasLike) {
+            const newLikes = currentLikes.filter(el => el !== myUserId);
+            setCurrentLikes(newLikes);
+        } else {
+            const newLikes = [...currentLikes, myUserId];
+            setCurrentLikes(newLikes);
+        }
+    };
+
     return (
-        <Link to={`/workout/${workout.id}`} className="WorkoutCardWrapper">
-            <img src={workout.image} alt={workout.name} className="WorkoutImage" />
-            <div className="WorkoutCardDetails">
-                <p className="workoutCreatedBy">Created by: {workout.createdBy}</p>
-                <h4 className="workoutName">{workout.name}</h4>
-                <div className="workoutLikes">
-                    <span className="likeIcon">❤️</span> {workout.likes.length}
-                </div>
-            </div>
-        </Link>
+      <Link to={`/workout/${workout.id}`} className="workout-card">
+          <div className="workout-card-container">
+              <div className="workout-card-info">
+                  <div className="workout-card-details">
+                      <h3 className="workout-card-title">{workout.name}</h3>
+                      <div className="workout-card-stats">
+                          <h3 className="workout-card-Time"><img src={timeblack} alt="Time" /> {workout.duration} Minutes</h3>
+                          <h3 className="workout-card-Calories"><img src={Caloriesblack} alt="Calories" /> {workout.calories} Kcal</h3>
+                          <h3 className="workout-card-Exercises"><img src={WorkOut} alt="Exercises" /> {workout.exercises.length} Exercises</h3>
+                      </div>
+                  </div>
+                  <div className="workout-card-actions">
+                      <p className="workout-card-description">{workout.description}</p>
+                      <div className="workout-card-like">
+                          <button onClick={(e) => { e.preventDefault(); handleChangeLike(); }} className="likeIcons">
+                              {hasLike
+                                ? <span><img src={likeon} alt="like on" /> {currentLikes.length}</span>
+                                : <span><img src={likeoff} alt="like off" /> {currentLikes.length}</span>
+                              }
+                          </button>
+                      </div>
+                  </div>
+              </div>
+              <img src={workout.image} alt={workout.name} className="workout-card-image" />
+          </div>
+      </Link>
     );
 };
 
@@ -126,7 +161,7 @@ export const Workouts = ({ isSignedIn }) => {
                 </select>
                 <div className="search"></div>
             </div>
-            <div className="workoutsListWrapper">
+            <div className="workouts-list-wrapper">
                 {filteredWorkouts.map((workout) => <WorkoutCard key={workout.id} workout={workout} />)}
             </div>
             <Modal

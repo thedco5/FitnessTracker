@@ -1,11 +1,10 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { exercisesMockup } from "./constants";
 import { ExerciseCard } from "./exercise";
 import { Modal } from './modalx';
-import { Exercise, FormData, ExercisesProps } from './types';
 import './card.css';
 import './modalx.css';
-import './searchbar.css';
+import './searchbar.css'; 
 
 const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
     const response = await fetch('https://your-backend-api.com/exercises', {
@@ -27,14 +26,14 @@ const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boo
 export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
     const [exercises, setExercises] = useState<Exercise[]>(exercisesMockup);
     const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState<FormData>({
-        name: '', 
-        description: '', 
+    const [formData, setFormData] = useState({
+        name: '',
+        description: '',
         image: null,
-        calories: '', 
-        duration: '', 
-        durationType: 'reps', 
-        difficulty: 'medium', 
+        calories: '',
+        duration: '',
+        durationType: 'reps',
+        difficulty: 'medium',
         visibility: 'public'
     });
     const [searchTerm, setSearchTerm] = useState('');
@@ -78,7 +77,6 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
                 durationType: formData.durationType,
                 difficulty: formData.difficulty,
                 visibility: formData.visibility,
-                likes: 0,
                 type: 'weight',
             };
 
