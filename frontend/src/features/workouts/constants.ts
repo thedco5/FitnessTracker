@@ -3,6 +3,7 @@ import { Exercise, Workout } from "./types.ts";
 import armPic from "./images/arm.jpeg";
 import legPic from "./images/leg.jpg";
 import ranPic from "./images/run.jpg";
+
 export const workoutMockup: Workout[] = [
     {
         image: "https://www.shape.com/thmb/CFivFyk4E0TwkElEkeJj0Ha0Fi8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/triceps-workout-with-weights-promo-9760ad7e63174e928729b04780e3ccc1.jpg",
@@ -27,7 +28,7 @@ export const workoutMockup: Workout[] = [
     },
     {
         image: "https://img-b.udemycdn.com/course/480x270/5317834_e6a7_4.jpg",
-        id: "w2",
+        id: uuidv4(),
         name: "workout2",
         createdBy: "789",
         likes: ["userId4", "userId5", "userId3", "userId7"],
@@ -41,7 +42,7 @@ export const workoutMockup: Workout[] = [
     },
     {
         image: "https://img-b.udemycdn.com/course/480x270/5317834_e6a7_4.jpg",
-        id: "w3",
+        id: uuidv4(),
         name: "workout3",
         createdBy: "33227",
         likes: ["userId2", "userId6"],
@@ -59,7 +60,7 @@ export const workoutMockup: Workout[] = [
 
 export const exercisesMockup: Exercise[] = [
     {
-        id: '1',
+        id: uuidv4(),
         name: 'Exercise 1',
         image: armPic,
         type: 'weight',
@@ -72,7 +73,7 @@ export const exercisesMockup: Exercise[] = [
         visibility: 'public'
     },
     {
-        id: '2',
+        id: uuidv4(),
         name: 'Exercise 2',
         image: legPic,
         type: 'weight',
@@ -85,7 +86,7 @@ export const exercisesMockup: Exercise[] = [
         visibility: 'private'
     },
     {
-        id: '3',
+        id: uuidv4(),
         name: 'Exercise 3',
         image: ranPic,
         type: 'time',
@@ -97,5 +98,4 @@ export const exercisesMockup: Exercise[] = [
         likes: 0,
         visibility: 'public'
     },
-   
 ];
