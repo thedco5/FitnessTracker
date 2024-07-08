@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 import zetta.fitnesstrackerbackend.vo.Gender;
 
 import java.util.UUID;
@@ -30,15 +29,12 @@ public class User {
     private String email;
 
     @Column
-    private String password;
-
-    @Column
     private int exercises_finished;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 

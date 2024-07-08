@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginDTO {
 
-    @NotBlank
+    @NotBlank(message = "Username/Email is necessary")
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "Password is necessary")
     private String password;
 
 }
