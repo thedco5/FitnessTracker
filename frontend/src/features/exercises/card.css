@@ -24,6 +24,7 @@
     text-align: center;
     position: relative;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 @media(min-width: 768px){
     .ExerciseCard{
@@ -31,26 +32,24 @@
         margin: 0;
     }
 }
-
+.ExerciseCard.selected {
+    border-color: #007bff;
+}
 .ExerciseCard-image {
     width: 100%;
     height: auto;
     border-radius: 4px;
 }
-
 .ExerciseCard-info {
     padding: 10px 0;
 }
-
 .ExerciseCard-title {
     font-size: 1.2em;
     margin: 0;
 }
-
 .ExerciseCard-description {
     margin: 5px 0 0;
 }
-
 .ExerciseCard-details {
     display: none;
     padding: 10px;
@@ -64,21 +63,30 @@
     width: 100%;
     box-sizing: border-box;
 }
-
 .ExerciseCard:hover {
     transform: scale(1.05);
-    cursor: pointer;
 }
-
 .ExerciseCard:hover > .ExerciseCard-details {
     display: block;
     transition: display 0.3s ease;
 }
-
-
 @media(max-width: 767px) {
     .cards-container {
         align-items: center;
         margin-right: 5.5%;
     }
+}
+.add-to-workout-button {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000;
 }
