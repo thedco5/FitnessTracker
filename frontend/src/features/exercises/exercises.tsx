@@ -134,7 +134,14 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
     return (
         <div>
             {isSignedIn && (
-                <button className="add-exercise-button" onClick={openModal}>Add Exercise</button>
+                <div className="buttons-container">
+                    <button className="add-exercise-button" onClick={openModal}>Add Exercise</button>
+                    {selectedExercises.length > 0 && (
+                        <button className="add-to-workout-button" onClick={handleAddToWorkout}>
+                            Add to Workout
+                        </button>
+                    )}
+                </div>
             )}
             <div className="container">
                 <input
@@ -148,21 +155,16 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
             <div className="cards-container">
                 {filteredExercises.map(el => (
                     <ExerciseCard 
-                        key={el.id} 
-                        {...el} 
-                        calories={el.calories} 
-                        duration={el.duration} 
-                        durationType={el.durationType} 
+                        key={el.id}
+                        isSelected={selectedExercises.some(ex => ex.id === el.id)}
+                        {...el}
+                        calories={el.calories}
+                        duration={el.duration}
+                        durationType={el.durationType}
                         difficulty={el.difficulty}
-                        onClick={() => handleCardClick(el)} 
-                    />
+                        onClick={() => handleCardClick(el)} />
                 ))}
             </div>
-            {selectedExercises.length > 0 && (
-                <button className="add-to-workout-button" onClick={handleAddToWorkout}>
-                    Add to Workout
-                </button>
-            )}
             <Modal
                 showModal={showModal}
                 closeModal={closeModal}
