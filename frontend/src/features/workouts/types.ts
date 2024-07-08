@@ -17,8 +17,10 @@ export interface Workout {
     createdBy: string;
     exercises: WorkoutExCard[];
     likes: string[];
+    favorites: boolean; // Corrected property name
     image: string;
 }
+
 
 export interface Exercise {
     image: string;

@@ -4,6 +4,8 @@ import Navbar from './Navbar';
 import { Exercises } from "./features/exercises";
 import { Workouts } from "./features/workouts";
 import { Workout } from "./features/workouts/Workout";
+import { AddExercises } from "./features/workouts/addExercise/addExercises.tsx"; // Ensure correct path
+import "./App.css";
 
 const Home = () => <div>Home Page</div>;
 
@@ -11,17 +13,16 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   return (
-      <Router>
-        <div>
-          <Navbar isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/exercises" element={<Exercises isSignedIn={isSignedIn} />} />
-            <Route path="/workouts" element={<Workouts isSignedIn={isSignedIn} />} />
-            <Route path="/workout/:workoutId" element={<Workout />} />
-          </Routes>
-        </div>
-      </Router>
+    <Router>
+      <Navbar isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/exercises" element={<Exercises isSignedIn={isSignedIn} />} />
+        <Route path="/workouts" element={<Workouts isSignedIn={isSignedIn} />} />
+        <Route path="/workout/:workoutId" element={<Workout />} />
+        <Route path="/workout/addExercise" element={<AddExercises />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -1,3 +1,7 @@
+.add-exercises {
+    padding: 20px;
+}
+
 .cards-container {
     display: flex;
     flex-wrap: wrap;
@@ -11,6 +15,7 @@
         flex-direction: row;
     }
 }
+
 .ExerciseCard {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -31,9 +36,7 @@
         margin: 0;
     }
 }
-.ExerciseCard.selected {
-    border-color: #007bff;
-}
+
 .ExerciseCard-image {
     width: 100%;
     height: auto;
@@ -77,24 +80,20 @@
     transition: display 0.3s ease;
 }
 
-
-@media(max-width: 767px) {
-    .cards-container {
-        align-items: center;
-        margin-right: 5.5%;
-    }
-}
-.add-to-workout-button {
-    display: block;
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    background-color: #007bff;
+.add-selected-exercises-button {
+    background-color: #4CAF50;
     color: white;
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    z-index: 1000;
+    margin-top: 20px;
+}
+
+.add-selected-exercises-button:hover {
+    background-color: #45a049;
+}
+
+.ExerciseCard.selected {
+    border: 2px solid #4CAF50;
 }

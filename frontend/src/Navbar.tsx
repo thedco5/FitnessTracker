@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, ChangeEvent, MouseEvent } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import {useState, useEffect, useRef, ChangeEvent, MouseEvent} from 'react';
+import {Link, useLocation} from 'react-router-dom';
 import Modal from './Modal';
 import './Navbar.css';
 
@@ -8,7 +8,7 @@ interface NavbarProps {
   setIsSignedIn: (isSignedIn: boolean) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn }) => {
+const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [profilePic, setProfilePic] = useState<string>('src/images/image.jpg');
@@ -68,43 +68,45 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn }) => {
   }, [location]);
 
   return (
-    <>
-      <nav className="navbar">
-        <div className="navbar-left">
-          <Link to="/">Home</Link>
-          <Link to="/workouts">Workouts</Link>
-          <Link to="/exercises">Exercises</Link>
-        </div>
-        <div className="navbar-right">
-          {isSignedIn ? (
-            <div className="account">
-              <button className="account-button" onClick={toggleDropdown}>
-                <img src={profilePic} alt="Profile" className="profile-pic" />
-              </button>
-              {showDropdown && (
-                <div className="dropdown-menu" ref={dropdownRef}>
-                  <div className="profile-header">
-                    <img src={profilePic} alt="Profile" className="profile-pic" />
-                    <label className="change-pic-icon">
-                      +
-                      <input type="file" accept="image/*" onChange={handleProfilePicChange} />
-                    </label>
+    <div style={{backgroundColor: '#282c34'}}>
+      <div className="main-wrapper">
+        <div className="navbar">
+          <div className="navbar-left">
+            <Link to="/">Home</Link>
+            <Link to="/workouts">Workouts</Link>
+            <Link to="/exercises">Exercises</Link>
+          </div>
+          <div className="navbar-right">
+            {isSignedIn ? (
+              <div className="account">
+                <button className="account-button" onClick={toggleDropdown}>
+                  <img src={profilePic} alt="Profile" className="profile-pic"/>
+                </button>
+                {showDropdown && (
+                  <div className="dropdown-menu" ref={dropdownRef}>
+                    <div className="profile-header">
+                      <img src={profilePic} alt="Profile" className="profile-pic"/>
+                      <label className="change-pic-icon">
+                        +
+                        <input type="file" accept="image/*" onChange={handleProfilePicChange}/>
+                      </label>
+                    </div>
+                    <div className="profile-details">
+                      <p>Username: Smetkata</p>
+                      <p>Email: andonov@gmail.com</p>
+                      <button onClick={handleSignOut}>Sign Out</button>
+                    </div>
                   </div>
-                  <div className="profile-details">
-                    <p>Username: Smetkata</p>
-                    <p>Email: andonov@gmail.com</p>
-                    <button onClick={handleSignOut}>Sign Out</button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <button className="sign-in-button" onClick={handleShow}>Sign In</button>
-          )}
+                )}
+              </div>
+            ) : (
+              <button className="sign-in-button" onClick={handleShow}>Sign In</button>
+            )}
+          </div>
         </div>
-      </nav>
-      <Modal show={showModal} handleClose={handleClose} setIsSignedIn={handleSignIn} />
-    </>
+      </div>
+      <Modal show={showModal} handleClose={handleClose} setIsSignedIn={handleSignIn}/>
+    </div>
   );
 };
 
