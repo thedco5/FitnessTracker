@@ -5,11 +5,11 @@ import { workoutMockup } from "./constants.ts";
 import { Workout } from "./types.ts";
 import './workouts.css';
 import './searchbar.css';
-import likeoff from '../../images/likeoff.svg';
-import likeon from '../../images/likeon.svg';
-import Caloriesblack from '../../images/CaloriesBlack.svg';
-import timeblack from '../../images/Timeblack.svg';
-import WorkOut from '../../images/WorkOut.svg';
+import likeoff from '../../Images/likeoff.svg';
+import likeon from '../../Images/likeon.svg';
+import Caloriesblack from '../../Images/CaloriesBlack.svg';
+import timeblack from '../../Images/Timeblack.svg';
+import WorkOut from '../../Images/WorkOut.svg';
 const addWorkoutToDatabase = async (workout) => {
     return new Promise((resolve) => {
         setTimeout(() => resolve({ success: true, data: workout }), 500);

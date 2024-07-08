@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Exercise, Workout } from "./types.ts";
-import armPic from "./images/arm.jpeg";
-import legPic from "./images/leg.jpg";
-import ranPic from "./images/run.jpg";
+import armPic from "../exercises/images/arm.jpeg";
+import legPic from "../exercises/images/leg.jpg";
+import ranPic from "../exercises/images/run.jpg";
 
 export const workoutMockup: Workout[] = [
     {
