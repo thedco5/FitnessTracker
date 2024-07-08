@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { exercisesMockup } from "./constants";
 import { ExerciseCard } from "./exercise";
 import { Modal } from './modalx';
+import { useNavigate } from 'react-router-dom'; 
 import './card.css';
 import './modalx.css';
 import './searchbar.css'; 
+import { Exercise, ExercisesProps } from './types';
 
 const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
     const response = await fetch('https://your-backend-api.com/exercises', {
@@ -38,6 +40,9 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
     });
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredExercises, setFilteredExercises] = useState<Exercise[]>([]);
+    const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
+
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         setFilteredExercises(exercises.filter(exercise =>
@@ -78,6 +83,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
                 difficulty: formData.difficulty,
                 visibility: formData.visibility,
                 type: 'weight',
+                likes: 0
             };
 
             try {
@@ -109,6 +115,22 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
         setSearchTerm(e.target.value);
     };
 
+    const handleCardClick = (exercise: Exercise) => {
+        if (isSignedIn) {
+            setSelectedExercises(prevSelected => {
+                if (prevSelected.includes(exercise)) {
+                    return prevSelected.filter(ex => ex.id !== exercise.id);
+                } else {
+                    return [...prevSelected, exercise];
+                }
+            });
+        }
+    };
+
+    const handleAddToWorkout = () => {
+        navigate('/workouts', { state: { selectedExercises } });
+    };
+
     return (
         <div>
             {isSignedIn && (
@@ -125,9 +147,22 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
             </div>
             <div className="cards-container">
                 {filteredExercises.map(el => (
-                    <ExerciseCard key={el.id} {...el} calories={el.calories} duration={el.duration} durationType={el.durationType} difficulty={el.difficulty} />
+                    <ExerciseCard 
+                        key={el.id} 
+                        {...el} 
+                        calories={el.calories} 
+                        duration={el.duration} 
+                        durationType={el.durationType} 
+                        difficulty={el.difficulty}
+                        onClick={() => handleCardClick(el)} 
+                    />
                 ))}
             </div>
+            {selectedExercises.length > 0 && (
+                <button className="add-to-workout-button" onClick={handleAddToWorkout}>
+                    Add to Workout
+                </button>
+            )}
             <Modal
                 showModal={showModal}
                 closeModal={closeModal}
