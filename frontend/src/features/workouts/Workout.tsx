@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
-import {Link, useParams, Route, Routes, BrowserRouter as Router} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useParams } from 'react-router-dom';
 import {DndProvider, useDrag, useDrop} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
 import {workoutMockup} from "./constants.ts";
 import {exercisesMockup} from "../exercises/constants.ts";
-import {AddExercises} from './addExercise/addExercises.tsx'; // Ensure correct path
 import './workout.css';
 import likeoff from '../../Images/likeoff.svg';
 import delete1 from '../../Images/delete.svg';
 import likeon from '../../Images/likeon.svg';
 import Caloriesblack from '../../Images/CaloriesBlack.svg';
 import timeblack from '../../Images/Timeblack.svg';
+import {AddExerciseCardModal} from "./addExerciseCardModal.tsx";
+import {WorkoutExCard} from "./types.ts";
 
 const ItemTypes = {
   EXERCISE: 'exercise',
@@ -52,19 +54,36 @@ const ExerciseItem = ({id, name, description, image, idx, repeat, time, onDelete
   );
 };
 
-
+const initialCardData: WorkoutExCard = {
+  id: 'new',
+  repeat: 1,
+  time: 1,
+  exId: '',
+  calculatedCalories: undefined,
+  calculatedTime: undefined,
+};
 export const Workout = () => {
-  const myUserId = "12345";
+  const myUserId = "12345"; // TODO get from Auth
   const {workoutId} = useParams();
   const currentWorkout = workoutMockup.find(el => el.id === workoutId);
+
+  const {name, likes, createdBy, exercises, image, description, totalCalories, totalTime} = currentWorkout || {};
+  const [showModal, setShowModal] = useState(false);
+  const [currentExercisesList, setCurrentExercisesList] = useState<WorkoutExCard[]>(exercises);
+  const [currentLikes, setCurrentLikes] = useState<string[]>(likes);
+  const [exerciseCardFilds, setExerciseCardFilds] = useState<WorkoutExCard>(initialCardData);
+
+  console.log('currentExercisesList: ', currentExercisesList)
+
+  const closeModal = () => {
+    setExerciseCardFilds(initialCardData);
+    setShowModal(false);
+  };
 
   if (!currentWorkout) {
     return <div>Workout not found</div>;
   }
 
-  const {name, likes, createdBy, exercises, image, duration, calories, description} = currentWorkout;
-  const [currentExercisesList, setCurrentExercisesList] = useState(exercises);
-  const [currentLikes, setCurrentLikes] = useState(likes);
 
   const handleDelete = (idx) => {
     setCurrentExercisesList(currentExercisesList.filter((_, i) => i !== idx));
@@ -97,18 +116,18 @@ export const Workout = () => {
   };
 
 
-  const handleAddExercise = (selectedExercises) => {
-    const newExercises = selectedExercises.map(exId => {
-      const exercise = exercisesMockup.find(e => e.id === exId);
-      return {
-        id: `new-${exId}-${Date.now()}`, // generate unique id for each new exercise
-        exId: exId,
-        ...exercise
-      };
-    });
-
-    setCurrentExercisesList([...currentExercisesList, ...newExercises]);
-  };
+  // const handleAddExercise = (selectedExercises) => {
+  //   const newExercises = selectedExercises.map(exId => {
+  //     const exercise = exercisesMockup.find(e => e.id === exId);
+  //     return {
+  //       id: `new-${exId}-${Date.now()}`, // generate unique id for each new exercise
+  //       exId: exId,
+  //       ...exercise
+  //     };
+  //   });
+  //
+  //   setCurrentExercisesList([...currentExercisesList, ...newExercises]);
+  // };
 
   const hasLike = currentLikes?.includes(myUserId);
 
@@ -122,6 +141,32 @@ export const Workout = () => {
     }
   };
 
+
+  const createNewCard = () => {
+    const calloriesPerMinute = exercisesMockup.find(el => el.id === exerciseCardFilds.exId).caloriesPerMinute || 0;
+    const newCard = {
+      ...exerciseCardFilds,
+      id: uuidv4(),
+      calculatedTime: exerciseCardFilds.time * exerciseCardFilds.repeat,
+      calculatedCalories: exerciseCardFilds.repeat * calloriesPerMinute,
+    };
+    return newCard;
+  }
+  const handleSubmit = () => {
+    setCurrentExercisesList((prev) => [...prev, createNewCard()]);
+    setExerciseCardFilds(initialCardData);
+    setShowModal(false);
+  }
+
+  const totalWorkoutCallories = currentExercisesList.reduce((accumulator, currentObject) => {
+    return accumulator + currentObject.calculatedCalories;
+  }, 0);
+  const totalWorkoutTime = currentExercisesList.reduce((accumulator, currentObject) => {
+    return accumulator + currentObject.calculatedTime;
+  }, 0);
+
+
+
   return (
     <div className="main-wrapper">
       <div className="workoutPage">
@@ -133,8 +178,8 @@ export const Workout = () => {
                 <h2 className="workoutsTitle">{name}</h2>
                 <h3 className="workoutCreator">Created by: {createdBy}</h3>
                 <div className="workout-card-stats">
-                  <h2 className="workoutMinutes"><img src={timeblack} alt="Time"/> {duration}</h2>
-                  <h2 className="workoutKcal"><img src={Caloriesblack} alt="Calories"/> {calories}</h2>
+                  <h2 className="workoutMinutes"><img src={timeblack} alt="Time"/> {totalWorkoutTime}</h2>
+                  <h2 className="workoutKcal"><img src={Caloriesblack} alt="Calories"/> {totalWorkoutCallories}</h2>
                 </div>
                 <button onClick={handelChangeLike} className="likeIcon">
                   {hasLike
@@ -142,7 +187,10 @@ export const Workout = () => {
                     : <span><img src={likeoff} alt="like off icon"/> {currentLikes?.length}</span>}
                 </button>
                 <p className="workoutDescription">{description}</p>
-                <Link to="/workout/addExercise" className="add-exercise-button">Add New Exercise</Link>
+                {/*<Link to="/workout/addExercise" className="add-exercise-button">Add New Exercise</Link>*/}
+                <button className="add-exercise-button" onClick={() => setShowModal(true)}>
+                  Add New Exercise
+                </button>
               </div>
             </div>
           </div>
@@ -156,10 +204,17 @@ export const Workout = () => {
             </DndProvider>
           </div>
         </div>
-        <Routes>
-          <Route path="/workout/addExercise" element={<AddExercises onAddExercise={handleAddExercise}/>}/>
-        </Routes>
+        {/*<Routes>*/}
+        {/*  <Route path="/workout/addExercise" element={<AddExercises onAddExercise={handleAddExercise}/>}/>*/}
+        {/*</Routes>*/}
       </div>
+      <AddExerciseCardModal
+        showModal={showModal}
+        closeModal={closeModal}
+        handleSubmit={handleSubmit}
+        setExercisrCardFilds={setExerciseCardFilds}
+        exercisrCardFilds={exerciseCardFilds}
+      />
     </div>
   );
 };

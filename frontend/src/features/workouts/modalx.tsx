@@ -1,7 +1,6 @@
-import React from 'react';
 import './modalx.css';
 
-const Modal = ({ showModal, closeModal, handleSubmit, handleChange, handleImageChange, formData }) => {
+export const Modalx = ({ showModal, closeModal, handleSubmit, handleChange, handleImageChange, formData }) => {
     const showHideClassName = showModal ? "modal display-block" : "modal display-none";
 
     return (
@@ -30,5 +29,4 @@ const Modal = ({ showModal, closeModal, handleSubmit, handleChange, handleImageC
     );
 };
 
-export default Modal;
 

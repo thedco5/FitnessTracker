@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Modal from './modalx';
+import { Modalx } from './modalx';
 import { workoutMockup } from "./constants.ts";
 import { Workout } from "./types.ts";
 import './workouts.css';
@@ -10,8 +10,6 @@ import likeon from '../../Images/likeon.svg';
 import Caloriesblack from '../../Images/CaloriesBlack.svg';
 import timeblack from '../../Images/Timeblack.svg';
 import WorkOut from '../../Images/WorkOut.svg';
-import star from '../../Images/star.svg'
-import nostar from '../../Images/nostar.svg'
 
 const addWorkoutToDatabase = async (workout) => {
   return new Promise((resolve) => {
@@ -20,32 +18,16 @@ const addWorkoutToDatabase = async (workout) => {
 };
 
 const WorkoutCard = ({ workout }: { workout: Workout }) => {
-  const myUserId = "12345"; // Replace with real user ID
+  const myUserId = "12345"; // TODO Replace with real user ID
   const [currentLikes, setCurrentLikes] = useState(workout.likes);
-  const [currentStar, setCurrentStar] = useState(workout.favorites);
 
   const hasLike = currentLikes?.includes(myUserId);
-  const hasStar = currentStar;
 
   const handleChangeLike = () => {
     const newLikes = hasLike
       ? currentLikes.filter(el => el !== myUserId)
       : [...currentLikes, myUserId];
     setCurrentLikes(newLikes);
-  };
-
-  const handleChangeFavorites = () => {
-    setCurrentStar(!currentStar);
-
-    // Update workout object with new favorites status
-    const updatedWorkouts = workouts.map(w => {
-      if (w.id === workout.id) {
-        return { ...w, favorites: !currentStar };
-      }
-      return w;
-    });
-
-    setWorkouts(updatedWorkouts);
   };
 
   return (
@@ -55,8 +37,8 @@ const WorkoutCard = ({ workout }: { workout: Workout }) => {
           <div className="workout-card-details">
             <h3 className="workout-card-title">{workout.name}</h3>
             <div className="workout-card-stats">
-              <h3 className="workout-card-Time"><img src={timeblack} alt="Time" /> {workout.duration} Minutes</h3>
-              <h3 className="workout-card-Calories"><img src={Caloriesblack} alt="Calories" /> {workout.calories} Kcal</h3>
+              <h3 className="workout-card-Time"><img src={timeblack} alt="Time" /> {workout.totalTime} Minutes</h3>
+              <h3 className="workout-card-Calories"><img src={Caloriesblack} alt="Calories" /> {workout.totalCalories} Kcal</h3>
               <h3 className="workout-card-Exercises"><img src={WorkOut} alt="Exercises" /> {workout.exercises.length} Exercises</h3>
             </div>
           </div>
@@ -74,17 +56,6 @@ const WorkoutCard = ({ workout }: { workout: Workout }) => {
               </button>
             </div>
 
-          </div>
-          <div className="workout-card-star">
-            <button onClick={(e) => {
-              e.preventDefault();
-              handleChangeFavorites();
-            }} className="starIcons">
-              {hasStar
-                ? <span><img src={star} alt="star on" /></span>
-                : <span><img src={nostar} alt="star off" /></span>
-              }
-            </button>
           </div>
         </div>
         <img src={workout.image} alt={workout.name} className="workout-card-image" />
@@ -198,7 +169,7 @@ export const Workouts = ({ isSignedIn }) => {
           {filteredWorkouts.map((workout) => <WorkoutCard key={workout.id} workout={workout} />)}
         </div>
       </div>
-      <Modal
+      <Modalx
         showModal={showModal}
         closeModal={closeModal}
         handleSubmit={handleSubmit}

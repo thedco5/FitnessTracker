@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Exercise as ExerciseType } from './types';
 import './card.css';
 

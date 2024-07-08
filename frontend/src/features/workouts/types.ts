@@ -10,6 +10,8 @@ export interface WorkoutExCard {
     repeat?: number;
     time?: number;
     exId: string;
+    calculatedCalories?: number;
+    calculatedTime?: number;
 }
 export interface Workout {
     id: string;
@@ -17,8 +19,10 @@ export interface Workout {
     createdBy: string;
     exercises: WorkoutExCard[];
     likes: string[];
-    favorites: boolean; // Corrected property name
     image: string;
+    totalCalories: number;
+    totalTime: number;
+    description: string;
 }
 
 

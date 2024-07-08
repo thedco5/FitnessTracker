@@ -23,7 +23,7 @@ export interface Exercise {
     name: string;
     description: string;
     image: string | null;
-    calories: string;
+    caloriesPerMinute: string;
     duration: string;
     durationType: string;
     difficulty: string;
