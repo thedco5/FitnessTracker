@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Workout } from "./types.ts";
-
+import { Exercise, Workout } from "./types.ts";
+import armPic from "./images/arm.jpeg";
+import legPic from "./images/leg.jpg";
+import ranPic from "./images/run.jpg";
 export const workoutMockup: Workout[] = [
     {
         image: "https://www.shape.com/thmb/CFivFyk4E0TwkElEkeJj0Ha0Fi8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/triceps-workout-with-weights-promo-9760ad7e63174e928729b04780e3ccc1.jpg",
@@ -8,8 +10,8 @@ export const workoutMockup: Workout[] = [
         name: "workout1",
         createdBy: "Alex",
         likes: ["userId1", "userId2", "userId3"],
-        duration: 50, // Примерное время в минутах
-        calories: 1450, // Примерное количество калорий, сожженных за тренировку
+        duration: 50, 
+        calories: 1450, 
         description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
         exercises: [
             {id: uuidv4(), repeat: 2, time: 5, exId: "1"},
@@ -29,8 +31,8 @@ export const workoutMockup: Workout[] = [
         name: "workout2",
         createdBy: "789",
         likes: ["userId4", "userId5", "userId3", "userId7"],
-        duration: 30, // Примерное время в минутах
-        calories: 1200, // Примерное количество калорий, сожженных за тренировку
+        duration: 30, 
+        calories: 1200,
         description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
         exercises: [
             {id: uuidv4(), repeat: 2, time: 5, exId: "1"},
@@ -43,8 +45,8 @@ export const workoutMockup: Workout[] = [
         name: "workout3",
         createdBy: "33227",
         likes: ["userId2", "userId6"],
-        duration: 60, // Примерное время в минутах
-        calories: 1800, // Примерное количество калорий, сожженных за тренировку
+        duration: 60, 
+        calories: 1800, 
         description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
         exercises: [
             {id: uuidv4(), repeat: 2, time: 5, exId: "1"},
@@ -53,4 +55,47 @@ export const workoutMockup: Workout[] = [
             {id: uuidv4(), repeat: 2, time: 5, exId: "1"},
         ]
     }
+];
+
+export const exercisesMockup: Exercise[] = [
+    {
+        id: '1',
+        name: 'Exercise 1',
+        image: armPic,
+        type: 'weight',
+        description: 'Building strength and endurance',
+        calories: '500',
+        duration: '30',
+        durationType: 'minutes',
+        difficulty: 'medium',
+        likes: 0,
+        visibility: 'public'
+    },
+    {
+        id: '2',
+        name: 'Exercise 2',
+        image: legPic,
+        type: 'weight',
+        description: 'Increasing muscle mass',
+        calories: '600',
+        duration: '45',
+        durationType: 'minutes',
+        difficulty: 'hard',
+        likes: 0,
+        visibility: 'private'
+    },
+    {
+        id: '3',
+        name: 'Exercise 3',
+        image: ranPic,
+        type: 'time',
+        description: 'Enhancing muscle power',
+        calories: '450',
+        duration: '20',
+        durationType: 'minutes',
+        difficulty: 'easy',
+        likes: 0,
+        visibility: 'public'
+    },
+   
 ];
