@@ -5,9 +5,10 @@ interface ModalProps {
   show: boolean;
   handleClose: () => void;
   setIsSignedIn: (isSignedIn: boolean) => void;
+  setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
+const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUserInfo }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
   const [emailOrUsername, setEmailOrUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -61,9 +62,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
       if (response.ok) {
         const data = await response.json();
         console.log("User Info:", data);
-        if (data.image) {
-          setImage(data.image.data);
-        }
+        setUserInfo({ username: data.username, email: data.email, image: data.image?.data || null });
       } else {
         setError('Failed to fetch user info.');
       }
