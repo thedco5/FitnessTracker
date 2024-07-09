@@ -29,7 +29,7 @@ public class User {
     private String email;
 
     @Column
-    private int exercises_finished;
+    private int exercisesFinished;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;

@@ -14,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserDTO {
 
+    @Null
     private UUID id;
 
     private String name;
@@ -34,7 +35,9 @@ public class UserDTO {
     @Size(max = 16, message = "Password must be shorter than 17 characters")
     private String password;
 
-    private int exercises_finished;
+    @Min(0)
+    @Max(0)
+    private int exercisesFinished;
 
     private Gender gender;
 

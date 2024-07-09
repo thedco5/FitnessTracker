@@ -50,7 +50,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
 
   const fetchUserInfo = async (token: string) => {
     try {
-      const response = await fetch('http://localhost:8080/api/public/userinfo', {
+      const response = await fetch('http://localhost:8080/api/user/info', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -85,8 +85,10 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
           username,
           email,
           password,
-          gender: gender || null,
-          image,
+          'gender': gender?.toUpperCase || null,
+          'image': {
+            data: image
+          }
         }),
       });
 
