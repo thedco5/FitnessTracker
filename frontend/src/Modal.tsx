@@ -19,6 +19,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
   const handleSignIn = async (e: FormEvent) => {
     e.preventDefault();
     try {
+
       const response = await fetch('http://localhost:8080/api/public/login', { 
         method: 'POST',
         headers: {
@@ -29,17 +30,19 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
           "password" : password 
         }),
       });
-      const data = await response.json();
 
       if (response.ok) {
-        console.log(data); 
+        const data = await response.json();
         setIsSignedIn(true);
-        handleClose(); 
+        handleClose();
+        console.log("Logged in.");
+        /* save token etc. */
       } else {
-        setError(data.message || 'Sign-in failed. Please check your credentials.');
+        setError('Sign-in failed. Please check your credentials.');
       }
+
     } catch (error) {
-      setError('Sign-in failed. Please try again later.' + error);
+      setError('Sign-in failed. Please try again later. ' + error);
     }
   };
 
