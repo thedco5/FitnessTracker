@@ -105,17 +105,14 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
     }
   };
 
-  const convertToBase64 = (file: File): Promise<string | null> => {
+  const convertToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const result = reader.result as string;
-        if (result) {
-          resolve(result.split(',')[1]);  
-        } else {
-          reject(new Error("File conversion failed"));
-        }
+        const base64String = result.replace("data:", "").replace(/^.+,/, "");
+        resolve(base64String);
       };
       reader.onerror = (error) => reject(error);
     });
@@ -125,10 +122,8 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
     if (e.target.files && e.target.files[0]) {
       try {
         const base64 = await convertToBase64(e.target.files[0]);
-        if (base64) {
-          console.log("Base64 length: ", base64.length);  
-          setImage(base64);
-        }
+        console.log("Base64 length: ", base64.length);
+        setImage(base64);
       } catch (error) {
         console.error("Error converting file to base64: ", error);
         setError("Failed to convert image to base64.");
