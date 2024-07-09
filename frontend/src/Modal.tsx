@@ -32,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
           "password" : password 
         }),
       });
-
+    
       if (response.ok) {
         const data = await response.json();
         const token = data.token; 
@@ -50,7 +50,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
 
   const fetchUserInfo = async (token: string) => {
     try {
-      const response = await fetch('http://localhost:8080/api/user/info', {
+      const response = await fetch('http://localhost:8080/api/public/userinfo', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -85,10 +85,8 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
           username,
           email,
           password,
-          'gender': gender?.toUpperCase || null,
-          'image': {
-            data: image
-          }
+          gender: gender || null,
+          image,
         }),
       });
 
@@ -111,15 +109,30 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
+      reader.onload = () => {
+        const result = reader.result as string;
+        if (result) {
+          resolve(result.split(',')[1]);  
+        } else {
+          reject(new Error("File conversion failed"));
+        }
+      };
+      reader.onerror = (error) => reject(error);
     });
   };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const base64 = await convertToBase64(e.target.files[0]);
-      setImage(base64);
+      try {
+        const base64 = await convertToBase64(e.target.files[0]);
+        if (base64) {
+          console.log("Base64 length: ", base64.length);  
+          setImage(base64);
+        }
+      } catch (error) {
+        console.error("Error converting file to base64: ", error);
+        setError("Failed to convert image to base64.");
+      }
     }
   };
 
