@@ -8,6 +8,6 @@ import java.util.UUID;
 public interface UserService {
 
     ResponseEntity<String> createUser(UserDTO userDTO);
-    UserDTO getUser(UUID id);
+    UserDTO getUserInfo(UUID id);
 
 }

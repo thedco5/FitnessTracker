@@ -40,13 +40,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUser(UUID id) {
+    public UserDTO getUserInfo(UUID id) {
         Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isEmpty())
-            return null;
-        UserDTO userDTO = userMapper.toUserDTO(userOptional.get());
-        userDTO.setPassword(null);
-        return userDTO;
+        return userOptional.map(userMapper::toUserInfoDTO).orElse(null);
     }
 
 }

@@ -1,5 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import {Workout} from "./types.ts";
+import { Exercise, Workout } from "./types.ts";
+import armPic from "../exercises/images/arm.jpeg";
+import legPic from "../exercises/images/leg.jpg";
+import ranPic from "../exercises/images/run.jpg";
 
 export const workoutMockup: Workout[] = [
     {
@@ -53,4 +57,46 @@ export const workoutMockup: Workout[] = [
             {id: uuidv4(), repeat: 0, time: 45, exId: "1", calculatedCalories: 0, calculatedTime: 0},
         ]
     }
+];
+
+export const exercisesMockup: Exercise[] = [
+    {
+        id: uuidv4(),
+        name: 'Exercise 1',
+        image: armPic,
+        type: 'weight',
+        description: 'Building strength and endurance',
+        calories: '500',
+        duration: '30',
+        durationType: 'minutes',
+        difficulty: 'medium',
+        likes: 0,
+        visibility: 'public'
+    },
+    {
+        id: uuidv4(),
+        name: 'Exercise 2',
+        image: legPic,
+        type: 'weight',
+        description: 'Increasing muscle mass',
+        calories: '600',
+        duration: '45',
+        durationType: 'minutes',
+        difficulty: 'hard',
+        likes: 0,
+        visibility: 'private'
+    },
+    {
+        id: uuidv4(),
+        name: 'Exercise 3',
+        image: ranPic,
+        type: 'time',
+        description: 'Enhancing muscle power',
+        calories: '450',
+        duration: '20',
+        durationType: 'minutes',
+        difficulty: 'easy',
+        likes: 0,
+        visibility: 'public'
+    },
 ];

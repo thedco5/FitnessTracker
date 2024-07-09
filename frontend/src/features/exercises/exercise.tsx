@@ -1,4 +1,5 @@
 import type { Exercise as ExerciseType } from './types';
+import React from 'react';
 import './card.css';
 
 interface ExtendedExerciseType extends ExerciseType {

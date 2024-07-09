@@ -1,3 +1,5 @@
+# version: '3.8'
+
 services:
 
   postgres:
@@ -22,7 +24,9 @@ services:
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
-    command: start-dev
+    volumes:
+      - ./realm-export.json:/opt/keycloak/data/import/realm-export.json
+    command: start-dev --import-realm
 
 
 

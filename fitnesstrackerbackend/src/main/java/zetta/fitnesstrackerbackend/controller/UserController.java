@@ -1,44 +1,39 @@
 package zetta.fitnesstrackerbackend.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import jakarta.servlet.http.HttpServletRequest;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.keycloak.util.JsonSerialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import zetta.fitnesstrackerbackend.dto.user.RefreshTokenDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
+import zetta.fitnesstrackerbackend.service.KeycloakAdminService;
 import zetta.fitnesstrackerbackend.service.UserService;
-import zetta.fitnesstrackerbackend.vo.Gender;
+import zetta.fitnesstrackerbackend.util.TokenUtil;
 
-import java.util.Base64;
-import java.util.UUID;
 
+@EnableWebMvc
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
+    private final KeycloakAdminService keycloakAdminService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, KeycloakAdminService keycloakAdminService) {
         this.userService = userService;
+        this.keycloakAdminService = keycloakAdminService;
+    }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<String> logoutUser(RefreshTokenDTO refreshTokenDTO) {
+        return keycloakAdminService.logoutUser(refreshTokenDTO);
     }
 
     @GetMapping("/info")
-    public UserDTO getData(HttpServletRequest request) throws JsonProcessingException {
-
-        String token = request.getHeader("Authorization").substring(7);
-        Base64.Decoder decoder = Base64.getDecoder();
-        String payload = new String(decoder.decode(token.split("\\.")[1]));
-
-        JsonNode payloadJson = JsonSerialization.mapper.readTree(payload);
-        return userService.getUser(UUID.fromString(payloadJson.get("sub").asText()));
-
+    public UserDTO getData(JwtAuthenticationToken token){
+        return userService.getUserInfo(TokenUtil.getID(token));
     }
 
     @GetMapping("/test")

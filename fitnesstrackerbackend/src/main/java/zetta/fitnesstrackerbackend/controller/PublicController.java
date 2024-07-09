@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import zetta.fitnesstrackerbackend.dto.image.ImageDTO;
 import zetta.fitnesstrackerbackend.dto.user.LoginDTO;
 import zetta.fitnesstrackerbackend.dto.user.RefreshTokenDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;

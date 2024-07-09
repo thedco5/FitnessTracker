@@ -6,6 +6,8 @@ import './Navbar.css';
 interface NavbarProps {
   isSignedIn: boolean;
   setIsSignedIn: (isSignedIn: boolean) => void;
+  userInfo: { username: string; email: string; image: string | null };
+  setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
@@ -32,19 +34,28 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
     setShowDropdown(false);
   };
 
-  const handleSignIn = () => {
-    setIsSignedIn(true);
-    setShowDropdown(false);
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const result = reader.result as string;
+        const base64String = result.replace("data:", "").replace(/^.+,/, "");
+        resolve(base64String);
+      };
+      reader.onerror = (error) => reject(error);
+    });
   };
 
-  const handleProfilePicChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleProfilePicChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePic(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const base64 = await convertToBase64(file);
+        setUserInfo({ ...userInfo, image: base64 });
+      } catch (error) {
+        console.error("Error converting file to base64: ", error);
+      }
     }
   };
 
@@ -66,6 +77,10 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
   useEffect(() => {
     setShowDropdown(false);
   }, [location]);
+
+  const decodeBase64Image = (base64: string | null): string => {
+    return base64 ? `data:image/jpeg;base64,${base64}` : 'src/images/image.jpg';
+  };
 
   return (
     <div style={{backgroundColor: '#282c34'}}>
@@ -104,9 +119,9 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
             )}
           </div>
         </div>
-      </div>
-      <Modal show={showModal} handleClose={handleClose} setIsSignedIn={handleSignIn}/>
-    </div>
+      </nav>
+      <Modal show={showModal} handleClose={handleClose} setIsSignedIn={setIsSignedIn} setUserInfo={setUserInfo} />
+    </>
   );
 };
 

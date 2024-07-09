@@ -1,7 +1,6 @@
 package zetta.fitnesstrackerbackend.dto.exercise;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ExerciseDTO {
 
+    @Null
     private UUID id;
 
     @NotBlank
@@ -27,9 +27,18 @@ public class ExerciseDTO {
     @NotBlank
     private String description;
 
+    @Min(0)
+    @Max(0)
     private int timesFinished;
+
+    @Min(0)
+    @Max(0)
     private int likes;
+
+    @Min(0)
     private int calories;
+
+    @Min(0)
     private int duration;
 
     @NotNull
@@ -45,6 +54,8 @@ public class ExerciseDTO {
     private Visibility visibility;
 
     private ImageDTO image;
+
+    @Null
     private UserDTO author;
 
 }

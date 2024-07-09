@@ -6,11 +6,13 @@
     gap: 20px;
     padding: 2rem;
 }
-@media(min-width: 768px){
-    .cards-container{
+
+@media (min-width: 768px) {
+    .cards-container {
         flex-direction: row;
     }
 }
+
 .ExerciseCard {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -24,9 +26,11 @@
     text-align: center;
     position: relative;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
-@media(min-width: 768px){
-    .ExerciseCard{
+
+@media (min-width: 768px) {
+    .ExerciseCard {
         max-width: 300px;
         margin: 0;
     }
@@ -77,8 +81,7 @@
     transition: display 0.3s ease;
 }
 
-
-@media(max-width: 767px) {
+@media (max-width: 767px) {
     .cards-container {
         align-items: center;
         margin-right: 5.5%;
@@ -97,4 +100,54 @@
     cursor: pointer;
     font-size: 16px;
     z-index: 1000;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.add-to-workout-button,
+.add-exercise-button {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-to-workout-button {
+    background-color: #007bff;
+}
+
+.add-exercise-button {
+    background-color: #28a745;
+}
+
+.ExerciseCard.selected {
+    border: 2px solid #007bff;
+    background-color: #1e1e1e;
+    position: relative;
+}
+
+.ExerciseCard.selected::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    z-index: 1004;
 }

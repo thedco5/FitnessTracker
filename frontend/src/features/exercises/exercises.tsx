@@ -115,66 +115,64 @@ export const Exercises: React.FC<ExercisesProps> = ({isSignedIn}) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleCardClick = (exercise: Exercise) => {
-    if (isSignedIn) {
-      setSelectedExercises(prevSelected => {
-        if (prevSelected.includes(exercise)) {
-          return prevSelected.filter(ex => ex.id !== exercise.id);
-        } else {
-          return [...prevSelected, exercise];
+    const handleCardClick = (exercise: Exercise) => {
+        if (isSignedIn) {
+            setSelectedExercises(prevSelected => {
+                if (prevSelected.includes(exercise)) {
+                    return prevSelected.filter(ex => ex.id !== exercise.id);
+                } else {
+                    return [...prevSelected, exercise];
+                }
+            });
         }
-      });
-    }
-  };
+    };
 
-  const handleAddToWorkout = () => {
-    navigate('/workouts', {state: {selectedExercises}});
-  };
+    const handleAddToWorkout = () => {
+        navigate('/workouts', { state: { selectedExercises } });
+    };
 
-  return (
-    <div>
-      {isSignedIn && (
-        <button className="add-exercise-button" onClick={openModal}>Add Exercise</button>
-      )}
-      <div className="container">
-        <div className="main-wrapper">
-          <input
-            type="text"
-            placeholder="Search exercises by name..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-          <div className="search"></div>
-        </div>
-      </div>
-      <div className="main-wrapper">
-        <div className="cards-container">
-          {filteredExercises.map(el => (
-            <ExerciseCard
-              key={el.id}
-              {...el}
-              calories={el.calories}
-              duration={el.duration}
-              durationType={el.durationType}
-              difficulty={el.difficulty}
-              onClick={() => handleCardClick(el)}
+    return (
+        <div>
+            {isSignedIn && (
+                <div className="buttons-container">
+                    <button className="add-exercise-button" onClick={openModal}>Add Exercise</button>
+                    {selectedExercises.length > 0 && (
+                        <button className="add-to-workout-button" onClick={handleAddToWorkout}>
+                            Add to Workout
+                        </button>
+                    )}
+                </div>
+            )}
+            <div className="container">
+                <input
+                    type="text"
+                    placeholder="Search exercises by name..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
+                <div className="search"></div>
+            </div>
+            <div className="cards-container">
+                {filteredExercises.map(el => (
+                    <ExerciseCard
+                        key={el.id}
+                        isSelected={selectedExercises.some(ex => ex.id === el.id)}
+                        {...el}
+                        calories={el.calories}
+                        duration={el.duration}
+                        durationType={el.durationType}
+                        difficulty={el.difficulty}
+                        onClick={() => handleCardClick(el)} />
+                ))}
+            </div>
+            <Modal
+                showModal={showModal}
+                closeModal={closeModal}
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                handleImageChange={handleImageChange}
+                formData={formData}
             />
-          ))}
         </div>
-      </div>
-      {selectedExercises.length > 0 && (
-        <button className="add-to-workout-button" onClick={handleAddToWorkout}>
-          Add to Workout
-        </button>
-      )}
-      <Modal
-        showModal={showModal}
-        closeModal={closeModal}
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
-        handleImageChange={handleImageChange}
-        formData={formData}
-      />
-    </div>
-  );
+    );
 };
