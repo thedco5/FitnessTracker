@@ -10,7 +10,7 @@ interface NavbarProps {
   setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
+const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, setUserInfo}) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [profilePic, setProfilePic] = useState<string>('src/images/image.jpg');
@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
     if (file) {
       try {
         const base64 = await convertToBase64(file);
-        setUserInfo({ ...userInfo, image: base64 });
+        setUserInfo({...userInfo, image: base64});
       } catch (error) {
         console.error("Error converting file to base64: ", error);
       }
@@ -85,7 +85,7 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
   return (
     <div style={{backgroundColor: '#282c34'}}>
       <div className="main-wrapper">
-        <div className="navbar">
+        <nav className="navbar">
           <div className="navbar-left">
             <Link to="/">Home</Link>
             <Link to="/workouts">Workouts</Link>
@@ -95,20 +95,21 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
             {isSignedIn ? (
               <div className="account">
                 <button className="account-button" onClick={toggleDropdown}>
-                  <img src={profilePic} alt="Profile" className="profile-pic"/>
+                  <div hidden>{userInfo.image}</div>
+                  <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic"/>
                 </button>
                 {showDropdown && (
                   <div className="dropdown-menu" ref={dropdownRef}>
                     <div className="profile-header">
-                      <img src={profilePic} alt="Profile" className="profile-pic"/>
+                      <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic"/>
                       <label className="change-pic-icon">
                         +
                         <input type="file" accept="image/*" onChange={handleProfilePicChange}/>
                       </label>
                     </div>
                     <div className="profile-details">
-                      <p>Username: Smetkata</p>
-                      <p>Email: andonov@gmail.com</p>
+                      <p>Username: {userInfo.username}</p>
+                      <p>Email: {userInfo.email}</p>
                       <button onClick={handleSignOut}>Sign Out</button>
                     </div>
                   </div>
@@ -118,10 +119,10 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn}) => {
               <button className="sign-in-button" onClick={handleShow}>Sign In</button>
             )}
           </div>
-        </div>
-      </nav>
-      <Modal show={showModal} handleClose={handleClose} setIsSignedIn={setIsSignedIn} setUserInfo={setUserInfo} />
-    </>
+        </nav>
+        <Modal show={showModal} handleClose={handleClose} setIsSignedIn={setIsSignedIn} setUserInfo={setUserInfo}/>
+      </div>
+    </div>
   );
 };
 
