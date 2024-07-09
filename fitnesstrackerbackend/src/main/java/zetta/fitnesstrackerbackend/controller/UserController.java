@@ -1,11 +1,15 @@
 package zetta.fitnesstrackerbackend.controller;
 
+import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import zetta.fitnesstrackerbackend.dto.user.LoginDTO;
+import zetta.fitnesstrackerbackend.dto.user.RefreshTokenDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
+import zetta.fitnesstrackerbackend.service.KeycloakAdminService;
 import zetta.fitnesstrackerbackend.service.UserService;
 
 import java.util.UUID;
@@ -16,16 +20,23 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final KeycloakAdminService keycloakAdminService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, KeycloakAdminService keycloakAdminService) {
         this.userService = userService;
+        this.keycloakAdminService = keycloakAdminService;
+    }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<String> logoutUser(RefreshTokenDTO refreshTokenDTO) {
+        return keycloakAdminService.logoutUser(refreshTokenDTO);
     }
 
     @GetMapping("/info")
-    public UserDTO getData(JwtAuthenticationToken authentication){
+    public UserDTO getData(JwtAuthenticationToken token){
         return userService.getUserInfo(UUID.fromString(
-                (String) authentication.getTokenAttributes().get("sub"))
+                (String) token.getTokenAttributes().get("sub"))
         );
     }
 

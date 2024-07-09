@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -120,7 +121,6 @@ public class KeycloakAdminService {
     }
 
     public AccessTokenResponse refreshToken(RefreshTokenDTO refreshTokenDTO) {
-
         try (Client client = ClientBuilder.newClient()) {
 
             Form form = new Form();
@@ -140,7 +140,26 @@ public class KeycloakAdminService {
             }
 
         }
+    }
 
+    public ResponseEntity<String> logoutUser(RefreshTokenDTO token) {
+        try (Client client = ClientBuilder.newClient()) {
+            Form form = new Form();
+            form.param("client_id", KEYCLOAK_CLIENTID);
+            form.param("refresh_token", token.getToken());
+            try (Response response = client
+                    .target(KEYCLOAK_URL + "/realms/" + KEYCLOAK_REALM + "/protocol/openid-connect/logout")
+                    .request(MediaType.APPLICATION_FORM_URLENCODED_TYPE)
+                    .post(Entity.form(form))) {
+                if (response.getStatus() != 204) {
+                    logger.warn("Keycloak - Failed to logout user");
+                    return ResponseEntity
+                            .status(response.getStatus())
+                            .body("Logout failed!");
+                }
+                return ResponseEntity.ok("Successfully logged out user");
+            }
+        }
     }
 
 }
