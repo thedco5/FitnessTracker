@@ -19,8 +19,8 @@ public class Image {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
-    @Column
     @Lob
+    @Column
     private String data;
 
 }

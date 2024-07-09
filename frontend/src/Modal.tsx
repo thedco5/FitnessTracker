@@ -35,8 +35,8 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
     
       if (response.ok) {
         const data = await response.json();
-        const token = data.token; 
-        await fetchUserInfo(token); 
+        const accessToken = data.access_token; 
+        await fetchUserInfo(accessToken); 
         setIsSignedIn(true);
         handleClose();
         console.log("Logged in.");
@@ -62,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
         const data = await response.json();
         console.log("User Info:", data);
         if (data.image) {
-          setImage(data.image);
+          setImage(data.image.data);
         }
       } else {
         setError('Failed to fetch user info.');
@@ -86,21 +86,20 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn }) => {
           email,
           password,
           'gender': gender?.toUpperCase || null,
-          'image': {
-            data: image
-          }
+          'image': image != null ? {
+              data: image
+            } : null
         }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setIsSignedIn(true);
-        handleClose();
+        const data = await response.text();
+        switchToSignIn();
         console.log(data);
         setError("");
       } else {
-        const data = await response.json();
-        setError(data.message || 'Sign-up failed. Please check your details.');
+        const data = await response.text();
+        setError(data || 'Sign-up failed. Please check your details.');
       }
     } catch (error) {
       setError('Sign-up failed. Please try again later.' + error);
