@@ -1,3 +1,21 @@
+.exercise-item {
+    background-color: #4a5568;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 24px;
+    display: flex;
+    position: relative;
+    gap: 10px;
+    color: white;
+    transition: transform 0.3s ease;
+    cursor: grab;
+}
+
+.exercise-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .workoutPage {
     max-width: 1024px;
     width: 100%;
@@ -80,17 +98,6 @@
 .workoutCreator, .workoutsTitle, .workoutMinutes, .workoutKcal {
     color: #000000;
     margin: 0;
-}
-
-.exercise-item {
-    background-color: #4a5568;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 24px;
-    display: flex;
-    position: relative; /* Added for positioning the delete button */
-    gap: 10px;
-    color: white;
 }
 
 .exercise-details {

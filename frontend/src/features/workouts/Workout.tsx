@@ -44,7 +44,7 @@ const ExerciseItem = ({id, name, description, image, idx, repeat, time, onDelete
           <p className="exercise-name">{name}</p>
           <p className="exercise-duration">{description}</p>
           <p className="exercise-duration">Repetitions: {repeat}</p>
-          <p className="exercise-duration">Time: {time} sec</p>
+          <p className="exercise-duration">Time: {time} min</p>
         </div>
       </div>
       <div className="exercise-actions">
@@ -68,8 +68,35 @@ export const Workout = () => {
   const currentWorkout = workoutMockup.find(el => el.id === workoutId);
 
   const {name, likes, createdBy, exercises, image, description, totalCalories, totalTime} = currentWorkout || {};
+
+  const updatedExercises = exercises.map(exercise => ({
+    ...exercise,
+    calculatedCalories: exercise.calculatedCalories || 0,
+    calculatedTime: exercise.calculatedTime || 0,
+  }));
+
   const [showModal, setShowModal] = useState(false);
-  const [currentExercisesList, setCurrentExercisesList] = useState<WorkoutExCard[]>(exercises);
+
+  const initialExercisesList = exercises.map(exercise => {
+    const selectedExercise = exercisesMockup.find(ex => ex.id === exercise.exId);
+    if (!selectedExercise) {
+      return {
+        ...exercise,
+        calculatedCalories: 0,
+        calculatedTime: exercise.time * exercise.repeat,
+      };
+    }
+
+    const calloriesPerMinute = selectedExercise.caloriesPerMinute || 0;
+    return {
+      ...exercise,
+      calculatedCalories: exercise.repeat * calloriesPerMinute,
+      calculatedTime: exercise.time * exercise.repeat,
+    };
+  });
+
+  const [currentExercisesList, setCurrentExercisesList] = useState<WorkoutExCard[]>(initialExercisesList);
+
   const [currentLikes, setCurrentLikes] = useState<string[]>(likes);
   const [exerciseCardFilds, setExerciseCardFilds] = useState<WorkoutExCard>(initialCardData);
 
@@ -115,20 +142,6 @@ export const Workout = () => {
     ) : null;
   };
 
-
-  // const handleAddExercise = (selectedExercises) => {
-  //   const newExercises = selectedExercises.map(exId => {
-  //     const exercise = exercisesMockup.find(e => e.id === exId);
-  //     return {
-  //       id: `new-${exId}-${Date.now()}`, // generate unique id for each new exercise
-  //       exId: exId,
-  //       ...exercise
-  //     };
-  //   });
-  //
-  //   setCurrentExercisesList([...currentExercisesList, ...newExercises]);
-  // };
-
   const hasLike = currentLikes?.includes(myUserId);
 
   const handelChangeLike = () => {
@@ -141,9 +154,13 @@ export const Workout = () => {
     }
   };
 
-
   const createNewCard = () => {
-    const calloriesPerMinute = exercisesMockup.find(el => el.id === exerciseCardFilds.exId).caloriesPerMinute || 0;
+    const selectedExercise = exercisesMockup.find(exercise => exercise.id === exerciseCardFilds.exId);
+    if (!selectedExercise) {
+      return null; // обработка случая, если выбранное упражнение не найдено
+    }
+
+    const calloriesPerMinute = selectedExercise.caloriesPerMinute || 0;
     const newCard = {
       ...exerciseCardFilds,
       id: uuidv4(),
@@ -151,7 +168,10 @@ export const Workout = () => {
       calculatedCalories: exerciseCardFilds.repeat * calloriesPerMinute,
     };
     return newCard;
-  }
+  };
+
+
+
   const handleSubmit = () => {
     setCurrentExercisesList((prev) => [...prev, createNewCard()]);
     setExerciseCardFilds(initialCardData);
@@ -159,13 +179,14 @@ export const Workout = () => {
   }
 
   const totalWorkoutCallories = currentExercisesList.reduce((accumulator, currentObject) => {
-    return accumulator + currentObject.calculatedCalories;
+    const calories = currentObject.calculatedCalories || 0;
+    return accumulator + calories;
   }, 0);
+
   const totalWorkoutTime = currentExercisesList.reduce((accumulator, currentObject) => {
-    return accumulator + currentObject.calculatedTime;
+    const time = currentObject.calculatedTime || 0;
+    return accumulator + time;
   }, 0);
-
-
 
   return (
     <div className="main-wrapper">
@@ -187,7 +208,6 @@ export const Workout = () => {
                     : <span><img src={likeoff} alt="like off icon"/> {currentLikes?.length}</span>}
                 </button>
                 <p className="workoutDescription">{description}</p>
-                {/*<Link to="/workout/addExercise" className="add-exercise-button">Add New Exercise</Link>*/}
                 <button className="add-exercise-button" onClick={() => setShowModal(true)}>
                   Add New Exercise
                 </button>
@@ -204,9 +224,6 @@ export const Workout = () => {
             </DndProvider>
           </div>
         </div>
-        {/*<Routes>*/}
-        {/*  <Route path="/workout/addExercise" element={<AddExercises onAddExercise={handleAddExercise}/>}/>*/}
-        {/*</Routes>*/}
       </div>
       <AddExerciseCardModal
         showModal={showModal}

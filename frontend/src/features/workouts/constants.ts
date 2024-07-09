@@ -12,15 +12,15 @@ export const workoutMockup: Workout[] = [
         totalTime: 1450,
         description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
         exercises: [
-            {id: uuidv4(), repeat: 2, time: 5, exId: "1"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "2"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "3"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "2"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "1"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "2"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "2"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "2"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "2"},
+            {id: uuidv4(), repeat: 1, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 2, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 3, time: 5, exId: "3", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 4, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 5, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 6, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 7, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 8, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 9, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
         ],
     },
     {
@@ -33,8 +33,8 @@ export const workoutMockup: Workout[] = [
         totalTime: 1450,
         description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
         exercises: [
-            {id: uuidv4(), repeat: 2, time: 5, exId: "1"},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "1"},
+            {id: uuidv4(), repeat: 2, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 2, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
         ]
     },
     {
@@ -47,10 +47,10 @@ export const workoutMockup: Workout[] = [
         totalTime: 1450,
         description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
         exercises: [
-            {id: uuidv4(), repeat: 0, time: 5, exId: "1"},
-            {id: uuidv4(), repeat: 2, time: 0, exId: "1"},
-            {id: uuidv4(), repeat: 7, time: 0, exId: "1"},
-            {id: uuidv4(), repeat: 0, time: 45, exId: "1"},
+            {id: uuidv4(), repeat: 0, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 2, time: 0, exId: "1", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 7, time: 0, exId: "1", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 0, time: 45, exId: "1", calculatedCalories: 0, calculatedTime: 0},
         ]
     }
 ];
