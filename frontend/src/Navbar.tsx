@@ -1,3 +1,4 @@
+// Navbar.tsx
 import React, { useState, useEffect, useRef, ChangeEvent, MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
@@ -6,12 +7,13 @@ import './Navbar.css';
 interface NavbarProps {
   isSignedIn: boolean;
   setIsSignedIn: (isSignedIn: boolean) => void;
+  userInfo: { username: string; email: string; image: string | null };
+  setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn }) => {
+const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, setUserInfo }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [profilePic, setProfilePic] = useState<string>('src/images/image.jpg');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -32,17 +34,12 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn }) => {
     setShowDropdown(false);
   };
 
-  const handleSignIn = () => {
-    setIsSignedIn(true);
-    setShowDropdown(false);
-  };
-
   const handleProfilePicChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfilePic(reader.result as string);
+        setUserInfo({ ...userInfo, image: reader.result as string });
       };
       reader.readAsDataURL(file);
     }
@@ -79,20 +76,20 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn }) => {
           {isSignedIn ? (
             <div className="account">
               <button className="account-button" onClick={toggleDropdown}>
-                <img src={profilePic} alt="Profile" className="profile-pic" />
+                <img src={userInfo.image || 'src/images/image.jpg'} alt="Profile" className="profile-pic" />
               </button>
               {showDropdown && (
                 <div className="dropdown-menu" ref={dropdownRef}>
                   <div className="profile-header">
-                    <img src={profilePic} alt="Profile" className="profile-pic" />
+                    <img src={userInfo.image || 'src/images/image.jpg'} alt="Profile" className="profile-pic" />
                     <label className="change-pic-icon">
                       +
                       <input type="file" accept="image/*" onChange={handleProfilePicChange} />
                     </label>
                   </div>
                   <div className="profile-details">
-                    <p>Username: Smetkata</p>
-                    <p>Email: andonov@gmail.com</p>
+                    <p>Username: {userInfo.username}</p>
+                    <p>Email: {userInfo.email}</p>
                     <button onClick={handleSignOut}>Sign Out</button>
                   </div>
                 </div>
@@ -103,7 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn }) => {
           )}
         </div>
       </nav>
-      <Modal show={showModal} handleClose={handleClose} setIsSignedIn={handleSignIn} />
+      <Modal show={showModal} handleClose={handleClose} setIsSignedIn={setIsSignedIn} setUserInfo={setUserInfo} />
     </>
   );
 };
