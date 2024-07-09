@@ -23,6 +23,7 @@ public class PublicController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody @Validated UserDTO userDTO) {
+        System.out.println(userDTO.getImage().getData());
         return keycloakAdminService.signup(userDTO);
     }
 
