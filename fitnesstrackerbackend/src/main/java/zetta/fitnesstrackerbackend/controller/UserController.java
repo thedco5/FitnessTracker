@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import zetta.fitnesstrackerbackend.dto.user.UserInfoDTO;
+import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.service.UserService;
 
 import java.util.UUID;
@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public UserInfoDTO getData(JwtAuthenticationToken authentication){
-        return userService.getUser(UUID.fromString(
+    public UserDTO getData(JwtAuthenticationToken authentication){
+        return userService.getUserInfo(UUID.fromString(
                 (String) authentication.getTokenAttributes().get("sub"))
         );
     }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
-import zetta.fitnesstrackerbackend.dto.user.UserInfoDTO;
 import zetta.fitnesstrackerbackend.entity.User;
 import zetta.fitnesstrackerbackend.mapper.UserMapper;
 import zetta.fitnesstrackerbackend.repository.UserRepository;
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoDTO getUser(UUID id) {
+    public UserDTO getUserInfo(UUID id) {
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(userMapper::toUserInfoDTO).orElse(null);
     }
