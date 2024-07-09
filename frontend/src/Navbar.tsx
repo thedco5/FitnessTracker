@@ -1,4 +1,3 @@
-// Navbar.tsx
 import React, { useState, useEffect, useRef, ChangeEvent, MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
@@ -34,14 +33,28 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
     setShowDropdown(false);
   };
 
-  const handleProfilePicChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const result = reader.result as string;
+        const base64String = result.replace("data:", "").replace(/^.+,/, "");
+        resolve(base64String);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleProfilePicChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserInfo({ ...userInfo, image: reader.result as string });
-      };
-      reader.readAsDataURL(file);
+      try {
+        const base64 = await convertToBase64(file);
+        setUserInfo({ ...userInfo, image: base64 });
+      } catch (error) {
+        console.error("Error converting file to base64: ", error);
+      }
     }
   };
 
