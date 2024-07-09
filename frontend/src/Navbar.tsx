@@ -77,6 +77,10 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
     setShowDropdown(false);
   }, [location]);
 
+  const decodeBase64Image = (base64: string | null): string => {
+    return base64 ? `data:image/jpeg;base64,${base64}` : 'src/images/image.jpg';
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -89,12 +93,13 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
           {isSignedIn ? (
             <div className="account">
               <button className="account-button" onClick={toggleDropdown}>
-                <img src={userInfo.image || 'src/images/image.jpg'} alt="Profile" className="profile-pic" />
+                <div hidden>{userInfo.image}</div>
+                <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic" />
               </button>
               {showDropdown && (
                 <div className="dropdown-menu" ref={dropdownRef}>
                   <div className="profile-header">
-                    <img src={userInfo.image || 'src/images/image.jpg'} alt="Profile" className="profile-pic" />
+                    <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic" />
                     <label className="change-pic-icon">
                       +
                       <input type="file" accept="image/*" onChange={handleProfilePicChange} />

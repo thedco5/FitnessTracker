@@ -17,6 +17,7 @@ public class SecurityConfig {
     private static final String[] WHITELIST = {
             /* API */
             "/api/public/**",
+            "/api/*/public",
             /* SWAGGER */
             "/v2/api-docs",
             "/v3/api-docs",
@@ -45,7 +46,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        System.out.println();
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new CustomJwtGrantedAuthoritiesConverter());
         return jwtAuthenticationConverter;

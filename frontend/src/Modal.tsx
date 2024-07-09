@@ -84,10 +84,8 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
           username,
           email,
           password,
-          'gender': gender?.toUpperCase || null,
-          'image': image != null ? {
-              data: image
-            } : null
+          'gender': gender?.toUpperCase() || null,
+          'image': image != null ? { data: image } : null
         }),
       });
 

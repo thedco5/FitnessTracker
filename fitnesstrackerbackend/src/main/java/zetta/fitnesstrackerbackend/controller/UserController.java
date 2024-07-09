@@ -1,18 +1,16 @@
 package zetta.fitnesstrackerbackend.controller;
 
-import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import zetta.fitnesstrackerbackend.dto.user.LoginDTO;
 import zetta.fitnesstrackerbackend.dto.user.RefreshTokenDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.service.KeycloakAdminService;
 import zetta.fitnesstrackerbackend.service.UserService;
+import zetta.fitnesstrackerbackend.util.TokenUtil;
 
-import java.util.UUID;
 
 @EnableWebMvc
 @RestController
@@ -35,9 +33,7 @@ public class UserController {
 
     @GetMapping("/info")
     public UserDTO getData(JwtAuthenticationToken token){
-        return userService.getUserInfo(UUID.fromString(
-                (String) token.getTokenAttributes().get("sub"))
-        );
+        return userService.getUserInfo(TokenUtil.getID(token));
     }
 
     @GetMapping("/test")
