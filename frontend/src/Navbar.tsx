@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, ChangeEvent, MouseEvent } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import {useState, useEffect, useRef, ChangeEvent, MouseEvent} from 'react';
+import {Link, useLocation} from 'react-router-dom';
 import Modal from './Modal';
 import './Navbar.css';
 
@@ -10,9 +10,10 @@ interface NavbarProps {
   setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, setUserInfo }) => {
+const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, setUserInfo}) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [profilePic, setProfilePic] = useState<string>('src/images/image.jpg');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -51,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
     if (file) {
       try {
         const base64 = await convertToBase64(file);
-        setUserInfo({ ...userInfo, image: base64 });
+        setUserInfo({...userInfo, image: base64});
       } catch (error) {
         console.error("Error converting file to base64: ", error);
       }
@@ -82,44 +83,46 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
   };
 
   return (
-    <>
-      <nav className="navbar">
-        <div className="navbar-left">
-          <Link to="/">Home</Link>
-          <Link to="/workouts">Workouts</Link>
-          <Link to="/exercises">Exercises</Link>
-        </div>
-        <div className="navbar-right">
-          {isSignedIn ? (
-            <div className="account">
-              <button className="account-button" onClick={toggleDropdown}>
-                <div hidden>{userInfo.image}</div>
-                <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic" />
-              </button>
-              {showDropdown && (
-                <div className="dropdown-menu" ref={dropdownRef}>
-                  <div className="profile-header">
-                    <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic" />
-                    <label className="change-pic-icon">
-                      +
-                      <input type="file" accept="image/*" onChange={handleProfilePicChange} />
-                    </label>
+    <div style={{backgroundColor: '#282c34'}}>
+      <div className="main-wrapper">
+        <nav className="navbar">
+          <div className="navbar-left">
+            <Link to="/">Home</Link>
+            <Link to="/workouts">Workouts</Link>
+            <Link to="/exercises">Exercises</Link>
+          </div>
+          <div className="navbar-right">
+            {isSignedIn ? (
+              <div className="account">
+                <button className="account-button" onClick={toggleDropdown}>
+                  <div hidden>{userInfo.image}</div>
+                  <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic"/>
+                </button>
+                {showDropdown && (
+                  <div className="dropdown-menu" ref={dropdownRef}>
+                    <div className="profile-header">
+                      <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic"/>
+                      <label className="change-pic-icon">
+                        +
+                        <input type="file" accept="image/*" onChange={handleProfilePicChange}/>
+                      </label>
+                    </div>
+                    <div className="profile-details">
+                      <p>Username: {userInfo.username}</p>
+                      <p>Email: {userInfo.email}</p>
+                      <button onClick={handleSignOut}>Sign Out</button>
+                    </div>
                   </div>
-                  <div className="profile-details">
-                    <p>Username: {userInfo.username}</p>
-                    <p>Email: {userInfo.email}</p>
-                    <button onClick={handleSignOut}>Sign Out</button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <button className="sign-in-button" onClick={handleShow}>Sign In</button>
-          )}
-        </div>
-      </nav>
-      <Modal show={showModal} handleClose={handleClose} setIsSignedIn={setIsSignedIn} setUserInfo={setUserInfo} />
-    </>
+                )}
+              </div>
+            ) : (
+              <button className="sign-in-button" onClick={handleShow}>Sign In</button>
+            )}
+          </div>
+        </nav>
+        <Modal show={showModal} handleClose={handleClose} setIsSignedIn={setIsSignedIn} setUserInfo={setUserInfo}/>
+      </div>
+    </div>
   );
 };
 

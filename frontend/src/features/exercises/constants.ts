@@ -11,11 +11,11 @@ export const exercisesMockup: Exercise[] = [
         image: armPic,
         type: 'weight',
         description: 'Building strength and endurance',
-        calories: '500',
+        caloriesPerMinute: 500,
+        calculatedCalories: 0,
+        calculatedTime: 0,
         duration: '30',
         durationType: 'minutes',
-        difficulty: 'medium',
-        likes: 0,
         visibility: 'public'
     },
     {
@@ -24,11 +24,12 @@ export const exercisesMockup: Exercise[] = [
         image: legPic,
         type: 'weight',
         description: 'Increasing muscle mass',
-        calories: '600',
+        caloriesPerMinute: 600,
+        calculatedCalories: 0,
+        calculatedTime: 0,
         duration: '45',
         durationType: 'minutes',
         difficulty: 'hard',
-        likes: 0,
         visibility: 'private'
     },
     {
@@ -37,11 +38,12 @@ export const exercisesMockup: Exercise[] = [
         image: ranPic,
         type: 'time',
         description: 'Enhancing muscle power',
-        calories: '450',
+        caloriesPerMinute: 450,
+        calculatedCalories: 0,
+        calculatedTime: 0,
         duration: '20',
         durationType: 'minutes',
         difficulty: 'easy',
-        likes: 0,
         visibility: 'public'
         
     },

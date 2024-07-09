@@ -1,3 +1,21 @@
+.exercise-item {
+    background-color: #4a5568;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 24px;
+    display: flex;
+    position: relative;
+    gap: 10px;
+    color: white;
+    transition: transform 0.3s ease;
+    cursor: grab;
+}
+
+.exercise-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .workoutPage {
     max-width: 1024px;
     width: 100%;
@@ -15,7 +33,7 @@
 
 .columnsWrapper {
     display: flex;
-    gap: 3rem;
+    gap: 1rem;
     width: 100%;
 }
 
@@ -82,17 +100,6 @@
     margin: 0;
 }
 
-.exercise-item {
-    background-color: #4a5568;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    color: white;
-}
-
 .exercise-details {
     display: flex;
     align-items: center;
@@ -115,21 +122,20 @@
 }
 
 .exercise-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
-.exercise-actions button {
-    background-color: #9C74F5;
+.exercise-actions .delete-button {
+    background-color: transparent;
     border: none;
-    border-radius: 12px;
-    color: white;
-    padding: 5px 10px;
+    padding: 0;
     cursor: pointer;
 }
 
-.exercise-actions button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
+.exercise-actions .delete-button img {
+    width: 60%; /* Adjust size as needed */
+    height: 60%; /* Adjust size as needed */
 }
+

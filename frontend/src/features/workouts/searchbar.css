@@ -1,5 +1,3 @@
-/* searchbar.css */
-
 .container {
     display: flex;
     justify-content: center;
@@ -7,9 +5,13 @@
     margin-bottom: 20px;
     padding: 10px;
     background-color: #f5f5f5;
-    border-radius: 10px;
+    border-radius: 0px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Занимает всю ширину экрана */
+    max-width: 100%; /* При необходимости контейнер будет ограничен максимальной шириной */
+    box-sizing: border-box; /* Учитываем padding внутри контейнера */
 }
+
 
 .container input[type="text"] {
     width: 100%;

@@ -5,8 +5,11 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    background-color: #4a5568;
     padding: 24px;
+}
+
+.gray-bg {
+    background-color: #4a5568;
 }
 
 .workout-card {
@@ -92,6 +95,26 @@
     margin-bottom: 16px;
 }
 
+.workout-card-star {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 5px;
+    position: absolute;
+    right: 0;
+}
+
+.starIcons {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #2D3748;
+    font-size: 20px;
+}
+
 .likeIcons {
     background: none;
     border: none;
@@ -102,6 +125,8 @@
     color: #2D3748;
     font-size: 24px;
 }
+
+
 
 .workout-card-image {
     width: 25%;
