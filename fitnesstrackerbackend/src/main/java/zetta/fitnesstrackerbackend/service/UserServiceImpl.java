@@ -26,16 +26,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<String> createUser(UserDTO userDTO) {
-
         userDTO.setGender(
                 null == userDTO.getGender()
                         ? Gender.OTHER
                         : userDTO.getGender()
         );
-
-        User user = userMapper.toUserEntity(userDTO);
-        userRepository.save(user);
-
+        userRepository.save(userMapper.toUserEntity(userDTO));
         return ResponseEntity.ok("Successfully signed up user!");
     }
 

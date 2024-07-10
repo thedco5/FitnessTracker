@@ -16,22 +16,10 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExerciseDTO {
+public class UpdateExerciseDTO {
 
-    @Null
-    private UUID id;
-
-    @NotBlank
     private String name;
-
-    @NotBlank
     private String description;
-
-    @Min(0) @Max(0)
-    private int timesFinished;
-
-    @Min(0) @Max(0)
-    private int likes;
 
     @Min(0)
     private int calories;
@@ -52,8 +40,5 @@ public class ExerciseDTO {
     private Visibility visibility;
 
     private ImageDTO image;
-
-    @Null
-    private UserDTO author;
 
 }
