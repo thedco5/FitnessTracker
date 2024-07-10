@@ -153,7 +153,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
   return (
     <div className={showHideClassName}>
       <section className="modal-main">
-        <h2>{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
+        <h2 style={{ marginTop: 0 }}>{isSignUp ? 'Sign Up' : 'Sign In'}</h2>
         <form onSubmit={isSignUp ? handleSignUp : handleSignIn}>
           {isSignUp && (
             <>
