@@ -21,7 +21,6 @@ function App() {
     <Router>
         <Navbar isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} userInfo={userInfo} setUserInfo={setUserInfo} />
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/exercises" element={<Exercises isSignedIn={isSignedIn} />} />
           <Route path="/workouts" element={<Workouts isSignedIn={isSignedIn} showAddModal={undefined} />} />
           <Route path="/workout/:workoutId" element={<Workout />} />

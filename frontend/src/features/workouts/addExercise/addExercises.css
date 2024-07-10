@@ -16,20 +16,6 @@
     }
 }
 
-.ExerciseCard {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    background-color: #1e1e1e;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    position: relative;
-    transition: transform 0.3s ease;
-}
 @media(min-width: 768px){
     .ExerciseCard{
         max-width: 300px;

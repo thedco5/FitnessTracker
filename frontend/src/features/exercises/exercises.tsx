@@ -132,7 +132,7 @@ export const Exercises: React.FC<ExercisesProps> = ({isSignedIn}) => {
     };
 
     return (
-        <div>
+        <div className="gray-bg">
             {isSignedIn && (
                 <div className="buttons-container">
                     <button className="add-exercise-button" onClick={openModal}>Add Exercise</button>
