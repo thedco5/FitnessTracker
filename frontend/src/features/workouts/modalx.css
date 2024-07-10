@@ -1,42 +1,85 @@
-/* Add this to your existing card.css or modalx.css */
+.modal {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-.add-exercise-button {
-    appearance: none;
-    background-color: #61dafb;
-    border: 2px solid #1A1A1A;
-    border-radius: 15px;
-    box-sizing: border-box;
-    color: #282c34;
-    cursor: pointer;
+.modal-main {
+    background: #4a5568;
+    border-radius: 16px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    color: #FFF;
+}
+
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #ffffff; /* Purple color for labels */
+}
+
+input[type="text"],
+input[type="file"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 0 10px 0;
     display: inline-block;
-    line-height: normal;
-    margin: 0;
-    outline: none;
-    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    padding: 5px;
+    color: #FFF;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-buttons button {
+    background-color: #61dafb;
+    border: none;
+    border-radius: 4px;
+    color: #1A1A1A;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
     transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    width: auto;
-    will-change: transform;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
 }
 
-.add-exercise-button:hover {
+.modal-buttons button:hover {
     background-color: #21a1f1;
-    box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5);
 }
 
-.add-exercise-button:focus {
-    box-shadow: 0 0 0 4px rgba(97, 218, 251, 0.5);
-}
-
-.add-exercise-button:active {
+.modal-buttons button:active {
     background-color: #30cae9;
 }
-

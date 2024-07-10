@@ -5,6 +5,8 @@ export const AddExerciseCardModal = ({ showModal, closeModal, handleSubmit, setE
 
   const selectOptions = exercisesMockup.map((el) => ({value: el.id, label: el.name}));
 
+  const isdisabled = exercisrCardFilds.exId === '';
+
   return (
     <div className={showHideClassName} onClick={closeModal}>
       <div className="modal-main" onClick={e => e.stopPropagation()}>
@@ -35,7 +37,7 @@ export const AddExerciseCardModal = ({ showModal, closeModal, handleSubmit, setE
             <input type="number" name="time" value={exercisrCardFilds.time} onChange={(e) => setExercisrCardFilds(prev => ({...prev, time: e.target.value}))} required />
           </div>
           <div className="modal-buttons">
-            <button type="button" onClick={handleSubmit}>Add Workout</button>
+            <button type="button" onClick={handleSubmit} disabled={isdisabled}>Add Workout</button>
             <button type="button" onClick={closeModal}>Cancel</button>
           </div>
         </form>

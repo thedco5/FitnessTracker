@@ -87,7 +87,6 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, set
       <div className="main-wrapper">
         <nav className="navbar">
           <div className="navbar-left">
-            <Link to="/">Home</Link>
             <Link to="/workouts">Workouts</Link>
             <Link to="/exercises">Exercises</Link>
           </div>
