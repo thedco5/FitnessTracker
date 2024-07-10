@@ -15,6 +15,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, UUID> {
     Page<Exercise> findByVisibility(Visibility visibility, Pageable pageable);
     Page<Exercise> findByVisibilityAndAuthorId(Visibility visibility, UUID authorId, Pageable pageable);
 
-    Page<Exercise> findByVisibilityOrVisibilityAndAuthorId(Visibility visibility, UUID authorId, Visibility visibility2, Pageable pageable);
+    Page<Exercise> findByVisibilityOrVisibilityAndAuthorId(Visibility visibility, Visibility visibility2, UUID authorId, Pageable pageable);
 
 }

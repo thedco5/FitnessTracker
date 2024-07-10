@@ -79,6 +79,24 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    public ResponseEntity<String> deleteExercise(UUID id, JwtAuthenticationToken token) {
+
+        Optional<Exercise> optionalExercise = exerciseRepository.findById(id);
+        if (optionalExercise.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        Exercise exercise = optionalExercise.get();
+        if (exercise.getVisibility().equals(Visibility.PRIVATE)
+                && exercise.getAuthor().getId().equals(TokenUtil.getID(token))) {
+            exerciseRepository.deleteById(id);
+            return ResponseEntity.ok("Successfully deleted exercise!");
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+    }
+
+    @Override
     public ResponseEntity<List<ExerciseDTO>> getExercises(JwtAuthenticationToken token, int page) {
         return "admin".equals(TokenUtil.getRole(token)) ?
                 getAllExercises(page) :
@@ -112,8 +130,8 @@ public class ExerciseServiceImpl implements ExerciseService {
                 exerciseMapper.toExerciseDTO(
                         exerciseRepository.findByVisibilityOrVisibilityAndAuthorId(
                                 Visibility.PUBLIC,
-                                authorId,
                                 Visibility.PRIVATE,
+                                authorId,
                                 PageRequest.of(page, PAGE_SIZE)
                         )));
     }

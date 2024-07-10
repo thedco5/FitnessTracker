@@ -11,8 +11,9 @@ import java.util.UUID;
 public interface ExerciseService {
 
     ResponseEntity<String> addExercise(ExerciseDTO exerciseDTO, JwtAuthenticationToken token);
-    ResponseEntity<String> updateExercise(UUID id, UpdateExerciseDTO exerciseDTO, JwtAuthenticationToken token);
     ResponseEntity<ExerciseDTO> getExercise(UUID id, JwtAuthenticationToken token);
+    ResponseEntity<String> updateExercise(UUID id, UpdateExerciseDTO exerciseDTO, JwtAuthenticationToken token);
+    ResponseEntity<String> deleteExercise(UUID id, JwtAuthenticationToken token);
 
     ResponseEntity<List<ExerciseDTO>> getPublicExercises(int page);
     ResponseEntity<List<ExerciseDTO>> getPrivateExercises(UUID authorId, int page);

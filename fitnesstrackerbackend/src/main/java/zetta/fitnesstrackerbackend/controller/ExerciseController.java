@@ -30,14 +30,19 @@ public class ExerciseController {
         return exerciseService.addExercise(exerciseDTO, token);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ExerciseDTO> getExercise(@PathVariable UUID id, JwtAuthenticationToken token) {
+        return exerciseService.getExercise(id, token);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updateExercise(@PathVariable UUID id, @RequestBody @Validated UpdateExerciseDTO exerciseDTO, JwtAuthenticationToken token) {
         return exerciseService.updateExercise(id, exerciseDTO, token);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ExerciseDTO> getExercise(@PathVariable UUID id, JwtAuthenticationToken token) {
-        return exerciseService.getExercise(id, token);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> removeExercise(@PathVariable UUID id, JwtAuthenticationToken token) {
+        return exerciseService.deleteExercise(id, token);
     }
 
     @GetMapping
