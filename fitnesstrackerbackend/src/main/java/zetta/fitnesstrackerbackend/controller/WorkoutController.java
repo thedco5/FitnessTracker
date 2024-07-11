@@ -42,7 +42,7 @@ public class WorkoutController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateWorkout(@PathVariable UUID id, UpdateWorkoutDTO workoutDTO, JwtAuthenticationToken token) {
+    public ResponseEntity<String> updateWorkout(@PathVariable UUID id, @RequestBody UpdateWorkoutDTO workoutDTO, JwtAuthenticationToken token) {
         return workoutService.updateWorkout(id, workoutDTO, token);
     }
 

@@ -1,5 +1,6 @@
 package zetta.fitnesstrackerbackend.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -104,6 +105,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> updateWorkout(UUID id, UpdateWorkoutDTO workoutDTO, JwtAuthenticationToken token) {
 
         Optional<Workout> optionalWorkout = workoutRepository.findById(id);
@@ -111,19 +113,22 @@ public class WorkoutServiceImpl implements WorkoutService {
             return ResponseEntity.notFound().build();
 
         exerciseOrderPerWorkoutRepository.deleteByWorkoutId(id);
-        for (int i = 0; i < workoutDTO.getExercises().size(); i++) {
-            exerciseOrderPerWorkoutRepository.save(
-                    ExerciseOrderPerWorkout
-                            .builder()
-                            .workout(optionalWorkout.get())
-                            .exercise(
-                                    Exercise.builder()
-                                            .id(workoutDTO
-                                                    .getExercises()
-                                                    .get(i)
-                                                    .getId())
-                                            .build())
-                            .build());
+
+        if (workoutDTO.getExercises() != null) {
+            for (int i = 0; i < workoutDTO.getExercises().size(); i++) {
+                exerciseOrderPerWorkoutRepository.save(
+                        ExerciseOrderPerWorkout
+                                .builder()
+                                .workout(optionalWorkout.get())
+                                .exercise(
+                                        Exercise.builder()
+                                                .id(workoutDTO
+                                                        .getExercises()
+                                                        .get(i)
+                                                        .getId())
+                                                .build())
+                                .build());
+            }
         }
 
         workoutRepository.save(workoutMapper.updateWorkoutFromDTO(workoutDTO, optionalWorkout.get()));
@@ -132,6 +137,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> deleteWorkout(UUID id, JwtAuthenticationToken token) {
 
         Optional<Workout> optionalWorkout = workoutRepository.findById(id);
@@ -141,8 +147,8 @@ public class WorkoutServiceImpl implements WorkoutService {
         Workout workout = optionalWorkout.get();
         if (workout.getVisibility().equals(Visibility.PRIVATE)
                 && workout.getAuthor().getId().equals(TokenUtil.getID(token))) {
-            workoutRepository.deleteById(id);
             exerciseOrderPerWorkoutRepository.deleteByWorkoutId(id);
+            workoutRepository.deleteById(id);
             return ResponseEntity.ok("Successfully deleted workout!");
         }
 
