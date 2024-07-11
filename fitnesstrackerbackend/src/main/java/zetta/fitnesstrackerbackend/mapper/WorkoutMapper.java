@@ -19,12 +19,17 @@ public interface WorkoutMapper {
     Workout toWorkout(WorkoutDTO workoutDTO);
 
     @Mapping(target = "likes", ignore = true)
+    @Mapping(target = "author.id", ignore = true)
+    @Mapping(target = "author.password", ignore = true)
+    @Mapping(target = "author.image.id", ignore = true)
     WorkoutDTO toWorkoutDTO(Workout workout);
+
     List<WorkoutDTO> toWorkoutDTO(Page<Workout> workout);
 
     @Named("toWorkoutInfoDTO")
     @Mapping(target = "author.password", ignore = true)
     @Mapping(target = "liked", ignore = true)
+    @Mapping(target = "saved", ignore = true)
     @Mapping(target = "exercises", ignore = true)
     WorkoutDTO toWorkoutInfoDTO(Workout workout);
 
