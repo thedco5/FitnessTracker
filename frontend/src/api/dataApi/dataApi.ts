@@ -2,25 +2,25 @@ import { api } from '../api';
 
 export const dataApi = api.injectEndpoints({
     endpoints: (build) => ({
-      getExercises: build.query<any, any>({
+      // getExercises: build.query<any, any>({
+      //   query: () => ({
+      //     url: `/api/exercise`,
+      //     method: 'GET',
+      //   }),
+      //   providesTags: [{ type: 'Exercises', id: 'LIST' }],
+      // }),
+      addWorkouts: build.query<any, any>({
         query: () => ({
-          url: `/`,
-          method: 'GET',
-        }),
-        providesTags: [{ type: 'Exercises', id: 'LIST' }],
+          url: 'http://localhost:8080/api/workout',
+        method: 'GET',
       }),
-      addWorkout: build.mutation<any, any>({
-        query: ({ body }) => ({
-          url: ``,
-        method: 'POST',
-        body,
-      }),
-      invalidatesTags: [{ type: 'Workouts', id: 'LIST' }],
+      providesTags: [{ type: 'Workouts', id: 'LIST' }],
     }),
-  }),
   });
+});
 
 export const {
   useGetExercisesQuery,
   useAddWorkoutMutation,
+  useGetWorkoutsQuery,
 } = dataApi;

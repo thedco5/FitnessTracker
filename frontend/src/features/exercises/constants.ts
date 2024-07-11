@@ -9,27 +9,18 @@ export const exercisesMockup: Exercise[] = [
         id: '1',
         name: 'Physical Fitness',
         image: armPic,
-        type: 'weight',
+        type: 'time',
         description: 'Building strength and endurance',
         caloriesPerMinute: 500,
-        calculatedCalories: 0,
-        calculatedTime: 0,
-        duration: '30',
-        durationType: 'minutes',
         visibility: 'public'
     },
     {
         id: '2',
         name: 'Weight Gain',
         image: legPic,
-        type: 'weight',
+        type: 'time',
         description: 'Increasing muscle mass',
-        caloriesPerMinute: 600,
-        calculatedCalories: 0,
-        calculatedTime: 0,
-        duration: '45',
-        durationType: 'minutes',
-        difficulty: 'hard',
+        caloriesPerMinute: 30,
         visibility: 'private'
     },
     {
@@ -38,14 +29,26 @@ export const exercisesMockup: Exercise[] = [
         image: ranPic,
         type: 'time',
         description: 'Enhancing muscle power',
-        caloriesPerMinute: 450,
-        calculatedCalories: 0,
-        calculatedTime: 0,
-        duration: '20',
-        durationType: 'minutes',
-        difficulty: 'easy',
+        caloriesPerMinute: 30,
         visibility: 'public'
-        
+    },
+    {
+        id: '4',
+        name: 'Strength Training',
+        image: ranPic,
+        type: 'time',
+        description: 'Enhancing muscle power',
+        caloriesPerMinute: 30,
+        visibility: 'public'
+    },
+    {
+        id: '5',
+        name: 'Strength Training',
+        image: ranPic,
+        type: 'time',
+        description: 'Enhancing muscle power',
+        caloriesPerMinute: 30,
+        visibility: 'public'
     },
 ];
 
