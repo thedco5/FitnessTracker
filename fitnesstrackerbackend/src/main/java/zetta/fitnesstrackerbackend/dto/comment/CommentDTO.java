@@ -20,8 +20,6 @@ public class CommentDTO {
     @NotBlank
     private String content;
 
-    private LocalDateTime timestamp;
-
     private UserDTO author;
     private ExerciseDTO exercise;
 

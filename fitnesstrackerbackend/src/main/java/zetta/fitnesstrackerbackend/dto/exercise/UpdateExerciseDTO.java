@@ -1,16 +1,14 @@
-package zetta.fitnesstrackerbackend.dto.workout;
+package zetta.fitnesstrackerbackend.dto.exercise;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.dto.image.ImageDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
-import zetta.fitnesstrackerbackend.entity.Image;
 import zetta.fitnesstrackerbackend.vo.Difficulty;
+import zetta.fitnesstrackerbackend.vo.DurationType;
 import zetta.fitnesstrackerbackend.vo.ExerciseType;
-import zetta.fitnesstrackerbackend.vo.Gender;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
 import java.util.UUID;
@@ -18,21 +16,19 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkoutDTO {
+public class UpdateExerciseDTO {
 
-    private UUID id;
-
-    @NotBlank
     private String name;
-
-    @NotBlank
     private String description;
 
-    private int timesFinished;
-    private int likes;
+    @Min(0)
     private int calories;
-    private int restDuration;
-    private boolean liked;
+
+    @Min(0)
+    private int duration;
+
+    @NotNull
+    private DurationType durationType;
 
     @NotNull
     private Difficulty difficulty;
@@ -43,10 +39,6 @@ public class WorkoutDTO {
     @NotNull
     private Visibility visibility;
 
-    @NotNull
-    private Gender gender;
-
     private ImageDTO image;
-    private UserDTO author;
 
 }

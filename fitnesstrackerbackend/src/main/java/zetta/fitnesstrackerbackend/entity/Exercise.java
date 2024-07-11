@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import zetta.fitnesstrackerbackend.vo.Difficulty;
 import zetta.fitnesstrackerbackend.vo.DurationType;
 import zetta.fitnesstrackerbackend.vo.ExerciseType;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity(name = "exercise")
@@ -41,6 +43,10 @@ public class Exercise {
     @Column
     private int duration;
 
+    @Column
+    @CreationTimestamp
+    private Instant timestamp;
+
     @Enumerated(EnumType.STRING)
     private DurationType durationType;
 
@@ -53,11 +59,11 @@ public class Exercise {
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private User author;
 

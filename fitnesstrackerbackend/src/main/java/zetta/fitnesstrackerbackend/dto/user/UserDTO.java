@@ -35,8 +35,7 @@ public class UserDTO {
     @Size(max = 16, message = "Password must be shorter than 17 characters")
     private String password;
 
-    @Min(0)
-    @Max(0)
+    @Min(0) @Max(0)
     private int exercisesFinished;
 
     private Gender gender;
