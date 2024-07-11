@@ -13,6 +13,7 @@ import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
 import zetta.fitnesstrackerbackend.entity.Exercise;
 import zetta.fitnesstrackerbackend.entity.ExerciseOrderPerWorkout;
 import zetta.fitnesstrackerbackend.entity.Workout;
+import zetta.fitnesstrackerbackend.mapper.ExerciseMapper;
 import zetta.fitnesstrackerbackend.mapper.WorkoutMapper;
 import zetta.fitnesstrackerbackend.repository.ExerciseOrderPerWorkoutRepository;
 import zetta.fitnesstrackerbackend.repository.WorkoutRepository;
@@ -31,12 +32,28 @@ public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final ExerciseOrderPerWorkoutRepository exerciseOrderPerWorkoutRepository;
     private final WorkoutMapper workoutMapper;
+    private final ExerciseMapper exerciseMapper;
 
     @Autowired
-    public WorkoutServiceImpl(WorkoutRepository workoutRepository, ExerciseOrderPerWorkoutRepository exerciseOrderPerWorkoutRepository, WorkoutMapper workoutMapper) {
+    public WorkoutServiceImpl(WorkoutRepository workoutRepository, ExerciseOrderPerWorkoutRepository exerciseOrderPerWorkoutRepository, WorkoutMapper workoutMapper, ExerciseMapper exerciseMapper) {
         this.workoutRepository = workoutRepository;
         this.exerciseOrderPerWorkoutRepository = exerciseOrderPerWorkoutRepository;
         this.workoutMapper = workoutMapper;
+        this.exerciseMapper = exerciseMapper;
+    }
+
+    public WorkoutDTO getExercisesToWorkout(WorkoutDTO workoutDTO) {
+        workoutDTO.setExercises(
+                exerciseMapper.toExerciseDTO(
+                        exerciseOrderPerWorkoutRepository.findByWorkoutIdOrderByPositionAsc(
+                                workoutDTO.getId()).stream()
+                                .map(ExerciseOrderPerWorkout::getExercise).toList()));
+        return workoutDTO;
+    }
+
+    public List<WorkoutDTO> getExercisesToWorkout(List<WorkoutDTO> workoutDTOs) {
+        workoutDTOs.forEach(this::getExercisesToWorkout);
+        return workoutDTOs;
     }
 
     @Override
@@ -82,7 +99,9 @@ public class WorkoutServiceImpl implements WorkoutService {
                 || workout.getVisibility().equals(Visibility.PUBLIC)
                 || workout.getVisibility().equals(Visibility.PRIVATE)
                 && workout.getAuthor().getId().equals(TokenUtil.getID(token))) {
-            return ResponseEntity.ok(workoutMapper.toWorkoutDTO(workout));
+            return ResponseEntity.ok(
+                    getExercisesToWorkout(
+                            workoutMapper.toWorkoutDTO(workout)));
         }
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -98,7 +117,9 @@ public class WorkoutServiceImpl implements WorkoutService {
 
         Workout workout = optionalWorkout.get();
         if (workout.getVisibility().equals(Visibility.PUBLIC))
-            return ResponseEntity.ok(workoutMapper.toWorkoutDTO(workout));
+            return ResponseEntity.ok(
+                    getExercisesToWorkout(
+                            workoutMapper.toWorkoutDTO(workout)));
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
@@ -159,34 +180,38 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public ResponseEntity<List<WorkoutDTO>> getPublicWorkouts(int page) {
         return ResponseEntity.ok(
-                workoutMapper.toWorkoutDTO(
-                        workoutRepository.findByVisibilityOrderByTimestampDesc(
-                                Visibility.PUBLIC,
-                                PageRequest.of(page, PAGE_SIZE)
-                        )));
+                getExercisesToWorkout(
+                        workoutMapper.toWorkoutDTO(
+                            workoutRepository.findByVisibilityOrderByTimestampDesc(
+                                    Visibility.PUBLIC,
+                                    PageRequest.of(page, PAGE_SIZE)
+                            ))));
+
     }
 
     @Override
     public ResponseEntity<List<WorkoutDTO>> getPrivateWorkouts(UUID id, int page) {
         return ResponseEntity.ok(
-                workoutMapper.toWorkoutDTO(
-                        workoutRepository.findByVisibilityAndAuthorIdOrderByTimestampDesc(
-                                Visibility.PRIVATE,
-                                id,
-                                PageRequest.of(page, PAGE_SIZE)
-                        )));
+                getExercisesToWorkout(
+                        workoutMapper.toWorkoutDTO(
+                            workoutRepository.findByVisibilityAndAuthorIdOrderByTimestampDesc(
+                                    Visibility.PRIVATE,
+                                    id,
+                                    PageRequest.of(page, PAGE_SIZE)
+                            ))));
     }
 
     @Override
     public ResponseEntity<List<WorkoutDTO>> getPublicAndPrivateWorkouts(UUID id, int page) {
         return ResponseEntity.ok(
-                workoutMapper.toWorkoutDTO(
-                        workoutRepository.findByVisibilityOrVisibilityAndAuthorIdOrderByTimestampDesc(
-                                Visibility.PUBLIC,
-                                Visibility.PRIVATE,
-                                id,
-                                PageRequest.of(page, PAGE_SIZE)
-                        )));
+                getExercisesToWorkout(
+                    workoutMapper.toWorkoutDTO(
+                            workoutRepository.findByVisibilityOrVisibilityAndAuthorIdOrderByTimestampDesc(
+                                    Visibility.PUBLIC,
+                                    Visibility.PRIVATE,
+                                    id,
+                                    PageRequest.of(page, PAGE_SIZE)
+                            ))));
     }
 
     @Override
@@ -199,8 +224,10 @@ public class WorkoutServiceImpl implements WorkoutService {
     @Override
     public ResponseEntity<List<WorkoutDTO>> getAllWorkouts(int page) {
         return ResponseEntity.ok(
-                workoutMapper.toWorkoutDTO(
-                        workoutRepository.findByOrderByTimestampDesc(PageRequest.of(page, PAGE_SIZE))));
+                getExercisesToWorkout(
+                    workoutMapper.toWorkoutDTO(
+                            workoutRepository.findByOrderByTimestampDesc(
+                                    PageRequest.of(page, PAGE_SIZE)))));
     }
 
 }
