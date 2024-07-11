@@ -31,6 +31,11 @@ public class ExerciseController {
         return exerciseService.addExercise(exerciseDTO, token);
     }
 
+    @GetMapping("/{id}/public")
+    public ResponseEntity<ExerciseDTO> getExercise(@PathVariable UUID id) {
+        return exerciseService.getExercise(id);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ExerciseDTO> getExercise(@PathVariable UUID id, JwtAuthenticationToken token) {
         return exerciseService.getExercise(id, token);

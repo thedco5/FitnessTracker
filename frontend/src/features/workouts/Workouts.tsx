@@ -12,7 +12,7 @@ import timeblack from '../../Images/Timeblack.svg';
 import WorkOut from '../../Images/WorkOut.svg';
 import add from "../../Images/add.svg";
 import hover from "../../Images/hover.svg";
-import {exercisesMockup} from "../exercises/constants.ts";
+import { exercisesMockup } from "../exercises/constants.ts";
 
 const addWorkoutToDatabase = async (workout) => {
   return new Promise((resolve) => {
@@ -21,11 +21,12 @@ const addWorkoutToDatabase = async (workout) => {
 };
 
 const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
-
   const [totalWorkoutCalories, setTotalWorkoutCalories] = useState<number>(0);
   const [totalWorkoutTime, setTotalWorkoutTime] = useState<number>(0);
-
   const [currentLikes, setCurrentLikes] = useState(workout.likes);
+  const [comments, setComments] = useState<string[]>(workout.comments || []);
+  const [newComment, setNewComment] = useState<string>("");
+  const [showComments, setShowComments] = useState<boolean>(false);
 
   const hasLike = currentLikes?.includes(myUserId);
 
@@ -36,17 +37,25 @@ const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
     setCurrentLikes(newLikes);
   };
 
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    if (newComment.trim() !== "") {
+      setComments([...comments, newComment]);
+      setNewComment("");
+    }
+  };
+
   const getWorkoutSummary = () => {
     const workoutTime = workout.exercises.reduce((accumulator, currentObject) => {
       const time = currentObject.time || 0;
       const repeat = currentObject.repeat || 0;
-      return accumulator + ( time * repeat);
+      return accumulator + (time * repeat);
     }, 0);
     const workoutCalories = workout.exercises.reduce((accumulator, currentObject) => {
       const caloriesPerMinute = exercisesMockup.find(el => el.id === currentObject.exId)?.caloriesPerMinute || 0;
       const time = currentObject.time || 0;
       const repeat = currentObject.repeat || 0;
-      return accumulator + ( time * repeat * caloriesPerMinute);
+      return accumulator + (time * repeat * caloriesPerMinute);
     }, 0);
     setTotalWorkoutCalories(workoutCalories / 1000);
     setTotalWorkoutTime(workoutTime);
@@ -57,8 +66,8 @@ const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
   }, []);
 
   return (
-    <Link to={`/workout/${workout.id}`} className="workout-card">
-      <div className="workout-card-container">
+    <div className="workout-card-container">
+      <Link to={`/workout/${workout.id}`} className="workout-card">
         <div className="workout-card-info">
           <div className="workout-card-details">
             <h3 className="workout-card-title">{workout.name}</h3>
@@ -81,12 +90,36 @@ const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
                 }
               </button>
             </div>
-
           </div>
         </div>
         <img src={workout.image} alt={workout.name} className="workout-card-image" />
-      </div>
-    </Link>
+      </Link>
+      <button onClick={(e) => {
+        e.preventDefault();
+        setShowComments(!showComments);
+      }} className="toggle-comments-button">
+        {showComments ? 'Hide Comments' : 'Show Comments'}
+      </button>
+      {showComments && (
+        <div className="workout-card-comments">
+          <h4>Comments</h4>
+          <ul>
+            {comments.map((comment, index) => (
+              <li key={index}>{comment}</li>
+            ))}
+          </ul>
+          <form onSubmit={handleAddComment}>
+            <input
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Add a comment"
+            />
+            <button type="submit">Add Comment</button>
+          </form>
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -102,9 +135,9 @@ export const Workouts = ({ isSignedIn }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState(''); // Added state for filter
   const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
-  const [likedOnly, setLikedOnly] = useState(false)
+  const [likedOnly, setLikedOnly] = useState(false);
 
-  const userId = "12345";// TODO replace from user
+  const userId = "12345"; // TODO replace from user
 
   useEffect(() => {
     let filtered = workouts.filter(workout =>
@@ -116,10 +149,6 @@ export const Workouts = ({ isSignedIn }) => {
     } else if (filter === 'leastLikes') {
       filtered.sort((a, b) => a.likes.length - b.likes.length);
     }
-
-    // if (likedOnly) {
-    //   filtered.filter(el => el.likes.includes(userId))
-    // }
 
     setFilteredWorkouts(filtered);
   }, [workouts, searchTerm, filter, likedOnly]); // Added filter to dependency array
@@ -149,6 +178,7 @@ export const Workouts = ({ isSignedIn }) => {
       image: imageUrl,
       exercises: [],
       likes: [],
+      comments: [], // Initialize comments array
       favorites: false, // Assuming new workouts are not favorited by default
     };
 
@@ -182,8 +212,8 @@ export const Workouts = ({ isSignedIn }) => {
     <div className="gray-bg">
       {isSignedIn && (
         <button className="add-exercise-button" onClick={openModal}>
-          <img src={add} alt="add" className="default-image"/>
-          <img src={hover} alt="add-hover" className="hover-image"/>
+          <img src={add} alt="add" className="default-image" />
+          <img src={hover} alt="add-hover" className="hover-image" />
         </button>
       )}
       <div className="container">
@@ -210,7 +240,9 @@ export const Workouts = ({ isSignedIn }) => {
       </div>
       <div className="main-wrapper">
         <div className="workouts-list-wrapper">
-          {filteredWorkouts.map((workout) => <WorkoutCard key={workout.id} workout={workout} myUserId={userId}/>)}
+          {filteredWorkouts.map((workout) => (
+            <WorkoutCard key={workout.id} workout={workout} myUserId={userId} />
+          ))}
         </div>
       </div>
       <Modalx

@@ -54,7 +54,6 @@ public class ExerciseServiceImpl implements ExerciseService {
             return ResponseEntity.notFound().build();
 
         exerciseRepository.save(exerciseMapper.updateExerciseFromDTO(exerciseDTO, optionalExercise.get()));
-
         return ResponseEntity.ok("Successfully updated exercise!");
 
     }
@@ -73,6 +72,21 @@ public class ExerciseServiceImpl implements ExerciseService {
                 && exercise.getAuthor().getId().equals(TokenUtil.getID(token))) {
             return ResponseEntity.ok(exerciseMapper.toExerciseDTO(exercise));
         }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+    }
+
+    @Override
+    public ResponseEntity<ExerciseDTO> getExercise(UUID id) {
+
+        Optional<Exercise> optionalExercise = exerciseRepository.findById(id);
+        if (optionalExercise.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        Exercise exercise = optionalExercise.get();
+        if (exercise.getVisibility().equals(Visibility.PUBLIC))
+            return ResponseEntity.ok(exerciseMapper.toExerciseDTO(exercise));
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 

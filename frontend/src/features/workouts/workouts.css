@@ -14,8 +14,9 @@
     height: auto;
 }
 
-.workout-card {
+.workout-card-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     background-color: #FFFFFF;
     border-radius: 12px;
@@ -26,19 +27,21 @@
     transition: transform 0.2s;
 }
 
-.workout-card:hover {
+.workout-card-container:hover {
     transform: scale(1.02);
 }
 
-.workout-card-container {
+.workout-card {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    align-items: flex-start; /* Ensure alignment for consistent layout */
+    text-decoration: none; /* Prevent underline on link */
 }
 
 .workout-card-info {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* Adjusted to column to allow expanding vertically */
     width: 70%;
 }
 
@@ -46,16 +49,16 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 60%;
     padding: 16px;
+    flex: 1;
 }
 
 .workout-card-actions {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 40%;
     text-align: right;
+    flex: 1;
 }
 
 .workout-card-title {
@@ -74,13 +77,13 @@
 .workout-card-stats span {
     display: flex;
     align-items: center;
-    font-size: 18px; /* Увеличиваем размер текста */
+    font-size: 18px; /* Increase text size */
 }
 
 .workout-card-stats img {
-    width: 16px; /* Уменьшаем размер иконок */
-    height: 16px; /* Уменьшаем размер иконок */
-    margin-right: 8px; /* Добавляем отступ между иконкой и текстом */
+    width: 16px; /* Adjust icon size */
+    height: 16px; 
+    margin-right: 8px; 
 }
 
 .workout-card-description {
@@ -128,11 +131,67 @@
     font-size: 24px;
 }
 
-
-
 .workout-card-image {
-    width: 25%;
+    width: 30%; /* Ensure consistent width */
     height: auto;
     object-fit: cover;
     border-radius: 12px;
+}
+
+.workout-card-comments {
+    margin-top: 16px;
+    padding: 16px; /* Add padding for comments section */
+}
+
+.workout-card-comments h4 {
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.workout-card-comments ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 16px;
+}
+
+.workout-card-comments li {
+    background-color: #f7f7f7;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.workout-card-comments input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.workout-card-comments button {
+    padding: 8px 16px;
+    background-color: #3182ce;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.workout-card-comments button:hover {
+    background-color: #2b6cb0;
+}
+
+.toggle-comments-button {
+    padding: 8px 16px;
+    background-color: #3182ce;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 16px; /* Add margin for spacing */
+}
+
+.toggle-comments-button:hover {
+    background-color: #2b6cb0;
 }

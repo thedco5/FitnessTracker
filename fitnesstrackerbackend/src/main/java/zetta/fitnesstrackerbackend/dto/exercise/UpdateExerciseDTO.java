@@ -20,25 +20,12 @@ public class UpdateExerciseDTO {
 
     private String name;
     private String description;
-
-    @Min(0)
     private int calories;
-
-    @Min(0)
     private int duration;
-
-    @NotNull
     private DurationType durationType;
-
-    @NotNull
     private Difficulty difficulty;
-
-    @NotNull
     private ExerciseType type;
-
-    @NotNull
     private Visibility visibility;
-
     private ImageDTO image;
 
 }

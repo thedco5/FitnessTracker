@@ -16,7 +16,7 @@ import java.util.List;
 public interface LikeMapper {
 
     @Mapping(source = "author", target = "author", qualifiedByName = "toUserInfoDTO")
-    @Mapping(source = "workout", target = "workout", qualifiedByName = "toWorkoutDTO")
+    @Mapping(source = "workout", target = "workout", qualifiedByName = "toWorkoutInfoDTO")
     List<WorkoutLikeDTO> toWorkoutLikeDTO(Page<WorkoutLike> workouts);
 
 }
