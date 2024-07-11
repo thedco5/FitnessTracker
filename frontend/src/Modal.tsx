@@ -8,7 +8,7 @@ interface ModalProps {
   setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUserInfo }) => {
+export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUserInfo }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
   const [emailOrUsername, setEmailOrUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
     e.preventDefault();
     try {
       localStorage.setItem('accessToken', '');
-      const response = await fetch('http://localhost:8080/api/public/login', { 
+      const response = await fetch('http://localhost:8080/api/public/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,12 +51,17 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
     }
   };
 
-  const fetchUserInfo = async (token: string) => {
+  const fetchUserInfo = async (token?: string) => {
     try {
+      const accessToken = token || localStorage.getItem('accessToken');
+      if (!accessToken) {
+        throw new Error('No access token available');
+      }
+
       const response = await fetch('http://localhost:8080/api/user/info', {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       });
@@ -72,6 +77,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
       setError('Failed to fetch user info. ' + error);
     }
   };
+
 
   const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
@@ -117,6 +123,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
       reader.onerror = (error) => reject(error);
     });
   };
+
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

@@ -1,9 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ModalProps } from './types';
 import './modalx.css';
+import { getAccessToken } from '../../auth';
 
-export const Modal: React.FC<ModalProps> = ({ showModal, closeModal, handleSubmit, handleChange, handleImageChange, formData }) => {
-    const showHideClassName = showModal ? "modal display-block" : "modal display-none";
+export const Modal: React.FC<ModalProps> = ({
+  showModal,
+  closeModal,
+  handleSubmit,
+  handleChange,
+  handleImageChange,
+  formData,
+}) => {
+  const showHideClassName = showModal ? 'modal display-block' : 'modal display-none';
+
+  const handleAddExercise = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const exerciseData = {
+      name: formData.name,
+      description: formData.description,
+      calories: formData.calories,
+      duration: formData.duration,
+      durationType: formData.durationType.toUpperCase(),
+      difficulty: formData.difficulty.toUpperCase().replace(' ', '_'),
+      type: 'UPPER_BODY',
+      visibility: formData.visibility.toUpperCase(),
+      image: formData.image ? { data: formData.image } : null,
+    };
+
+    try {
+      const token = getAccessToken();
+      const response = await fetch('http://localhost:8080/api/exercise', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(exerciseData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Exercise added:', data);
+        closeModal();
+      } else {
+        const errorText = await response.text();
+        console.error(`Failed to add exercise: ${errorText}`);
+      }
+    } catch (error) {
+      console.error(`Failed to add exercise: ${error}`);
+    }
+  };
 
     return (
       <div className={showHideClassName} onClick={closeModal}>
