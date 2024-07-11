@@ -4,26 +4,25 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 24px; /* Spacing between workout cards */
     padding: 24px;
 }
 
 .gray-bg {
     background-color: #4a5568;
-    min-height: 100vh;
-    height: auto;
 }
 
 .workout-card {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     background-color: #FFFFFF;
     border-radius: 12px;
     overflow: hidden;
     color: #000000;
-    text-decoration: none;
+    text-decoration: none; /* Remove underlines from links */
     position: relative;
     transition: transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added a subtle box shadow */
 }
 
 .workout-card:hover {
@@ -38,23 +37,22 @@
 
 .workout-card-info {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     width: 70%;
+    padding: 16px;
 }
 
 .workout-card-details {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 60%;
-    padding: 16px;
 }
 
 .workout-card-actions {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 40%;
+    width: 100%;
     text-align: right;
 }
 
@@ -63,6 +61,7 @@
     font-weight: bold;
     color: #000000;
     margin-bottom: 8px;
+    text-decoration: none; 
 }
 
 .workout-card-stats {
@@ -74,13 +73,13 @@
 .workout-card-stats span {
     display: flex;
     align-items: center;
-    font-size: 18px; /* Увеличиваем размер текста */
+    font-size: 18px;
 }
 
 .workout-card-stats img {
-    width: 16px; /* Уменьшаем размер иконок */
-    height: 16px; /* Уменьшаем размер иконок */
-    margin-right: 8px; /* Добавляем отступ между иконкой и текстом */
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
 }
 
 .workout-card-description {
@@ -88,6 +87,7 @@
     color: #2D3748;
     margin-bottom: 16px;
     flex-grow: 1;
+    text-decoration: none; /* Remove underlines */
 }
 
 .workout-card-like {
@@ -115,6 +115,7 @@
     gap: 4px;
     color: #2D3748;
     font-size: 20px;
+    text-decoration: none; /* Remove underlines */
 }
 
 .likeIcons {
@@ -126,13 +127,85 @@
     gap: 4px;
     color: #2D3748;
     font-size: 24px;
+    text-decoration: none; /* Remove underlines */
+}
+
+.comments-button {
+    background-color: #38A169;
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 8px;
+    text-decoration: none; /* Remove underlines */
+}
+
+.comments-button:hover {
+    background-color: #2F855A;
+}
+
+.comments-dropdown {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.new-comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.new-comment-input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #E2E8F0;
+}
+
+.new-comment-button {
+    padding: 8px 12px;
+    background-color: #3182CE;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+.new-comment-button:hover {
+    background-color: #2C5282;
+}
+
+.workout-card-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: fit-content;
+    margin-top: 5%;
+    flex-shrink: 0;
+}
+
+.workout-card-image {
+    width: 100%;
+    height: fit-content;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
 
+.workout-card-link {
+    text-decoration: none;
+    color: inherit; 
+}
 
-.workout-card-image {
-    width: 25%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 12px;
+.workout-card-link * {
+    text-decoration: none;
+    color: inherit; 
 }

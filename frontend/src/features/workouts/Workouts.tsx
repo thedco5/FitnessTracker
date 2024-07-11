@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Modalx } from './modalx';
-import { workoutMockup } from "./constants.ts";
-import { Workout } from "./types.ts";
+import { workoutMockup } from "./constants";
+import { Workout } from "./types";
 import './workouts.css';
 import './searchbar.css';
 import likeoff from '../../Images/likeoff.svg';
@@ -10,9 +10,6 @@ import likeon from '../../Images/likeon.svg';
 import Caloriesblack from '../../Images/CaloriesBlack.svg';
 import timeblack from '../../Images/Timeblack.svg';
 import WorkOut from '../../Images/WorkOut.svg';
-import add from "../../Images/add.svg";
-import hover from "../../Images/hover.svg";
-import {exercisesMockup} from "../exercises/constants.ts";
 
 const addWorkoutToDatabase = async (workout) => {
   return new Promise((resolve) => {
@@ -20,12 +17,12 @@ const addWorkoutToDatabase = async (workout) => {
   });
 };
 
-const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
-
-  const [totalWorkoutCalories, setTotalWorkoutCalories] = useState<number>(0);
-  const [totalWorkoutTime, setTotalWorkoutTime] = useState<number>(0);
-
+const WorkoutCard = ({ workout, isSignedIn }: { workout: Workout, isSignedIn: boolean }) => {
+  const myUserId = "12345"; // TODO Replace with real user ID
   const [currentLikes, setCurrentLikes] = useState(workout.likes);
+  const [showComments, setShowComments] = useState(false); // State for showing comments dropdown
+  const [newComment, setNewComment] = useState(''); // State for new comment
+  const [comments, setComments] = useState(workout.comments); // State for comments
 
   const hasLike = currentLikes?.includes(myUserId);
 
@@ -36,57 +33,82 @@ const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
     setCurrentLikes(newLikes);
   };
 
-  const getWorkoutSummary = () => {
-    const workoutTime = workout.exercises.reduce((accumulator, currentObject) => {
-      const time = currentObject.time || 0;
-      const repeat = currentObject.repeat || 0;
-      return accumulator + ( time * repeat);
-    }, 0);
-    const workoutCalories = workout.exercises.reduce((accumulator, currentObject) => {
-      const caloriesPerMinute = exercisesMockup.find(el => el.id === currentObject.exId)?.caloriesPerMinute || 0;
-      const time = currentObject.time || 0;
-      const repeat = currentObject.repeat || 0;
-      return accumulator + ( time * repeat * caloriesPerMinute);
-    }, 0);
-    setTotalWorkoutCalories(workoutCalories / 1000);
-    setTotalWorkoutTime(workoutTime);
+  const toggleComments = (e) => {
+    e.preventDefault();
+    setShowComments(!showComments);
   };
 
-  useEffect(() => {
-    getWorkoutSummary();
-  }, []);
+  const handleNewCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  const handleNewCommentSubmit = (e) => {
+    e.preventDefault();
+    if (newComment.trim()) {
+      const updatedComments = [...comments, newComment];
+      setComments(updatedComments);
+      setNewComment('');
+    }
+  };
 
   return (
-    <Link to={`/workout/${workout.id}`} className="workout-card">
-      <div className="workout-card-container">
-        <div className="workout-card-info">
-          <div className="workout-card-details">
-            <h3 className="workout-card-title">{workout.name}</h3>
-            <div className="workout-card-stats">
-              <h3 className="workout-card-Time"><img src={timeblack} alt="Time" />{totalWorkoutTime} Minutes</h3>
-              <h3 className="workout-card-Calories"><img src={Caloriesblack} alt="Calories" /> {totalWorkoutCalories} Kcal</h3>
-              <h3 className="workout-card-Exercises"><img src={WorkOut} alt="Exercises" /> {workout.exercises.length} Exercises</h3>
+    <div className="workout-card">
+      <Link to={`/workout/${workout.id}`} className="workout-card-link">
+        <div className="workout-card-container">
+          <div className="workout-card-info">
+            <div className="workout-card-details">
+              <h3 className="workout-card-title">{workout.name}</h3>
+              <div className="workout-card-stats">
+                <h3 className="workout-card-Time"><img src={timeblack} alt="Time" /> {workout.totalTime} Minutes</h3>
+                <h3 className="workout-card-Calories"><img src={Caloriesblack} alt="Calories" /> {workout.totalCalories} Kcal</h3>
+                <h3 className="workout-card-Exercises"><img src={WorkOut} alt="Exercises" /> {workout.exercises.length} Exercises</h3>
+              </div>
+            </div>
+            <div className="workout-card-actions">
+              <p className="workout-card-description">{workout.description}</p>
+              <div className="workout-card-like">
+                <button onClick={(e) => {
+                  e.preventDefault();
+                  handleChangeLike();
+                }} className="likeIcons">
+                  {hasLike
+                    ? <span><img src={likeon} alt="like on" /> {currentLikes.length}</span>
+                    : <span><img src={likeoff} alt="like off" /> {currentLikes.length}</span>
+                  }
+                </button>
+              </div>
+              {isSignedIn && (
+                <button className="comments-button" onClick={toggleComments}>Comments</button>
+              )}
             </div>
           </div>
-          <div className="workout-card-actions">
-            <p className="workout-card-description">{workout.description}</p>
-            <div className="workout-card-like">
-              <button onClick={(e) => {
-                e.preventDefault();
-                handleChangeLike();
-              }} className="likeIcons">
-                {hasLike
-                  ? <span><img src={likeon} alt="like on" /> {currentLikes.length}</span>
-                  : <span><img src={likeoff} alt="like off" /> {currentLikes.length}</span>
-                }
-              </button>
-            </div>
-
+          <div className="workout-card-image-container">
+            <img src={workout.image} alt={workout.name} className="workout-card-image" />
           </div>
         </div>
-        <img src={workout.image} alt={workout.name} className="workout-card-image" />
-      </div>
-    </Link>
+      </Link>
+      {showComments && (
+        <div className="comments-dropdown">
+          {comments?.length > 0 ? (
+            comments.map((comment, index) => (
+              <p key={index}>{comment}</p>
+            ))
+          ) : (
+            <p>No comments yet.</p>
+          )}
+          <form onSubmit={handleNewCommentSubmit} className="new-comment-form">
+            <input
+              type="text"
+              placeholder="Write a comment..."
+              value={newComment}
+              onChange={handleNewCommentChange}
+              className="new-comment-input"
+            />
+            <button type="submit" className="new-comment-button">Add Comment</button>
+          </form>
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -102,13 +124,10 @@ export const Workouts = ({ isSignedIn }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState(''); // Added state for filter
   const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
-  const [likedOnly, setLikedOnly] = useState(false)
-
-  const userId = "12345";// TODO replace from user
 
   useEffect(() => {
     let filtered = workouts.filter(workout =>
-      workout.name.toLowerCase().includes(searchTerm.toLowerCase()) && likedOnly ? workout.likes.includes(userId) : true
+      workout.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (filter === 'mostLikes') {
@@ -117,12 +136,8 @@ export const Workouts = ({ isSignedIn }) => {
       filtered.sort((a, b) => a.likes.length - b.likes.length);
     }
 
-    // if (likedOnly) {
-    //   filtered.filter(el => el.likes.includes(userId))
-    // }
-
     setFilteredWorkouts(filtered);
-  }, [workouts, searchTerm, filter, likedOnly]); // Added filter to dependency array
+  }, [workouts, searchTerm, filter]); // Added filter to dependency array
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
@@ -149,6 +164,7 @@ export const Workouts = ({ isSignedIn }) => {
       image: imageUrl,
       exercises: [],
       likes: [],
+      comments: [], // Assuming new workouts start with no comments
       favorites: false, // Assuming new workouts are not favorited by default
     };
 
@@ -181,10 +197,7 @@ export const Workouts = ({ isSignedIn }) => {
   return (
     <div className="gray-bg">
       {isSignedIn && (
-        <button className="add-exercise-button" onClick={openModal}>
-          <img src={add} alt="add" className="default-image"/>
-          <img src={hover} alt="add-hover" className="hover-image"/>
-        </button>
+        <button className="add-exercise-button" onClick={openModal}>Add Workout</button>
       )}
       <div className="container">
         <input
@@ -194,23 +207,14 @@ export const Workouts = ({ isSignedIn }) => {
           onChange={handleSearchChange}
         />
         <select onChange={handleFilterChange} value={filter} className="filter-select">
-          <option value="">No Sort</option>
+          <option value="">No Filter</option>
           <option value="mostLikes">Most Likes</option>
           <option value="leastLikes">Least Likes</option>
         </select>
-        <label>
-          <input
-            type="checkbox"
-            checked={likedOnly}
-            onChange={() => setLikedOnly(prevState => !prevState)}
-          />
-          liked only
-        </label>
-        {/*<div className="search"></div>*/}
       </div>
       <div className="main-wrapper">
         <div className="workouts-list-wrapper">
-          {filteredWorkouts.map((workout) => <WorkoutCard key={workout.id} workout={workout} myUserId={userId}/>)}
+          {filteredWorkouts.map((workout) => <WorkoutCard key={workout.id} workout={workout} isSignedIn={isSignedIn} />)}
         </div>
       </div>
       <Modalx
