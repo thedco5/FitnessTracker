@@ -30,12 +30,12 @@
 }
 
 .filter-select {
+    border-radius: 20px;
     width: auto;
     padding: 10px;
     margin: 0 10px;
     font-size: 16px;
     border: 1px solid #61dafb;
-    border-radius: 5px;
     outline: none;
     transition: all 0.3s ease-in-out;
 }

@@ -23,6 +23,7 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
   const handleSignIn = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      localStorage.setItem('accessToken', '');
       const response = await fetch('http://localhost:8080/api/public/login', { 
         method: 'POST',
         headers: {
@@ -36,7 +37,8 @@ const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUser
     
       if (response.ok) {
         const data = await response.json();
-        const accessToken = data.access_token; 
+        const accessToken = data.access_token;
+        localStorage.setItem('accessToken', accessToken);
         await fetchUserInfo(accessToken); 
         setIsSignedIn(true);
         handleClose();
