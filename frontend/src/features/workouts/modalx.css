@@ -40,17 +40,6 @@ label {
     color: #ffffff; /* Purple color for labels */
 }
 
-input[type="text"],
-input[type="file"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 5px 0 10px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
 input[type="file"] {
     padding: 5px;
     color: #FFF;

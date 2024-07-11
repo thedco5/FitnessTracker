@@ -1,5 +1,17 @@
-.exercise-item {
+/* Set the background color of the entire page */
+body {
     background-color: #4a5568;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure the main wrapper has a transparent background */
+.main-wrapper {
+    background-color: transparent;
+}
+
+.exercise-item {
+    background-color: #4a5568b3;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 24px;
@@ -22,7 +34,7 @@
     margin: 2rem auto;
     display: flex;
     gap: 1rem;
-    color: white;
+    color: #4a5568;
 }
 
 .container-workout {
@@ -43,6 +55,7 @@
     top: 0; /* Adjust this value to control the sticky position */
     align-self: flex-start; /* Ensures the column starts from the top */
     flex: 1;
+    border-radius: 12px;
     box-sizing: border-box;
     background-color: #ffffff; /* Optional: adds a background to the sticky section */
     z-index: 10; /* Ensures the sticky section stays on top */
@@ -57,6 +70,8 @@
     top: 2rem;
     display: flex;
     flex-direction: column;
+    border-radius: 20px;
+    gap: 1rem;
 }
 
 .workoutImage {
@@ -138,4 +153,3 @@
     width: 60%; /* Adjust size as needed */
     height: 60%; /* Adjust size as needed */
 }
-

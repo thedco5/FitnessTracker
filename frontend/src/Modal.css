@@ -23,6 +23,7 @@
   width: 300px;
   text-align: left;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 0;
 }
 
 .display-block {
@@ -40,13 +41,6 @@
 .form-group label {
   display: block;
   margin-bottom: 5px;
-}
-
-.form-group input {
-  width: calc(100% - 20px);
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 .modal-buttons {

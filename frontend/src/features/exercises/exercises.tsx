@@ -7,6 +7,8 @@ import './card.css';
 import './modalx.css';
 import './searchbar.css';
 import {Exercise, ExercisesProps} from './types';
+import add from "../../Images/add.svg";
+import hover from "../../Images/hover.svg";
 
 const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
   const response = await fetch('https://your-backend-api.com/exercises', {
@@ -115,64 +117,70 @@ export const Exercises: React.FC<ExercisesProps> = ({isSignedIn}) => {
     setSearchTerm(e.target.value);
   };
 
-    const handleCardClick = (exercise: Exercise) => {
-        if (isSignedIn) {
-            setSelectedExercises(prevSelected => {
-                if (prevSelected.includes(exercise)) {
-                    return prevSelected.filter(ex => ex.id !== exercise.id);
-                } else {
-                    return [...prevSelected, exercise];
-                }
-            });
+  const handleCardClick = (exercise: Exercise) => {
+    if (isSignedIn) {
+      setSelectedExercises(prevSelected => {
+        if (prevSelected.includes(exercise)) {
+          return prevSelected.filter(ex => ex.id !== exercise.id);
+        } else {
+          return [...prevSelected, exercise];
         }
-    };
+      });
+    }
+  };
 
-    const handleAddToWorkout = () => {
-        navigate('/workouts', { state: { selectedExercises } });
-    };
+  const handleAddToWorkout = () => {
+    navigate('/workouts', {state: {selectedExercises}});
+  };
 
-    return (
-        <div className="gray-bg">
-            {isSignedIn && (
-                <div className="buttons-container">
-                    <button className="add-exercise-button" onClick={openModal}>Add Exercise</button>
-                    {selectedExercises.length > 0 && (
-                        <button className="add-to-workout-button" onClick={handleAddToWorkout}>
-                            Add to Workout
-                        </button>
-                    )}
-                </div>
-            )}
-            <div className="container">
-                <input
-                    type="text"
-                    placeholder="Search exercises by name..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                />
-                <div className="search"></div>
-            </div>
-            <div className="cards-container">
-                {filteredExercises.map(el => (
-                    <ExerciseCard
-                        key={el.id}
-                        isSelected={selectedExercises.some(ex => ex.id === el.id)}
-                        {...el}
-                        calories={el.calories}
-                        duration={el.duration}
-                        durationType={el.durationType}
-                        difficulty={el.difficulty}
-                        onClick={() => handleCardClick(el)} />
-                ))}
-            </div>
-            <Modal
-                showModal={showModal}
-                closeModal={closeModal}
-                handleSubmit={handleSubmit}
-                handleChange={handleChange}
-                handleImageChange={handleImageChange}
-                formData={formData}
-            />
+  return (
+    <div className="gray-bg">
+      {isSignedIn && (
+        <div className="main-wrapper">
+        <div className="buttons-container">
+          <button className="add-exercise-button" onClick={openModal}>
+            <img src={add} alt="add" className="default-image"/>
+            <img src={hover} alt="add-hover" className="hover-image"/>
+          </button>
+          {selectedExercises.length > 0 && (
+            <button className="add-to-workout-button" onClick={handleAddToWorkout}>
+              Add to Workout
+            </button>
+          )}
         </div>
-    );
+        </div>
+
+      )}
+      <div className="container">
+        <input
+          type="text"
+          placeholder="Search exercises by name..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        <div className="search"></div>
+      </div>
+      <div className="cards-container">
+        {filteredExercises.map(el => (
+          <ExerciseCard
+            key={el.id}
+            isSelected={selectedExercises.some(ex => ex.id === el.id)}
+            {...el}
+            calories={el.calories}
+            duration={el.duration}
+            durationType={el.durationType}
+            difficulty={el.difficulty}
+            onClick={() => handleCardClick(el)}/>
+        ))}
+      </div>
+      <Modal
+        showModal={showModal}
+        closeModal={closeModal}
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        handleImageChange={handleImageChange}
+        formData={formData}
+      />
+    </div>
+  );
 };
