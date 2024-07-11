@@ -18,6 +18,7 @@ public class SecurityConfig {
             /* API */
             "/api/public/**",
             "/api/*/public",
+            "/api/*/*/public",
             /* SWAGGER */
             "/v2/api-docs",
             "/v3/api-docs",

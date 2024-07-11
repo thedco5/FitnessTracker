@@ -12,6 +12,7 @@ public interface ExerciseService {
 
     ResponseEntity<String> addExercise(ExerciseDTO exerciseDTO, JwtAuthenticationToken token);
     ResponseEntity<ExerciseDTO> getExercise(UUID id, JwtAuthenticationToken token);
+    ResponseEntity<ExerciseDTO> getExercise(UUID id);
     ResponseEntity<String> updateExercise(UUID id, UpdateExerciseDTO exerciseDTO, JwtAuthenticationToken token);
     ResponseEntity<String> deleteExercise(UUID id, JwtAuthenticationToken token);
 
