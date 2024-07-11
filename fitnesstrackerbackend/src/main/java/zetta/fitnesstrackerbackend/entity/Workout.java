@@ -2,15 +2,20 @@ package zetta.fitnesstrackerbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import zetta.fitnesstrackerbackend.vo.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity(name = "workout")
 @Table(name = "workout", schema = "zettafit")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Workout {
@@ -37,6 +42,10 @@ public class Workout {
 
     @Column
     private int restDuration;
+
+    @Column
+    @CreationTimestamp
+    private Instant timestamp;
 
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty;

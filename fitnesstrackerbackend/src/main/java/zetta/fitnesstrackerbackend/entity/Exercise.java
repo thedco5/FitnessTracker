@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import zetta.fitnesstrackerbackend.vo.Difficulty;
 import zetta.fitnesstrackerbackend.vo.DurationType;
 import zetta.fitnesstrackerbackend.vo.ExerciseType;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity(name = "exercise")
@@ -40,6 +42,10 @@ public class Exercise {
 
     @Column
     private int duration;
+
+    @Column
+    @CreationTimestamp
+    private Instant timestamp;
 
     @Enumerated(EnumType.STRING)
     private DurationType durationType;

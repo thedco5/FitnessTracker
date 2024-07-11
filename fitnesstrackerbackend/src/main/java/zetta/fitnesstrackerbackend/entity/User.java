@@ -2,6 +2,7 @@ package zetta.fitnesstrackerbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.vo.Gender;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Entity(name = "user")
 @Table(name = "user", schema = "zettafit")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -22,10 +24,10 @@ public class User {
     @Column
     private String name;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column

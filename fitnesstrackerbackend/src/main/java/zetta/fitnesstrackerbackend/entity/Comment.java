@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity(name = "comment")
@@ -26,7 +26,7 @@ public class Comment {
 
     @Column
     @CreationTimestamp
-    private LocalDateTime timestamp;
+    private Instant timestamp;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

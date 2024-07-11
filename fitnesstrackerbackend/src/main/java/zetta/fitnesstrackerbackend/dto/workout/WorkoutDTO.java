@@ -32,6 +32,7 @@ public class WorkoutDTO {
     private int likes;
     private int calories;
     private int restDuration;
+    private boolean liked;
 
     @NotNull
     private Difficulty difficulty;

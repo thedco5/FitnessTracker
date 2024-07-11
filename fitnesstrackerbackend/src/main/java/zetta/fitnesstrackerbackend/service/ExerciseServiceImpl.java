@@ -107,7 +107,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     public ResponseEntity<List<ExerciseDTO>> getPublicExercises(int page) {
         return ResponseEntity.ok(
                 exerciseMapper.toExerciseDTO(
-                        exerciseRepository.findByVisibility(
+                        exerciseRepository.findByVisibilityOrderByTimestampDesc(
                                 Visibility.PUBLIC,
                                 PageRequest.of(page, PAGE_SIZE)
                         )));
@@ -117,7 +117,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     public ResponseEntity<List<ExerciseDTO>> getPrivateExercises(UUID authorId, int page) {
         return ResponseEntity.ok(
                 exerciseMapper.toExerciseDTO(
-                        exerciseRepository.findByVisibilityAndAuthorId(
+                        exerciseRepository.findByVisibilityAndAuthorIdOrderByTimestampDesc(
                                 Visibility.PRIVATE,
                                 authorId,
                                 PageRequest.of(page, PAGE_SIZE)
@@ -128,7 +128,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     public ResponseEntity<List<ExerciseDTO>> getPublicAndPrivateExercises(UUID authorId, int page) {
         return ResponseEntity.ok(
                 exerciseMapper.toExerciseDTO(
-                        exerciseRepository.findByVisibilityOrVisibilityAndAuthorId(
+                        exerciseRepository.findByVisibilityOrVisibilityAndAuthorIdOrderByTimestampDesc(
                                 Visibility.PUBLIC,
                                 Visibility.PRIVATE,
                                 authorId,
@@ -140,7 +140,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     public ResponseEntity<List<ExerciseDTO>> getAllExercises(int page) {
         return ResponseEntity.ok(
                 exerciseMapper.toExerciseDTO(
-                        exerciseRepository.findAll(PageRequest.of(page, PAGE_SIZE))));
+                        exerciseRepository.findByOrderByTimestampDesc(PageRequest.of(page, PAGE_SIZE))));
     }
 
 }

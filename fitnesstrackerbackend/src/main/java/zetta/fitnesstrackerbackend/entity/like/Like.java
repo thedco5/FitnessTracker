@@ -1,17 +1,18 @@
-package zetta.fitnesstrackerbackend.entity;
+package zetta.fitnesstrackerbackend.entity.like;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import zetta.fitnesstrackerbackend.entity.User;
+import zetta.fitnesstrackerbackend.entity.Workout;
 
+import java.time.Instant;
 import java.util.UUID;
 
-@Entity(name = "like")
-@Table(name = "like", schema = "zettafit")
+@MappedSuperclass
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Like {
 
     @Id
@@ -19,12 +20,16 @@ public class Like {
     @Column(updatable = false, nullable = false)
     private UUID id;
 
+    @Column
+    @CreationTimestamp
+    private Instant timestamp;
+
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "exercise_id")
-    private Exercise exercise;
+    @JoinColumn(name = "workout_id")
+    private Workout workout;
 
 }
