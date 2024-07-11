@@ -57,8 +57,8 @@
 }
 
 .modal-buttons button[type="submit"] {
-  background-color: #61dafb;
-  color: white;
+  background-color: #ccc;
+  /*color: white;*/
 }
 
 .modal-buttons button[type="button"] {

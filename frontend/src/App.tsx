@@ -23,7 +23,6 @@ function App() {
           <Route path="/exercises" element={<Exercises isSignedIn={isSignedIn} />} />
           <Route path="/workouts" element={<Workouts isSignedIn={isSignedIn} showAddModal={undefined} />} />
           <Route path="/workout/:workoutId" element={<Workout />} />
-          <Route path="/workout/addExercise" element={<AddExercises />} />
         </Routes>
     </Router>
   );

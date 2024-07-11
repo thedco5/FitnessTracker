@@ -23,7 +23,8 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
   const handleSignIn = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/api/public/login', { 
+      localStorage.setItem('accessToken', '');
+      const response = await fetch('http://localhost:8080/api/public/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +37,7 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
     
       if (response.ok) {
         const data = await response.json();
-        const accessToken = data.access_token; 
+        const accessToken = data.access_token;
         localStorage.setItem('accessToken', accessToken);
         await fetchUserInfo(accessToken); 
         setIsSignedIn(true);
@@ -56,7 +57,7 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
       if (!accessToken) {
         throw new Error('No access token available');
       }
-  
+
       const response = await fetch('http://localhost:8080/api/user/info', {
         method: 'GET',
         headers: {
@@ -64,7 +65,7 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log("User Info:", data);
@@ -76,7 +77,7 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
       setError('Failed to fetch user info. ' + error);
     }
   };
-  
+
 
   const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();

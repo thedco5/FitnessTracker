@@ -5,39 +5,29 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
-// import { getUser } from '../keycloak'; // Это для примера
 
-export const getKCHeaders = () => {
-  // const keycloakUser = getUser();
-  const keycloakUser = {};
+// Fetch the accessToken from localStorage
+const accessToken = localStorage.getItem('accessToken');
 
-  const headers: Record<string, string> = {};
-  if (keycloakUser && keycloakUser.profile) {
-    const { access_token: token, token_type: tokenType, profile } = keycloakUser;
-    const { tenantId } = profile;
-
-    token && (headers.Authorization = `${tokenType} ${token}`);
-    tenantId && (headers['X-TENANT-ID'] = `${tenantId}`);
-  }
-  return headers;
-};
-
+// Create a baseQuery with fetchBaseQuery and prepareHeaders to include the accessToken
 const baseQuery = fetchBaseQuery({
-  baseUrl: '',
+  baseUrl: 'http://localhost:8080/',
   prepareHeaders: (headers) => {
-    Object.entries(getKCHeaders()).forEach((header) => {
-      headers.set(header[0], header[1]);
-    });
+    if (accessToken) {
+      headers.set('Authorization', `Bearer ${accessToken}`);
+    }
     return headers;
   },
 });
 
+// Custom fetchBase to include extraOptions if needed
 const customFetchBase: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
   api,
-  extraOptions: { skipTokenUpdate?: boolean },
+  extraOptions
 ) => baseQuery(args, api, extraOptions);
 
+// Create the API with the custom baseQuery
 export const api = createApi({
   reducerPath: 'api',
   tagTypes: [
