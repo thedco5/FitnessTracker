@@ -82,10 +82,8 @@ const WorkoutCard = ({workout, myUserId}: { workout: Workout }) => {
                                                          alt="Calories"/> {totalWorkoutCalories} Kcal</h3>
               <h3 className="workout-card-Exercises"><img src={WorkOut}
                                                           alt="Exercises"/> {workout.exercises.length} Exercises</h3>
+
             </div>
-          </div>
-          <div className="workout-card-actions">
-            <p className="workout-card-description">{workout.description}</p>
             <div className="workout-card-like">
               <button onClick={(e) => {
                 e.preventDefault();
@@ -100,10 +98,14 @@ const WorkoutCard = ({workout, myUserId}: { workout: Workout }) => {
                 e.preventDefault();
                 setShowComments(!showComments);
               }} className="toggle-comments-button">
-                {showComments ? <span><img src={commentShow} alt="show on"/></span> :
-                  <span><img src={commentHide} alt="show off"/></span>}
+                {showComments ? <span><img src={commentHide} alt="show on"/></span> :
+                  <span><img src={commentShow} alt="show off"/></span>}
               </button>
             </div>
+          </div>
+          <div className="workout-card-actions">
+            <p className="workout-card-description">{workout.description}</p>
+
           </div>
         </div>
         <img src={workout.image} alt={workout.name} className="workout-card-image"/>

@@ -58,10 +58,11 @@
     width: 40%;
     text-align: right;
     margin: 20px;
+    margin-left: 0;
 }
 
 .workout-card-title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     color: #000000;
     margin-bottom: 8px;
@@ -70,7 +71,7 @@
 .workout-card-stats {
     display: flex;
     gap: 16px;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .workout-card-stats span {
@@ -80,9 +81,9 @@
 }
 
 .workout-card-stats img {
-    width: 16px; /* Уменьшаем размер иконок */
-    height: 16px; /* Уменьшаем размер иконок */
-    margin-right: 8px; /* Добавляем отступ между иконкой и текстом */
+    width: 20px; /* Уменьшаем размер иконок */
+    height: 20px; /* Уменьшаем размер иконок */
+    margin-right: 5px; /* Добавляем отступ между иконкой и текстом */
 }
 
 .workout-card-description {
@@ -93,9 +94,9 @@
 }
 
 .workout-card-like {
+    margin-top: auto;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     margin-bottom: 16px;
 }
 
@@ -191,6 +192,11 @@
     border-radius: 50%;
     cursor: pointer;
     margin: 16px; /* Add margin for spacing */
+}
+
+.toggle-comments-button img {
+    width: 30px;
+    height: 30px;
 }
 
 .checkbox-label {
