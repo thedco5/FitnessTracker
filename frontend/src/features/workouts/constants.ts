@@ -1,102 +1,70 @@
 import { v4 as uuidv4 } from 'uuid';
 import {Workout} from "./types.ts";
 import { Exercise, Workout } from "./types.ts";
-import armPic from "../exercises/images/arm.jpeg";
-import legPic from "../exercises/images/leg.jpg";
-import ranPic from "../exercises/images/run.jpg";
+import workoutArms from "../../Images/trainingArms.svg";
+import workoutWithDumbbells from "../../Images/workoutsWithDumbbells.svg";
+import workoutLeg from "../../Images/trainingLeg.svg";
+import workoutStomach from "../../Images/trainingStomach.svg";
 
 export const workoutMockup: Workout[] = [
     {
-        image: "https://www.shape.com/thmb/CFivFyk4E0TwkElEkeJj0Ha0Fi8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/triceps-workout-with-weights-promo-9760ad7e63174e928729b04780e3ccc1.jpg",
+        image: workoutArms,
         id: '48d7864d-ea5f-49f2-99db-8efc75b9481a',
-        name: "workout1",
+        name: "Arms Workout",
         createdBy: "Alex",
         likes: ["userId1", "userId2", "12345"],
-        totalCalories: 50,
-        totalTime: 1450,
-        description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
+        totalCalories: 500,
+        totalTime: 30,
+        description: "A comprehensive arms workout designed to build strength and endurance.",
         exercises: [
-            {id: uuidv4(), repeat: 1, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 3, time: 5, exId: "3", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 4, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 5, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 6, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 7, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 8, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 9, time: 5, exId: "2", calculatedCalories: 0, calculatedTime: 0},
+            {id: uuidv4(), repeat: 3, time: 5, exId: "1", calculatedCalories: 150, calculatedTime: 15},
+            {id: uuidv4(), repeat: 3, time: 5, exId: "3", calculatedCalories: 90, calculatedTime: 15},
+            {id: uuidv4(), repeat: 2, time: 5, exId: "7", calculatedCalories: 60, calculatedTime: 10}
         ],
     },
     {
-        image: "https://img-b.udemycdn.com/course/480x270/5317834_e6a7_4.jpg",
+        image: workoutWithDumbbells,
         id: '6bc4a3f7-725c-4c47-9acc-970154c6e4a8',
-        name: "workout2",
-        createdBy: "789",
+        name: "Full Body Workout",
+        createdBy: "Jane",
         likes: ["userId4", "userId5", "userId3", "12345"],
-        totalCalories: 50,
-        totalTime: 1450,
-        description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
+        totalCalories: 750,
+        totalTime: 45,
+        description: "A full body workout using dumbbells to increase overall strength and fitness.",
         exercises: [
-            {id: uuidv4(), repeat: 2, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 2, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
-        ]
+            {id: uuidv4(), repeat: 4, time: 5, exId: "2", calculatedCalories: 120, calculatedTime: 20},
+            {id: uuidv4(), repeat: 3, time: 5, exId: "6", calculatedCalories: 90, calculatedTime: 15},
+            {id: uuidv4(), repeat: 2, time: 5, exId: "8", calculatedCalories: 80, calculatedTime: 10}
+        ],
     },
     {
-        image: "https://img-b.udemycdn.com/course/480x270/5317834_e6a7_4.jpg",
+        image: workoutLeg,
         id: '688400c1-f161-42b4-81f7-3336369645b9',
-        name: "workout3",
-        createdBy: "33227",
+        name: "Leg Workout",
+        createdBy: "Sam",
         likes: ["userId2", "userId6"],
-        totalCalories: 50,
-        totalTime: 1450,
-        description: "This workout is designed to challenge your body and improve your fitness levels. It includes a variety of exercises targeting different muscle groups to ensure a comprehensive workout. Suitable for all fitness levels, this routine will help you build strength, increase endurance, and enhance flexibility. Remember to stay hydrated and take breaks as needed. Let's get moving and achieve your fitness goals together!",
+        totalCalories: 650,
+        totalTime: 40,
+        description: "A targeted leg workout to enhance lower body strength and endurance.",
         exercises: [
-            {id: uuidv4(), repeat: 0, time: 5, exId: "1", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 2, time: 0, exId: "1", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 7, time: 0, exId: "1", calculatedCalories: 0, calculatedTime: 0},
-            {id: uuidv4(), repeat: 0, time: 45, exId: "1", calculatedCalories: 0, calculatedTime: 0},
-        ]
+            {id: uuidv4(), repeat: 3, time: 5, exId: "5", calculatedCalories: 150, calculatedTime: 15},
+            {id: uuidv4(), repeat: 2, time: 5, exId: "4", calculatedCalories: 60, calculatedTime: 10},
+            {id: uuidv4(), repeat: 3, time: 5, exId: "3", calculatedCalories: 90, calculatedTime: 15}
+        ],
+    },
+    {
+        image: workoutStomach,
+        id: 'a27b5b6c-8728-4aaf-8e21-31b7e5f6d9a6',
+        name: "Core Workout",
+        createdBy: "Emily",
+        likes: ["userId1", "userId3"],
+        totalCalories: 400,
+        totalTime: 25,
+        description: "A core workout focusing on strengthening the abdominal muscles.",
+        exercises: [
+            {id: uuidv4(), repeat: 4, time: 5, exId: "4", calculatedCalories: 80, calculatedTime: 20},
+            {id: uuidv4(), repeat: 2, time: 5, exId: "8", calculatedCalories: 40, calculatedTime: 10},
+            {id: uuidv4(), repeat: 2, time: 5, exId: "6", calculatedCalories: 60, calculatedTime: 10}
+        ],
     }
-];
-
-export const exercisesMockup: Exercise[] = [
-    {
-        id: uuidv4(),
-        name: 'Exercise 1',
-        image: armPic,
-        type: 'weight',
-        description: 'Building strength and endurance',
-        calories: '500',
-        duration: '30',
-        durationType: 'minutes',
-        difficulty: 'medium',
-        likes: 0,
-        visibility: 'public'
-    },
-    {
-        id: uuidv4(),
-        name: 'Exercise 2',
-        image: legPic,
-        type: 'weight',
-        description: 'Increasing muscle mass',
-        calories: '600',
-        duration: '45',
-        durationType: 'minutes',
-        difficulty: 'hard',
-        likes: 0,
-        visibility: 'private'
-    },
-    {
-        id: uuidv4(),
-        name: 'Exercise 3',
-        image: ranPic,
-        type: 'time',
-        description: 'Enhancing muscle power',
-        calories: '450',
-        duration: '20',
-        durationType: 'minutes',
-        difficulty: 'easy',
-        likes: 0,
-        visibility: 'public'
-    },
 ];

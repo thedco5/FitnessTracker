@@ -62,6 +62,7 @@
 }
 
 .workout-card-title {
+    margin-top: 0;
     font-size: 30px;
     font-weight: bold;
     color: #000000;
@@ -94,10 +95,9 @@
 }
 
 .workout-card-like {
-    margin-top: auto;
+    margin-top: 10px;
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
 }
 
 .workout-card-star {
