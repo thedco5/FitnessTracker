@@ -20,6 +20,9 @@ const customFetch = (URL: string, method: string, body: {} | null) => {
 export default customFetch;
 
 
+const setError = (s: string) => { console.log(s); }
+
+
 /* LOGIN */
 try {
   const response = await customFetch(
@@ -354,7 +357,7 @@ try {
   const accessToken = localStorage.getItem('accessToken');
   const response = await customFetch(
     '/workout/'
-    + INSERT_WORKOUT_ID
+    + INSERT_WORKOUT_ID,
     'PUT',
     {
       // "calories": 0,
@@ -369,4 +372,129 @@ try {
   }
 } catch (error) {
   setError('Failed to update workout. ' + error);
+}
+
+
+/* LIKE WORKOUT */
+try {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken)
+    throw new Error("No access token found!");
+  const response = await customFetch(
+    '/like/workout/'
+    + INSERT_WORKOUT_ID,
+    'POST', null
+  );
+  if (response.ok) {
+    // increase likes by one
+    // show red heart
+  } else {
+    throw new Error(`Request failed: [${response.status}] ${response.statusText}: ${await response.text()}`)
+  }
+} catch (error) {
+  setError('Failed to like workout. ' + error);
+}
+
+
+/* UNLIKE WORKOUT */
+try {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken)
+    throw new Error("No access token found!");
+  const response = await customFetch(
+    '/like/workout/'
+    + INSERT_WORKOUT_ID,
+    'DELETE', null
+  );
+  if (response.ok) {
+    // decrease likes by one
+    // hide red heart ...
+  } else {
+    throw new Error(`Request failed: [${response.status}] ${response.statusText}: ${await response.text()}`)
+  }
+} catch (error) {
+  setError('Failed to unlike workout. ' + error);
+}
+
+
+/* SAVE WORKOUT */
+try {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken)
+    throw new Error("No access token found!");
+  const response = await customFetch(
+    '/save/workout/'
+    + INSERT_WORKOUT_ID,
+    'POST', null
+  );
+  if (response.ok) {
+    // show icon
+  } else {
+    throw new Error(`Request failed: [${response.status}] ${response.statusText}: ${await response.text()}`)
+  }
+} catch (error) {
+  setError('Failed to save workout. ' + error);
+}
+
+
+/* UNSAVE WORKOUT */
+try {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken)
+    throw new Error("No access token found!");
+  const response = await customFetch(
+    '/save/workout/'
+    + INSERT_WORKOUT_ID,
+    'DELETE', null
+  );
+  if (response.ok) {
+    // hide icon ...
+  } else {
+    throw new Error(`Request failed: [${response.status}] ${response.statusText}: ${await response.text()}`)
+  }
+} catch (error) {
+  setError('Failed to unsave workout. ' + error);
+}
+
+
+/* COMMENT ON WORKOUT */
+try {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken)
+    throw new Error("No access token found!");
+  const response = await customFetch(
+    '/comment/'
+    + INSERT_WORKOUT_ID,
+    'POST',
+    {
+      // "content": "Comment content"
+    }
+  );
+  if (response.ok) {
+    // reload comments with fetchComments maybe?
+  } else {
+    throw new Error(`Request failed: [${response.status}] ${response.statusText}: ${await response.text()}`)
+  }
+} catch (error) {
+  setError('Failed to comment on workout. ' + error);
+}
+
+
+/* GET COMMENTS OF WORKOUT */
+try {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken)
+    throw new Error("No access token found!");
+  const response = await customFetch(
+    '/comment/'
+    + INSERT_WORKOUT_ID,
+    'GET', null
+  );
+  if (response.ok) {
+    // load comment components, the request returns the comments as an array
+  } else {
+    throw new Error(`Request failed: [${response.status}] ${response.statusText}: ${await response.text()}`)
+  }
+} catch (error) {
+  setError('Failed to get workout comments. ' + error);
 }

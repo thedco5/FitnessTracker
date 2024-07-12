@@ -1,5 +1,6 @@
 package zetta.fitnesstrackerbackend.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDTO getUserInfo(UUID id) {
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(userMapper::toUserInfoDTO).orElse(null);

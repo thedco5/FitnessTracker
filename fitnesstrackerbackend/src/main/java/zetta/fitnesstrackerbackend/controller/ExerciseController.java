@@ -27,7 +27,8 @@ public class ExerciseController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createExercise(@RequestBody  ExerciseDTO exerciseDTO, JwtAuthenticationToken token) {
+    public ResponseEntity<String> createExercise(@RequestBody @Validated ExerciseDTO exerciseDTO, JwtAuthenticationToken token) {
+        System.out.println(exerciseDTO);
         return exerciseService.addExercise(exerciseDTO, token);
     }
 

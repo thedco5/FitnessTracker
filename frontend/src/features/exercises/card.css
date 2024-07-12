@@ -64,7 +64,7 @@
 .ExerciseCard-image {
     width: 100%;
     height: auto;
-    border-radius: 4px;
+    border-radius: 13px;
 }
 
 .ExerciseCard-info {
@@ -85,10 +85,15 @@
 }
 
 .ExerciseCard-content {
+    margin-bottom: 62px;
+    margin-top: 10px;
     padding: 10px;
 }
 
 .ExerciseCard-details {
+    padding: 8px;
+    border-radius: 13px;
+    background-color: #636b7c;
     display: none;
     text-align: left;
     top: 0;

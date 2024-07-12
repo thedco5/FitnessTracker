@@ -200,43 +200,22 @@
 }
 
 .checkbox-label {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer; /* Makes the cursor a pointer when hovering over the label */
     position: relative;
-    padding-left: 30px; /* Отступ слева для круглого стилизованного чекбокса */
-    cursor: pointer; /* Делает курсор при наведении на label */
-
-    /* Высота и ширина для области нажатия */
-    height: 20px;
-    line-height: 20px;
 }
 
-/* Стили для псевдоэлемента, который будет стилизовать сам чекбокс */
-.checkbox-label::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 20px; /* Размер круга */
-    height: 20px; /* Размер круга */
-    border: 2px solid #ffffff; /* Цвет границы круга */
-    border-radius: 50%; /* Делает круглым */
-    background-color: white; /* Цвет фона */
-}
-
-/* Стилизация псевдоэлемента при активации чекбокса (когда он checked) */
-.checkbox-label input:checked + ::before {
-    background-color: #cb3535; /* Цвет заливки круга */
-}
-
-/* Стилизация псевдоэлемента при наведении на label */
-.checkbox-label:hover::before {
-    border-color: #4ad7ff; /* Изменение цвета границы при наведении */
-}
-
-/* Скрытие оригинального чекбокса */
 .checkbox-label input {
-    opacity: 0;
+    opacity: 0; /* Hide the original checkbox */
     position: absolute;
     left: -9999px;
 }
+
+.checkbox-label img {
+    width: 20px; /* Size of the checkbox icon */
+    height: 20px;
+    margin-right: 10px; /* Space between the icon and the text */
+}
+
 
