@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SavedExercise {
+public class SavedWorkout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -31,7 +31,7 @@ public class SavedExercise {
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "exercise_id")
-    private Exercise exercise;
+    @JoinColumn(name = "workout_id")
+    private Workout workout;
 
 }

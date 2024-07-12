@@ -1,26 +1,26 @@
 package zetta.fitnesstrackerbackend.dto.comment;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.dto.exercise.ExerciseDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
+import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentDTO {
 
-    private UUID id;
-
-    @NotBlank
+    @NotBlank(message = "Content must be filled")
     private String content;
 
+    @Null
     private UserDTO author;
-    private ExerciseDTO exercise;
+
+    @Null
+    private WorkoutDTO workout;
 
 }

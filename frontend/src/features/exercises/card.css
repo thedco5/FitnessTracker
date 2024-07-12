@@ -80,15 +80,21 @@
     margin: 5px 0 0;
 }
 
+.ExerciseCard-content-wrapper {
+    position: relative;
+}
+
+.ExerciseCard-content {
+    padding: 10px;
+}
+
 .ExerciseCard-details {
     display: none;
-    padding: 10px;
     text-align: left;
-    background-color: #2e2e2e;
-    position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
     z-index: 1;
     width: 100%;
     box-sizing: border-box;
@@ -99,9 +105,12 @@
     cursor: pointer;
 }
 
-.ExerciseCard:hover > .ExerciseCard-details {
+.ExerciseCard:hover > .ExerciseCard-inner > .ExerciseCard-content-wrapper > .ExerciseCard-details {
     display: block;
-    transition: display 0.3s ease;
+}
+
+.ExerciseCard:hover > .ExerciseCard-inner > .ExerciseCard-content-wrapper > .ExerciseCard-content {
+    display: none;
 }
 
 /* Button Styles */

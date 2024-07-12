@@ -6,6 +6,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import zetta.fitnesstrackerbackend.dto.user.RefreshTokenDTO;
+import zetta.fitnesstrackerbackend.dto.user.UpdateUserDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.service.KeycloakAdminService;
 import zetta.fitnesstrackerbackend.service.UserService;
@@ -34,6 +35,11 @@ public class UserController {
     @GetMapping("/info")
     public UserDTO getData(JwtAuthenticationToken token){
         return userService.getUserInfo(TokenUtil.getID(token));
+    }
+
+    @PatchMapping
+    public ResponseEntity<String> updateUserInfo(@RequestBody UpdateUserDTO userDTO, JwtAuthenticationToken token) {
+        return userService.updateUserInfo(userDTO, TokenUtil.getID(token));
     }
 
     @GetMapping("/test")

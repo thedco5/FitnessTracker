@@ -42,6 +42,7 @@ public class WorkoutDTO {
     private int restDuration;
 
     private boolean liked;
+    private boolean saved;
 
     private Difficulty difficulty;
     private ExerciseType type;

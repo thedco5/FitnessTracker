@@ -20,6 +20,7 @@ public interface ExerciseMapper {
     Exercise toExercise(ExerciseDTO exerciseDTO);
 
     List<ExerciseDTO> toExerciseDTO(Page<Exercise> exercises);
+    List<ExerciseDTO> toExerciseDTO(List<Exercise> exercises);
 
     @Mapping(target = "image.id", ignore = true)
     @Mapping(source = "author", target = "author", qualifiedByName = "toUserInfoDTO")

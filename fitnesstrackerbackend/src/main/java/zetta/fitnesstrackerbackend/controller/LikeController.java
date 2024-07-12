@@ -6,8 +6,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import zetta.fitnesstrackerbackend.dto.like.WorkoutLikeDTO;
-import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
-import zetta.fitnesstrackerbackend.entity.like.WorkoutLike;
 import zetta.fitnesstrackerbackend.service.LikeService;
 
 import java.util.List;
@@ -26,12 +24,12 @@ public class LikeController {
     }
 
     @PostMapping("/workout/{id}")
-    public ResponseEntity<String> like(UUID id, JwtAuthenticationToken token) {
+    public ResponseEntity<String> like(@PathVariable UUID id, JwtAuthenticationToken token) {
         return likeService.likeWorkout(id, token);
     }
 
     @DeleteMapping("/workout/{id}")
-    public ResponseEntity<String> unlike(UUID id, JwtAuthenticationToken token) {
+    public ResponseEntity<String> unlike(@PathVariable UUID id, JwtAuthenticationToken token) {
         return likeService.unlikeWorkout(id, token);
     }
 

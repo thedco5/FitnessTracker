@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Modalx } from './modalx';
-import { workoutMockup } from "./constants.ts";
-import { Workout } from "./types.ts";
+import {useState, useEffect} from "react";
+import {Link} from "react-router-dom";
+import {Modalx} from './modalx';
+import {workoutMockup} from "./constants.ts";
+import {Workout} from "./types.ts";
 import './workouts.css';
 import './searchbar.css';
 import likeoff from '../../Images/likeoff.svg';
@@ -12,18 +12,21 @@ import timeblack from '../../Images/Timeblack.svg';
 import WorkOut from '../../Images/WorkOut.svg';
 import add from "../../Images/add.svg";
 import hover from "../../Images/hover.svg";
-import { exercisesMockup } from "../exercises/constants.ts";
+import commentShow from "../../Images/comment.svg"
+import commentHide from "../../Images/commentOff.svg"
+import {exercisesMockup} from "../exercises/constants.ts";
+import {useGetWorkoutsQuery} from "../../api/dataApi/dataApi.ts";
 
 const addWorkoutToDatabase = async (workout: {
     id: string; name: string; createdBy: string; image: string; exercises: never[]; likes: never[]; comments: never[]; // Initialize comments array
     favorites: boolean;
   }) => {
   return new Promise((resolve) => {
-    setTimeout(() => resolve({ success: true, data: workout }), 500);
+    setTimeout(() => resolve({success: true, data: workout}), 500);
   });
 };
 
-const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
+const WorkoutCard = ({workout, myUserId}: { workout: Workout }) => {
   const [totalWorkoutCalories, setTotalWorkoutCalories] = useState<number>(0);
   const [totalWorkoutTime, setTotalWorkoutTime] = useState<number>(0);
   const [currentLikes, setCurrentLikes] = useState(workout.likes);
@@ -33,6 +36,8 @@ const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
 
   const hasLike = currentLikes?.includes(myUserId);
 
+  const {data, isLoading} = useGetWorkoutsQuery();
+  console.log('data: ', data)
   const handleChangeLike = () => {
     const newLikes = hasLike
       ? currentLikes.filter(el => el !== myUserId)
@@ -75,34 +80,39 @@ const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
           <div className="workout-card-details">
             <h3 className="workout-card-title">{workout.name}</h3>
             <div className="workout-card-stats">
-              <h3 className="workout-card-Time"><img src={timeblack} alt="Time" />{totalWorkoutTime} Minutes</h3>
-              <h3 className="workout-card-Calories"><img src={Caloriesblack} alt="Calories" /> {totalWorkoutCalories} Kcal</h3>
-              <h3 className="workout-card-Exercises"><img src={WorkOut} alt="Exercises" /> {workout.exercises.length} Exercises</h3>
+              <h3 className="workout-card-Time"><img src={timeblack} alt="Time"/>{totalWorkoutTime} Minutes</h3>
+              <h3 className="workout-card-Calories"><img src={Caloriesblack}
+                                                         alt="Calories"/> {totalWorkoutCalories} Kcal</h3>
+              <h3 className="workout-card-Exercises"><img src={WorkOut}
+                                                          alt="Exercises"/> {workout.exercises.length} Exercises</h3>
+
             </div>
-          </div>
-          <div className="workout-card-actions">
-            <p className="workout-card-description">{workout.description}</p>
             <div className="workout-card-like">
               <button onClick={(e) => {
                 e.preventDefault();
                 handleChangeLike();
               }} className="likeIcons">
                 {hasLike
-                  ? <span><img src={likeon} alt="like on" /> {currentLikes.length}</span>
-                  : <span><img src={likeoff} alt="like off" /> {currentLikes.length}</span>
+                  ? <span><img src={likeon} alt="like on"/> {currentLikes.length}</span>
+                  : <span><img src={likeoff} alt="like off"/> {currentLikes.length}</span>
                 }
+              </button>
+              <button onClick={(e) => {
+                e.preventDefault();
+                setShowComments(!showComments);
+              }} className="toggle-comments-button">
+                {showComments ? <span><img src={commentHide} alt="show on"/></span> :
+                  <span><img src={commentShow} alt="show off"/></span>}
               </button>
             </div>
           </div>
+          <div className="workout-card-actions">
+            <p className="workout-card-description">{workout.description}</p>
+
+          </div>
         </div>
-        <img src={workout.image} alt={workout.name} className="workout-card-image" />
+        <img src={workout.image} alt={workout.name} className="workout-card-image"/>
       </Link>
-      <button onClick={(e) => {
-        e.preventDefault();
-        setShowComments(!showComments);
-      }} className="toggle-comments-button">
-        {showComments ? 'Hide Comments' : 'Show Comments'}
-      </button>
       {showComments && (
         <div className="workout-card-comments">
           <h4>Comments</h4>
@@ -126,7 +136,7 @@ const WorkoutCard = ({ workout, myUserId }: { workout: Workout }) => {
   );
 };
 
-export const Workouts = ({ isSignedIn }) => {
+export const Workouts = ({isSignedIn}) => {
   const [workouts, setWorkouts] = useState(workoutMockup);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -160,13 +170,13 @@ export const Workouts = ({ isSignedIn }) => {
   const closeModal = () => setShowModal(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const {name, value} = e.target;
+    setFormData({...formData, [name]: value});
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, image: file });
+    setFormData({...formData, image: file});
   };
 
   const handleSubmit = async (e) => {
@@ -215,8 +225,8 @@ export const Workouts = ({ isSignedIn }) => {
     <div className="gray-bg">
       {isSignedIn && (
         <button className="add-exercise-button" onClick={openModal}>
-          <img src={add} alt="add" className="default-image" />
-          <img src={hover} alt="add-hover" className="hover-image" />
+          <img src={add} alt="add" className="default-image"/>
+          <img src={hover} alt="add-hover" className="hover-image"/>
         </button>
       )}
       <div className="container">
@@ -231,7 +241,7 @@ export const Workouts = ({ isSignedIn }) => {
           <option value="mostLikes">Most Likes</option>
           <option value="leastLikes">Least Likes</option>
         </select>
-        <label>
+        <label className="checkbox-label">
           <input
             type="checkbox"
             checked={likedOnly}
@@ -244,7 +254,7 @@ export const Workouts = ({ isSignedIn }) => {
       <div className="main-wrapper">
         <div className="workouts-list-wrapper">
           {filteredWorkouts.map((workout) => (
-            <WorkoutCard key={workout.id} workout={workout} myUserId={userId} />
+            <WorkoutCard key={workout.id} workout={workout} myUserId={userId}/>
           ))}
         </div>
       </div>

@@ -3,6 +3,7 @@ package zetta.fitnesstrackerbackend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import zetta.fitnesstrackerbackend.dto.user.UpdateUserDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.entity.User;
 import zetta.fitnesstrackerbackend.mapper.UserMapper;
@@ -39,6 +40,18 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserInfo(UUID id) {
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(userMapper::toUserInfoDTO).orElse(null);
+    }
+
+    @Override
+    public ResponseEntity<String> updateUserInfo(UpdateUserDTO userDTO, UUID id) {
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        userRepository.save(userMapper.updateUserInfoFromDTO(userDTO, optionalUser.get()));
+        return ResponseEntity.ok("Successfully updated user info!");
+
     }
 
 }

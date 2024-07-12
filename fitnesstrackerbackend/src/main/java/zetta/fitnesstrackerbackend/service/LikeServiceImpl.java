@@ -41,7 +41,7 @@ public class LikeServiceImpl implements LikeService {
 
         UUID authorId = TokenUtil.getID(token);
 
-        Optional<WorkoutLike> optionalWorkoutLike = workoutLikeRepository.findByIdAndAuthorId(id, authorId);
+        Optional<WorkoutLike> optionalWorkoutLike = workoutLikeRepository.findByWorkoutIdAndAuthorId(id, authorId);
         if (optionalWorkoutLike.isPresent())
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
@@ -67,7 +67,7 @@ public class LikeServiceImpl implements LikeService {
 
         UUID authorId = TokenUtil.getID(token);
 
-        Optional<WorkoutLike> optionalWorkoutLike = workoutLikeRepository.findByIdAndAuthorId(id, authorId);
+        Optional<WorkoutLike> optionalWorkoutLike = workoutLikeRepository.findByWorkoutIdAndAuthorId(id, authorId);
         if (optionalWorkoutLike.isEmpty())
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
@@ -81,14 +81,15 @@ public class LikeServiceImpl implements LikeService {
         workout.setLikes(workout.getLikes() - 1);
         workoutRepository.save(workout);
 
-        return null;
+        return ResponseEntity.ok("Successfully unliked");
+
     }
 
     @Override
     public ResponseEntity<List<WorkoutLikeDTO>> getLikedWorkouts(int page, JwtAuthenticationToken token) {
 
         List<WorkoutLikeDTO> workoutLikeDTOs = likeMapper.toWorkoutLikeDTO(
-                        workoutLikeRepository.findByAuthorId(
+                        workoutLikeRepository.findByAuthorIdOrderByTimestampDesc(
                                 TokenUtil.getID(token),
                                 PageRequest.of(page, PAGE_SIZE)
                         )

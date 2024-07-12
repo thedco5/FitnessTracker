@@ -70,7 +70,7 @@ export const Workout = () => {
   const { workoutId } = useParams();
   const currentWorkout = workoutMockup.find(el => el.id === workoutId);
 
-  const { name, likes, createdBy, exercises, image, description, totalCalories, totalTime } = currentWorkout || {};
+  const { name, likes = [], createdBy, exercises = [], image = '', description = '', totalCalories = 0, totalTime = 0 } = currentWorkout || {};
 
   const updatedExercises = exercises.map(exercise => ({
     ...exercise,

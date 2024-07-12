@@ -2,6 +2,7 @@ package zetta.fitnesstrackerbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Entity(name = "comment")
 @Table(name = "comment", schema = "zettafit")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
@@ -33,7 +35,7 @@ public class Comment {
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "exercise_id")
-    private Exercise exercise;
+    @JoinColumn(name = "workout_id")
+    private Workout workout;
 
 }

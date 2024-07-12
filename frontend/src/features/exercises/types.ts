@@ -26,10 +26,6 @@ export interface Exercise {
     description: string;
     image: string | null;
     caloriesPerMinute: number;
-    duration: string;
-    durationType: string;
-    calculatedCalories?: number;
-    calculatedTime?: number;
     visibility: string;
     type: string;
 }
@@ -43,12 +39,10 @@ export interface Comment {
 export interface FormData {
     name: string;
     description: string;
-    image: File | null;
-    calories: string;
-    duration: string;
-    durationType: string;
-    difficulty: string;
+    image: string | null;
+    caloriesPerMinute: number;
     visibility: string;
+    type: string;
 }
 
 export interface ModalProps {
