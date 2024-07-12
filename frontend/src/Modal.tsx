@@ -6,10 +6,9 @@ interface ModalProps {
   handleClose: () => void;
   setIsSignedIn: (isSignedIn: boolean) => void;
   setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
-  fetchExercises: () => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUserInfo, fetchExercises }) => {
+const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUserInfo }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
   const [emailOrUsername, setEmailOrUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -24,7 +23,6 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
   const handleSignIn = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      localStorage.setItem('accessToken', '');
       const response = await fetch('http://localhost:8080/api/public/login', {
         method: 'POST',
         headers: {
@@ -39,12 +37,10 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
       if (response.ok) {
         const data = await response.json();
         const accessToken = data.access_token;
-        localStorage.setItem('accessToken', accessToken);
         await fetchUserInfo(accessToken); 
         setIsSignedIn(true);
         handleClose();
         console.log("Logged in.");
-        window.location.reload();
       } else {
         setError('Sign-in failed. Please check your credentials.');
       }
@@ -53,23 +49,19 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
     }
   };
 
-  const fetchUserInfo = async (token?: string) => {
+  const fetchUserInfo = async (token: string) => {
     try {
-      const accessToken = token || localStorage.getItem('accessToken');
-      if (!accessToken) {
-        throw new Error('No access token available');
-      }
-
       const response = await fetch('http://localhost:8080/api/user/info', {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
 
       if (response.ok) {
         const data = await response.json();
+        console.log("User Info:", data);
         setUserInfo({ username: data.username, email: data.email, image: data.image?.data || null });
       } else {
         setError('Failed to fetch user info.');
@@ -78,7 +70,6 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
       setError('Failed to fetch user info. ' + error);
     }
   };
-
 
   const handleSignUp = async (e: FormEvent) => {
     e.preventDefault();
@@ -124,7 +115,6 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
       reader.onerror = (error) => reject(error);
     });
   };
-
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -246,6 +236,7 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
           <div className="modal-buttons">
             <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
             <button type="button" onClick={() => { setError(''); handleClose(); }}>Close</button>
+            <button type="button" onClick={handleGo}>Go</button>
           </div>
         </form>
         <div className="toggle-form">

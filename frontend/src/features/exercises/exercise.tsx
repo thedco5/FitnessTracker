@@ -10,7 +10,6 @@ interface ExtendedExerciseType extends ExerciseType {
 export const ExerciseCard: React.FC<ExtendedExerciseType> = ({
                                                                id, name, description, image, caloriesPerMinute, visibility, type, onClick, isSelected
                                                              }) => {
-                                                              console.log(image)
   return (
     <div className="ExerciseCard">
       <div className="ExerciseCard-inner">
