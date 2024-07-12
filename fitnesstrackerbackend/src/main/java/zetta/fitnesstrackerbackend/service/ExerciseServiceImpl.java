@@ -1,5 +1,6 @@
 package zetta.fitnesstrackerbackend.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> addExercise(ExerciseDTO exerciseDTO, JwtAuthenticationToken token) {
 
         UserDTO userDTO = new UserDTO();
@@ -59,6 +61,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<ExerciseDTO> getExercise(UUID id, JwtAuthenticationToken token) {
 
         Optional<Exercise> optionalExercise = exerciseRepository.findById(id);
@@ -78,6 +81,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<ExerciseDTO> getExercise(UUID id) {
 
         Optional<Exercise> optionalExercise = exerciseRepository.findById(id);
@@ -111,6 +115,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<ExerciseDTO>> getExercises(JwtAuthenticationToken token, int page) {
         return "admin".equals(TokenUtil.getRole(token)) ?
                 getAllExercises(page) :
@@ -118,6 +123,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<ExerciseDTO>> getPublicExercises(int page) {
         return ResponseEntity.ok(
                 exerciseMapper.toExerciseDTO(
@@ -128,6 +134,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<ExerciseDTO>> getPrivateExercises(UUID authorId, int page) {
         return ResponseEntity.ok(
                 exerciseMapper.toExerciseDTO(
@@ -139,6 +146,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<ExerciseDTO>> getPublicAndPrivateExercises(UUID authorId, int page) {
         return ResponseEntity.ok(
                 exerciseMapper.toExerciseDTO(

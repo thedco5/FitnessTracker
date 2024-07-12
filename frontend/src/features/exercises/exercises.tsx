@@ -1,5 +1,4 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { exercisesMockup } from "./constants";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { ExerciseCard } from "./exercise";
 import { Modal } from './modalx';
 import { useNavigate } from 'react-router-dom';
@@ -9,26 +8,10 @@ import './searchbar.css';
 import { Exercise, ExercisesProps, FormData } from './types';
 import add from "../../Images/add.svg";
 import hover from "../../Images/hover.svg";
-
-const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
-  const response = await fetch('https://your-backend-api.com/exercises', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(exercise),
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to add exercise to database');
-  }
-
-  const data = await response.json();
-  return { success: true, data };
-};
+import { getAccessToken } from '../../auth';
 
 export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
-  const [exercises, setExercises] = useState<Exercise[]>(exercisesMockup);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -43,6 +26,44 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
   const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchExercises = async () => {
+      try {
+        const token = getAccessToken();
+        const headers: HeadersInit = {
+          'Content-Type': 'application/json',
+        };
+        let apiUrl = 'http://localhost:8080/api/exercise/public';
+
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+          apiUrl = 'http://localhost:8080/api/exercise';
+        }
+
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: headers,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Fetched exercises:', data);
+          setExercises(data);
+        } else if (response.status === 401) {
+          console.error('Unauthorized: Please log in again.');
+          navigate('/login');
+        } else {
+          const errorText = await response.text();
+          console.error(`Failed to fetch exercises: ${errorText}`);
+        }
+      } catch (error) {
+        console.error(`Failed to fetch exercises: ${error}`);
+      }
+    };
+
+    fetchExercises();
+  }, [navigate]);
 
   useEffect(() => {
     setFilteredExercises(exercises.filter(exercise =>
@@ -151,16 +172,17 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
         <div className="search"></div>
       </div>
       <div className="main-wrapper">
-      <div className="cards-container">
-        {filteredExercises.map(el => (
-          <ExerciseCard
-            likes={0} key={el.id}
-            isSelected={selectedExercises.some(ex => ex.id === el.id)}
-            {...el}
-            onClick={() => handleCardClick(el)}
-          />
-        ))}
-      </div>
+        <div className="cards-container">
+          {filteredExercises.map(el => (
+            <ExerciseCard
+              likes={0}
+              key={el.id}
+              isSelected={selectedExercises.some(ex => ex.id === el.id)}
+              {...el}
+              onClick={() => handleCardClick(el)}
+            />
+          ))}
+        </div>
       </div>
       <Modal
         showModal={showModal}
@@ -173,3 +195,5 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
     </div>
   );
 };
+
+export default Exercises;

@@ -1,7 +1,8 @@
-import {useState, useEffect, useRef, ChangeEvent, MouseEvent} from 'react';
-import {Link, useLocation} from 'react-router-dom';
+import { useState, useEffect, useRef, ChangeEvent, MouseEvent } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 import './Navbar.css';
+import { removeAccessToken } from './auth.tsx'; 
 
 interface NavbarProps {
   isSignedIn: boolean;
@@ -10,10 +11,9 @@ interface NavbarProps {
   setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, setUserInfo}) => {
+const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, setUserInfo }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [profilePic, setProfilePic] = useState<string>('src/images/image.jpg');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -30,8 +30,11 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, set
   };
 
   const handleSignOut = () => {
+    removeAccessToken(); // Remove the access token on sign out
     setIsSignedIn(false);
+    setUserInfo({ username: '', email: '', image: null });
     setShowDropdown(false);
+    localStorage.removeItem('accessToken');
   };
 
   const convertToBase64 = (file: File): Promise<string> => {
@@ -52,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, set
     if (file) {
       try {
         const base64 = await convertToBase64(file);
-        setUserInfo({...userInfo, image: base64});
+        setUserInfo({ ...userInfo, image: base64 });
       } catch (error) {
         console.error("Error converting file to base64: ", error);
       }
@@ -66,11 +69,11 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, set
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside as EventListener);
-    document.addEventListener('touchstart', handleClickOutside as EventListener);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside as EventListener);
-      document.removeEventListener('touchstart', handleClickOutside as EventListener);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, []);
 
@@ -83,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, set
   };
 
   return (
-    <div style={{backgroundColor: '#282c34'}}>
+    <div style={{ backgroundColor: '#282c34' }}>
       <div className="main-wrapper">
         <nav className="navbar">
           <div className="navbar-left">
@@ -94,16 +97,15 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, set
             {isSignedIn ? (
               <div className="account">
                 <button className="account-button" onClick={toggleDropdown}>
-                  <div hidden>{userInfo.image}</div>
-                  <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic"/>
+                  <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic" />
                 </button>
                 {showDropdown && (
                   <div className="dropdown-menu" ref={dropdownRef}>
                     <div className="profile-header">
-                      <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic"/>
+                      <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic" />
                       <label className="change-pic-icon">
                         +
-                        <input type="file" accept="image/*" onChange={handleProfilePicChange}/>
+                        <input type="file" accept="image/*" onChange={handleProfilePicChange} />
                       </label>
                     </div>
                     <div className="profile-details">
@@ -119,7 +121,7 @@ const Navbar: React.FC<NavbarProps> = ({isSignedIn, setIsSignedIn, userInfo, set
             )}
           </div>
         </nav>
-        <Modal show={showModal} handleClose={handleClose} setIsSignedIn={setIsSignedIn} setUserInfo={setUserInfo}/>
+        <Modal show={showModal} handleClose={handleClose} setIsSignedIn={setIsSignedIn} setUserInfo={setUserInfo} />
       </div>
     </div>
   );
