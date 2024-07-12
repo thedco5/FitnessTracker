@@ -3,10 +3,8 @@ package zetta.fitnesstrackerbackend.mapper;
 import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import zetta.fitnesstrackerbackend.dto.exercise.UpdateExerciseDTO;
 import zetta.fitnesstrackerbackend.dto.workout.UpdateWorkoutDTO;
 import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
-import zetta.fitnesstrackerbackend.entity.Exercise;
 import zetta.fitnesstrackerbackend.entity.Workout;
 
 import java.util.List;

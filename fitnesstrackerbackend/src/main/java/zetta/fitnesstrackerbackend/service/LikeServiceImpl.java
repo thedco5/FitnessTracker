@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import zetta.fitnesstrackerbackend.dto.like.WorkoutLikeDTO;
-import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
 import zetta.fitnesstrackerbackend.entity.User;
 import zetta.fitnesstrackerbackend.entity.Workout;
 import zetta.fitnesstrackerbackend.entity.like.WorkoutLike;

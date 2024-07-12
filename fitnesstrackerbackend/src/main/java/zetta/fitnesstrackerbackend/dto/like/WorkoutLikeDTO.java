@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

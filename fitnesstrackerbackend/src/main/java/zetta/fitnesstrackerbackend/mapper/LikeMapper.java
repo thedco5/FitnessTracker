@@ -5,8 +5,6 @@ import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import zetta.fitnesstrackerbackend.dto.like.WorkoutLikeDTO;
-import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
-import zetta.fitnesstrackerbackend.entity.Workout;
 import zetta.fitnesstrackerbackend.entity.like.WorkoutLike;
 
 import java.util.List;

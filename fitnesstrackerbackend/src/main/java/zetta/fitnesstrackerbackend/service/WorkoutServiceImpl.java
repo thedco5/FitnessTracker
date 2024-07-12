@@ -48,6 +48,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         this.exerciseMapper = exerciseMapper;
     }
 
+    @Transactional
     public WorkoutDTO getExercisesAndOtherToWorkout(WorkoutDTO workoutDTO, UUID id) {
 
         workoutDTO.setExercises(
@@ -68,6 +69,7 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     }
 
+    @Transactional
     public List<WorkoutDTO> getExercisesAndOtherToWorkout(List<WorkoutDTO> workoutDTOs, UUID id) {
         workoutDTOs.forEach(workoutDTO -> getExercisesAndOtherToWorkout(workoutDTO, id));
         return workoutDTOs;
@@ -105,6 +107,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<WorkoutDTO> getWorkout(UUID id, JwtAuthenticationToken token) {
 
         Optional<Workout> optionalWorkout = workoutRepository.findById(id);
@@ -127,6 +130,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<WorkoutDTO> getWorkout(UUID id) {
 
         Optional<Workout> optionalWorkout = workoutRepository.findById(id);
@@ -197,6 +201,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<WorkoutDTO>> getPublicWorkouts(int page) {
         return ResponseEntity.ok(
                 getExercisesAndOtherToWorkout(
@@ -209,6 +214,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<WorkoutDTO>> getPrivateWorkouts(UUID id, int page) {
         return ResponseEntity.ok(
                 getExercisesAndOtherToWorkout(
@@ -221,6 +227,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<WorkoutDTO>> getPublicAndPrivateWorkouts(UUID id, int page) {
         return ResponseEntity.ok(
                 getExercisesAndOtherToWorkout(
@@ -234,6 +241,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<WorkoutDTO>> getWorkouts(JwtAuthenticationToken token, int page) {
         return "admin".equals(TokenUtil.getRole(token)) ?
                 getAllWorkouts(page) :
@@ -241,6 +249,7 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<List<WorkoutDTO>> getAllWorkouts(int page) {
         return ResponseEntity.ok(
                 getExercisesAndOtherToWorkout(

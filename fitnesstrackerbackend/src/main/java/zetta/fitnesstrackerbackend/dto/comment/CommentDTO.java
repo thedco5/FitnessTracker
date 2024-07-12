@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import zetta.fitnesstrackerbackend.dto.exercise.ExerciseDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
 

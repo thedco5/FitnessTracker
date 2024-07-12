@@ -6,7 +6,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import zetta.fitnesstrackerbackend.dto.saved.SavedWorkoutDTO;
-import zetta.fitnesstrackerbackend.dto.workout.WorkoutDTO;
 import zetta.fitnesstrackerbackend.service.SavedService;
 
 import java.util.List;
