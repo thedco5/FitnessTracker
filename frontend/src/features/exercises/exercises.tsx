@@ -180,6 +180,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
               isSelected={selectedExercises.some(ex => ex.id === el.id)}
               image={el?.image?.data}
               onClick={() => handleCardClick(el)}
+              fetchExercises={fetchExercises}
             />
           ))}
         </div>

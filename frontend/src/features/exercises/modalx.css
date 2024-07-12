@@ -78,9 +78,17 @@
     touch-action: manipulation;
 }
 
+.modal-buttons button.red {
+    background-color: crimson;
+}
+
 .modal-buttons button:hover {
     background-color: #61dafb;
     color: #fff;
+}
+
+.modal-buttons button.red:hover {
+    background-color: rgb(228, 95, 121);
 }
 
 @media (min-width: 768px) {
