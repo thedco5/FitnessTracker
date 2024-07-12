@@ -1,9 +1,8 @@
 package zetta.fitnesstrackerbackend.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
+import zetta.fitnesstrackerbackend.dto.user.UpdateUserDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.entity.User;
 
@@ -21,5 +20,10 @@ public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "image.id", ignore = true)
     UserDTO toUserInfoDTO(User user);
+
+    @Mapping(source = "name", target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "gender", target = "gender", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "image", target = "image", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    User updateUserInfoFromDTO(UpdateUserDTO updateUserDTO, @MappingTarget User user);
 
 }
