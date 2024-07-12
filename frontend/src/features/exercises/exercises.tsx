@@ -1,25 +1,42 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { ExerciseCard } from "./exercise";
-import { Modal } from './modalx';
-import { useNavigate } from 'react-router-dom';
+import {useState, useEffect, ChangeEvent, FormEvent} from 'react';
+import {exercisesMockup} from "./constants";
+import {ExerciseCard} from "./exercise";
+import {Modal} from './modalx';
+import {useNavigate} from 'react-router-dom';
 import './card.css';
 import './modalx.css';
 import './searchbar.css';
-import { Exercise, ExercisesProps, FormData } from './types';
-import add from "../../Images/add.svg";
-import hover from "../../Images/hover.svg";
-import { getAccessToken } from '../../auth';
+import {Exercise, ExercisesProps} from './types';
 
-export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
-  const [exercises, setExercises] = useState<Exercise[]>([]);
+const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
+  const response = await fetch('https://your-backend-api.com/exercises', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(exercise),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to add exercise to database');
+  }
+
+  const data = await response.json();
+  return {success: true, data};
+};
+
+export const Exercises: React.FC<ExercisesProps> = ({isSignedIn}) => {
+  const [exercises, setExercises] = useState<Exercise[]>(exercisesMockup);
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     name: '',
     description: '',
     image: null,
-    caloriesPerMinute: 0,
-    visibility: 'public',
-    type: 'time'
+    calories: '',
+    duration: '',
+    durationType: 'reps',
+    difficulty: 'medium',
+    visibility: 'public'
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredExercises, setFilteredExercises] = useState<Exercise[]>([]);
@@ -28,45 +45,6 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchExercises();
-  }, [navigate]);
-
-  const fetchExercises = async () => {
-    try {
-      const token = getAccessToken();
-      const headers: HeadersInit = {
-        'Content-Type': 'application/json',
-      };
-      let apiUrl = 'http://localhost:8080/api/exercise/public';
-
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-        apiUrl = 'http://localhost:8080/api/exercise';
-      }
-
-      const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: headers,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Fetched exercises:', data);
-        setExercises(data);
-      } else if (response.status === 401) {
-        console.error('Unauthorized: Please log in again.');
-        navigate('/login');
-      } else {
-        const errorText = await response.text();
-        console.error(`Failed to fetch exercises: ${errorText}`);
-      }
-    } catch (error) {
-      console.error(`Failed to fetch exercises: ${error}`);
-    }
-  };
-
-  useEffect(() => {
-    console.log(exercises);
     setFilteredExercises(exercises.filter(exercise =>
       exercise.name.toLowerCase().includes(searchTerm.toLowerCase())
     ));
@@ -76,19 +54,13 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
   const closeModal = () => setShowModal(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const {name, value} = e.target;
+    setFormData({...formData, [name]: value});
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, image: reader.result as string });
-      };
-      reader.readAsDataURL(file);
-    }
+    setFormData({...formData, image: file});
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -96,107 +68,113 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
 
     if (!formData.image) return;
 
-    const newExercise: Exercise = {
-      id: (exercises.length + 1).toString(),
-      name: formData.name,
-      description: formData.description,
-      image: formData.image,
-      caloriesPerMinute: formData.caloriesPerMinute,
-      visibility: formData.visibility,
-      type: formData.type
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64Image = reader.result as string;
+
+      const newExercise: Exercise = {
+        id: (exercises.length + 1).toString(),
+        name: formData.name,
+        description: formData.description,
+        image: base64Image,
+        calories: formData.calories,
+        duration: formData.duration,
+        durationType: formData.durationType,
+        difficulty: formData.difficulty,
+        visibility: formData.visibility,
+        type: 'weight',
+        likes: 0
+      };
+
+      try {
+        const response = await addExerciseToDatabase(newExercise);
+        if (response.success) {
+          setExercises([...exercises, response.data]);
+        }
+      } catch (error) {
+        console.error('Error adding exercise:', error);
+      }
+
+      setFormData({
+        name: '',
+        description: '',
+        image: null,
+        calories: '',
+        duration: '',
+        durationType: 'reps',
+        difficulty: 'medium',
+        visibility: 'public'
+      });
+      closeModal();
     };
 
-    try {
-      const response = await addExerciseToDatabase(newExercise);
-      if (response.success) {
-        setExercises([...exercises, response.data]);
-      }
-    } catch (error) {
-      console.error('Error adding exercise:', error);
-    }
-
-    setFormData({
-      name: '',
-      description: '',
-      image: null,
-      caloriesPerMinute: 0,
-      visibility: 'public',
-      type: 'time'
-    });
-    closeModal();
+    reader.readAsDataURL(formData.image);
   };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleCardClick = (exercise: Exercise) => {
-    if (isSignedIn) {
-      setSelectedExercises(prevSelected => {
-        if (prevSelected.includes(exercise)) {
-          return prevSelected.filter(ex => ex.id !== exercise.id);
-        } else {
-          return [...prevSelected, exercise];
+    const handleCardClick = (exercise: Exercise) => {
+        if (isSignedIn) {
+            setSelectedExercises(prevSelected => {
+                if (prevSelected.includes(exercise)) {
+                    return prevSelected.filter(ex => ex.id !== exercise.id);
+                } else {
+                    return [...prevSelected, exercise];
+                }
+            });
         }
-      });
-    }
-  };
+    };
 
-  const handleAddToWorkout = () => {
-    navigate('/workouts', { state: { selectedExercises } });
-  };
+    const handleAddToWorkout = () => {
+        navigate('/workouts', { state: { selectedExercises } });
+    };
 
-  return (
-    <div className="gray-bg">
-      {isSignedIn && (
-        <div className="main-wrapper">
-          <div className="buttons-container">
-            <button className="add-exercise-button" onClick={openModal}>
-              <img src={add} alt="add" className="default-image" />
-              <img src={hover} alt="add-hover" className="hover-image" />
-            </button>
-            {selectedExercises.length > 0 && (
-              <button className="add-to-workout-button" onClick={handleAddToWorkout}>
-                Add to Workout
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-      <div className="container">
-        <input
-          type="text"
-          placeholder="Search exercises by name..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-        <div className="search"></div>
-      </div>
+    return (
       <div className="main-wrapper">
-        <div className="cards-container">
-          {filteredExercises.map(el => (
-            <ExerciseCard
-              {...el} 
-              likes={0}
-              key={el.id}
-              isSelected={selectedExercises.some(ex => ex.id === el.id)}
-              image={el?.image?.data}
-              onClick={() => handleCardClick(el)}
+        <div className="gray-bg">
+            {isSignedIn && (
+                <div className="buttons-container">
+                    <button className="add-exercise-button" onClick={openModal}>Add Exercise</button>
+                    {selectedExercises.length > 0 && (
+                        <button className="add-to-workout-button" onClick={handleAddToWorkout}>
+                            Add to Workout
+                        </button>
+                    )}
+                </div>
+            )}
+            <div className="container">
+                <input
+                    type="text"
+                    placeholder="Search exercises by name..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
+                <div className="search"></div>
+            </div>
+            <div className="cards-container">
+                {filteredExercises.map(el => (
+                    <ExerciseCard
+                        key={el.id}
+                        isSelected={selectedExercises.some(ex => ex.id === el.id)}
+                        {...el}
+                        calories={el.calories}
+                        duration={el.duration}
+                        durationType={el.durationType}
+                        difficulty={el.difficulty}
+                        onClick={() => handleCardClick(el)} />
+                ))}
+            </div>
+            <Modal
+                showModal={showModal}
+                closeModal={closeModal}
+                handleSubmit={handleSubmit}
+                handleChange={handleChange}
+                handleImageChange={handleImageChange}
+                formData={formData}
             />
-          ))}
         </div>
       </div>
-      <Modal
-        showModal={showModal}
-        closeModal={closeModal}
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
-        handleImageChange={handleImageChange}
-        fetchExercises={fetchExercises}
-        formData={formData}
-      />
-    </div>
-  );
+    );
 };
-
-export default Exercises;

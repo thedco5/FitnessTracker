@@ -38,7 +38,7 @@
 
 @media (min-width: 768px) {
     .ExerciseCard {
-        max-width: 300px;
+        max-width: 280px;
         margin: 0;
     }
 }
