@@ -56,7 +56,7 @@ export const workoutMockup: Workout[] = [
         image: workoutStomach,
         id: 'a27b5b6c-8728-4aaf-8e21-31b7e5f6d9a6',
         name: "Core Workout",
-        createdBy: "Emily",
+        createdBy: "Alex",
         likes: ["userId1", "userId3"],
         totalCalories: 400,
         totalTime: 25,
