@@ -1,3 +1,5 @@
+/* modalx.css */
+
 .modal {
     position: fixed;
     top: 0;
@@ -9,7 +11,7 @@
     justify-content: center;
     align-items: center;
 }
-  
+
 .modal-main {
     position: absolute;
     top: 50%;
@@ -22,19 +24,19 @@
     text-align: left;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-  
+
 .display-block {
     display: block;
 }
-  
+
 .display-none {
     display: none;
 }
-  
+
 .form-group {
     margin-bottom: 15px;
 }
-  
+
 .form-group label {
     display: block;
     margin-bottom: 5px;
@@ -47,34 +49,51 @@
     border-radius: 13px;
     box-sizing: border-box;
 }
-  
+
 .modal-buttons {
     margin-top: 20px;
     text-align: center;
 }
-  
+
 .modal-buttons button {
     margin: 5px;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
+    padding: 1rem 1.6rem;
+    border: 0 solid #e2e8f0;
+    border-radius: 1.5rem;
+    background-color: #fff;
+    color: #0d172a;
     cursor: pointer;
+    display: inline-block;
+    font-family: "Basier circle", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none #0d172a solid;
+    text-decoration-thickness: auto;
+    transition: all .1s cubic-bezier(.4, 0, .2, 1);
+    box-shadow: 0px 1px 2px rgba(166, 175, 195, 0.25);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
-  
-.modal-buttons button[type="submit"] {
-    background-color: #ccc;
-    /*color: white;*/
+
+.modal-buttons button:hover {
+    background-color: #61dafb;
+    color: #fff;
 }
-  
-.modal-buttons button[type="button"] {
-    background-color: #ccc;
-    color: black;
+
+@media (min-width: 768px) {
+    .modal-buttons button {
+        font-size: 1.125rem;
+        padding: 1rem 2rem;
+    }
 }
-  
+
 .toggle-form p {
     margin-top: 10px;
 }
-  
+
 .toggle-form button {
     background: none;
     border: none;
@@ -83,16 +102,12 @@
     text-decoration: underline;
     padding: 0;
 }
-  
+
 .toggle-form button:hover {
     text-decoration: none;
 }
-  
+
 .error {
     color: red;
     margin-top: 10px;
 }
-
-
-  
-
