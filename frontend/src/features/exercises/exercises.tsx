@@ -163,7 +163,7 @@ export const Exercises: React.FC<ExercisesProps> = ({isSignedIn}) => {
       <div className="cards-container">
         {filteredExercises.map(el => (
           <ExerciseCard
-            key={el.id}
+            likes={0} key={el.id}
             isSelected={selectedExercises.some(ex => ex.id === el.id)}
             {...el}
             calories={el.calories}

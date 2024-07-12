@@ -25,11 +25,12 @@ export const Modal: React.FC<ModalProps> = ({
       difficulty: formData.difficulty.toUpperCase().replace(' ', '_'),
       type: 'UPPER_BODY', 
       visibility: formData.visibility.toUpperCase(),
-      image: formData.image ? { data: formData.image } : null,
+      image: formData.image ? { data: "formData.image" } : null,
     };
 
     try {
       const token = getAccessToken();
+      console.log(JSON.stringify(exerciseData));
       const response = await fetch('http://localhost:8080/api/exercise', {
         method: 'POST',
         headers: {
@@ -38,9 +39,9 @@ export const Modal: React.FC<ModalProps> = ({
         },
         body: JSON.stringify(exerciseData),
       });
-
+    
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.text();
         console.log('Exercise added:', data);
         closeModal();
       } else {
@@ -50,6 +51,7 @@ export const Modal: React.FC<ModalProps> = ({
     } catch (error) {
       console.error(`Failed to add exercise: ${error}`);
     }
+    
   };
 
   return (
@@ -99,7 +101,7 @@ export const Modal: React.FC<ModalProps> = ({
           </div>
           <div className="form-group">
             <label htmlFor="image">Image:</label>
-            <input type="file" name="image" onChange={handleImageChange} required />
+            <input type="file" name="image" onChange={handleImageChange}  />
           </div>
           <div className="modal-buttons">
             <button type="submit">Add Exercise</button>

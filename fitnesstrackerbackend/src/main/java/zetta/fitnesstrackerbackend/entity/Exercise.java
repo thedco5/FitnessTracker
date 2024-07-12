@@ -61,7 +61,7 @@ public class Exercise {
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 

@@ -14,7 +14,10 @@ import add from "../../Images/add.svg";
 import hover from "../../Images/hover.svg";
 import { exercisesMockup } from "../exercises/constants.ts";
 
-const addWorkoutToDatabase = async (workout) => {
+const addWorkoutToDatabase = async (workout: {
+    id: string; name: string; createdBy: string; image: string; exercises: never[]; likes: never[]; comments: never[]; // Initialize comments array
+    favorites: boolean;
+  }) => {
   return new Promise((resolve) => {
     setTimeout(() => resolve({ success: true, data: workout }), 500);
   });

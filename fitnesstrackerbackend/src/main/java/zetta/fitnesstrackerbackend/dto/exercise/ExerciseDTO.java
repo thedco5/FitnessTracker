@@ -45,7 +45,6 @@ public class ExerciseDTO {
     @NotNull(message = "Difficulty must be selected")
     private Difficulty difficulty;
 
-    @NotNull(message = "Exercise type must be selected")
     private ExerciseType type;
 
     @NotNull(message = "Visibility must be selected")

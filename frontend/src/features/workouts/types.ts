@@ -14,6 +14,7 @@ export interface WorkoutExCard {
     calculatedTime?: number;
 }
 export interface Workout {
+    comments: never[];
     id: string;
     name: string;
     createdBy: string;

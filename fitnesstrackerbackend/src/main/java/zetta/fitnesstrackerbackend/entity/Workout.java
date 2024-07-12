@@ -59,7 +59,7 @@ public class Workout {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
 

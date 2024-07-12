@@ -19,6 +19,8 @@ export interface TrainingProgram {
 }
 
 export interface Exercise {
+    difficulty: string;
+    calories: string;
     id: string;
     name: string;
     description: string;
