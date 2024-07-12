@@ -32,7 +32,6 @@ export const Modal: React.FC<ModalProps> = ({
 
     try {
       const token = getAccessToken();
-      console.log(JSON.stringify(exerciseData));
       const response = await fetch('http://localhost:8080/api/exercise', {
         method: 'POST',
         headers: {
@@ -44,7 +43,6 @@ export const Modal: React.FC<ModalProps> = ({
     
       if (response.ok) {
         const data = await response.text();
-        console.log('Exercise added:', data);
         closeModal();
         fetchExercises();
       } else {

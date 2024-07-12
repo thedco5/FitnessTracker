@@ -51,7 +51,6 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Fetched exercises:', data);
         setExercises(data);
       } else if (response.status === 401) {
         console.error('Unauthorized: Please log in again.');
@@ -66,7 +65,6 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
   };
 
   useEffect(() => {
-    console.log(exercises);
     setFilteredExercises(exercises.filter(exercise =>
       exercise.name.toLowerCase().includes(searchTerm.toLowerCase())
     ));

@@ -39,7 +39,6 @@ const WorkoutCard = ({workout, myUserId}: { workout: Workout }) => {
   const hasLike = currentLikes?.includes(myUserId);
 
   const {data, isLoading} = useGetWorkoutsQuery();
-  console.log('data: ', data)
   const handleChangeLike = () => {
     const newLikes = hasLike
       ? currentLikes.filter(el => el !== myUserId)

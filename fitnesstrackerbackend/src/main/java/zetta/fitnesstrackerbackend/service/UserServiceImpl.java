@@ -8,6 +8,7 @@ import zetta.fitnesstrackerbackend.dto.user.UpdateUserDTO;
 import zetta.fitnesstrackerbackend.dto.user.UserDTO;
 import zetta.fitnesstrackerbackend.entity.User;
 import zetta.fitnesstrackerbackend.mapper.UserMapper;
+import zetta.fitnesstrackerbackend.repository.ImageRepository;
 import zetta.fitnesstrackerbackend.repository.UserRepository;
 import zetta.fitnesstrackerbackend.vo.Gender;
 
@@ -18,11 +19,13 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
     private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, ImageRepository imageRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.imageRepository = imageRepository;
         this.userMapper = userMapper;
     }
 
@@ -51,7 +54,11 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isEmpty())
             return ResponseEntity.notFound().build();
 
-        userRepository.save(userMapper.updateUserInfoFromDTO(userDTO, optionalUser.get()));
+        User user = optionalUser.get();
+        user.setImage(null); // removes the image
+        userRepository.save(user);
+
+        userRepository.save(userMapper.updateUserInfoFromDTO(userDTO, user));
         return ResponseEntity.ok("Successfully updated user info!");
 
     }

@@ -9,8 +9,6 @@ import zetta.fitnesstrackerbackend.vo.DurationType;
 import zetta.fitnesstrackerbackend.vo.ExerciseType;
 import zetta.fitnesstrackerbackend.vo.Visibility;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

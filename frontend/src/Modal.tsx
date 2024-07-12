@@ -43,7 +43,6 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
         await fetchUserInfo(accessToken); 
         setIsSignedIn(true);
         handleClose();
-        console.log("Logged in.");
         window.location.reload();
       } else {
         setError('Sign-in failed. Please check your credentials.');
@@ -101,7 +100,6 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
       if (response.ok) {
         const data = await response.text();
         switchToSignIn();
-        console.log(data);
         setError("");
       } else {
         const data = await response.text();
@@ -130,7 +128,6 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
     if (e.target.files && e.target.files[0]) {
       try {
         const base64 = await convertToBase64(e.target.files[0]);
-        console.log("Base64 length: ", base64.length);
         setImage(base64);
       } catch (error) {
         console.error("Error converting file to base64: ", error);

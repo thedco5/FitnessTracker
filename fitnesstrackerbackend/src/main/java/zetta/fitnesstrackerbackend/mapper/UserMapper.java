@@ -18,7 +18,6 @@ public interface UserMapper {
     @Named("toUserInfoDTO")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "image.id", ignore = true)
     UserDTO toUserInfoDTO(User user);
 
     @Mapping(source = "name", target = "name", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

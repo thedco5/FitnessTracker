@@ -103,8 +103,6 @@ export const Workout = () => {
   const [currentLikes, setCurrentLikes] = useState<string[]>(likes);
   const [exerciseCardFilds, setExerciseCardFilds] = useState<WorkoutExCard>(initialCardData);
 
-  console.log('currentExercisesList: ', currentExercisesList)
-
   const closeModal = () => {
     setExerciseCardFilds(initialCardData);
     setShowModal(false);
@@ -186,7 +184,6 @@ export const Workout = () => {
     const caloriesPerMinute = exercisesMockup.find(el => el.id === currentObject.exId)?.caloriesPerMinute || 0;
     return accumulator + (caloriesPerMinute * repeat * time);
   }, 0);
-  console.log( currentExercisesList)
 
   const totalWorkoutTime = currentExercisesList.reduce((accumulator, currentObject) => {
     const time = currentObject.calculatedTime || 0;

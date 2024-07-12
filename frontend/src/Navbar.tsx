@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 import './Navbar.css';
 import { removeAccessToken } from './auth.tsx'; 
+import customFetch from './api/requests.ts';
 
 interface NavbarProps {
   isSignedIn: boolean;
@@ -56,7 +57,24 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
     if (file) {
       try {
         const base64 = await convertToBase64(file);
-        setUserInfo({ ...userInfo, image: base64 });
+        try {
+          const accessToken = localStorage.getItem('accessToken');
+          if (!accessToken)
+            throw new Error('No access token available!');
+          const response = await customFetch(
+            '/user',
+            'PATCH',
+            { "image": { data: base64 } }
+          )
+          if (response.ok) {
+            setUserInfo({ ...userInfo, image: base64 });
+          } else {
+            throw new Error(`Request failed: [${response.status}] ${response.statusText}`);
+          }
+        } catch (error) {
+          console.error('Failed to update profile. ' + error);
+        }
+
       } catch (error) {
         console.error("Error converting file to base64: ", error);
       }
@@ -98,7 +116,6 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
 
       if (response.ok) {
         const data = await response.json();
-        console.log("User Info:", data);
         setUserInfo({ username: data.username, email: data.email, image: data.image?.data || null });
       } else {
         console.error('Failed to fetch user info.');
