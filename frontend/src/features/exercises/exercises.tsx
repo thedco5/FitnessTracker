@@ -10,22 +10,22 @@ import { Exercise, ExercisesProps, FormData } from './types';
 import add from "../../Images/add.svg";
 import hover from "../../Images/hover.svg";
 
-const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
-  const response = await fetch('https://your-backend-api.com/exercises', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(exercise),
-  });
+// const addExerciseToDatabase = async (exercise: Exercise): Promise<{ success: boolean, data: Exercise }> => {
+//   const response = await fetch('https://your-backend-api.com/exercises', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(exercise),
+//   });
 
-  if (!response.ok) {
-    throw new Error('Failed to add exercise to database');
-  }
+//   if (!response.ok) {
+//     throw new Error('Failed to add exercise to database');
+//   }
 
-  const data = await response.json();
-  return { success: true, data };
-};
+//   const data = await response.json();
+//   return { success: true, data };
+// };
 
 export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
   const [exercises, setExercises] = useState<Exercise[]>(exercisesMockup);
