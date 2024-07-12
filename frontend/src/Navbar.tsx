@@ -35,6 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
     setUserInfo({ username: '', email: '', image: null });
     setShowDropdown(false);
     localStorage.removeItem('accessToken');
+    window.location.reload();
   };
 
   const convertToBase64 = (file: File): Promise<string> => {
@@ -81,6 +82,32 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
     setShowDropdown(false);
   }, [location]);
 
+  const onDivLoad = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        throw new Error('No access token available');
+      }
+      const response = await fetch('http://localhost:8080/api/user/info', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("User Info:", data);
+        setUserInfo({ username: data.username, email: data.email, image: data.image?.data || null });
+      } else {
+        console.error('Failed to fetch user info.');
+      }
+    } catch (error) {
+      console.error('Failed to fetch user info. ' + error);
+    }
+  }
+
   const decodeBase64Image = (base64: string | null): string => {
     return base64 ? `data:image/jpeg;base64,${base64}` : 'src/images/image.jpg';
   };
@@ -95,7 +122,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSignedIn, setIsSignedIn, userInfo, se
           </div>
           <div className="navbar-right">
             {isSignedIn ? (
-              <div className="account">
+              <div className="account" onLoad={onDivLoad}>
                 <button className="account-button" onClick={toggleDropdown}>
                   <img src={decodeBase64Image(userInfo.image)} alt="Profile" className="profile-pic" />
                 </button>

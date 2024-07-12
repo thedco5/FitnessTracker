@@ -28,44 +28,45 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchExercises = async () => {
-      try {
-        const token = getAccessToken();
-        const headers: HeadersInit = {
-          'Content-Type': 'application/json',
-        };
-        let apiUrl = 'http://localhost:8080/api/exercise/public';
-
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
-          apiUrl = 'http://localhost:8080/api/exercise';
-        }
-
-        const response = await fetch(apiUrl, {
-          method: 'GET',
-          headers: headers,
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Fetched exercises:', data);
-          setExercises(data);
-        } else if (response.status === 401) {
-          console.error('Unauthorized: Please log in again.');
-          navigate('/login');
-        } else {
-          const errorText = await response.text();
-          console.error(`Failed to fetch exercises: ${errorText}`);
-        }
-      } catch (error) {
-        console.error(`Failed to fetch exercises: ${error}`);
-      }
-    };
-
     fetchExercises();
   }, [navigate]);
 
+  const fetchExercises = async () => {
+    try {
+      const token = getAccessToken();
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      let apiUrl = 'http://localhost:8080/api/exercise/public';
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+        apiUrl = 'http://localhost:8080/api/exercise';
+      }
+
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: headers,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Fetched exercises:', data);
+        setExercises(data);
+      } else if (response.status === 401) {
+        console.error('Unauthorized: Please log in again.');
+        navigate('/login');
+      } else {
+        const errorText = await response.text();
+        console.error(`Failed to fetch exercises: ${errorText}`);
+      }
+    } catch (error) {
+      console.error(`Failed to fetch exercises: ${error}`);
+    }
+  };
+
   useEffect(() => {
+    console.log(exercises);
     setFilteredExercises(exercises.filter(exercise =>
       exercise.name.toLowerCase().includes(searchTerm.toLowerCase())
     ));
@@ -175,10 +176,11 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
         <div className="cards-container">
           {filteredExercises.map(el => (
             <ExerciseCard
+              {...el} 
               likes={0}
               key={el.id}
               isSelected={selectedExercises.some(ex => ex.id === el.id)}
-              {...el}
+              image={el?.image?.data}
               onClick={() => handleCardClick(el)}
             />
           ))}
@@ -190,6 +192,7 @@ export const Exercises: React.FC<ExercisesProps> = ({ isSignedIn }) => {
         handleSubmit={handleSubmit}
         handleChange={handleChange}
         handleImageChange={handleImageChange}
+        fetchExercises={fetchExercises}
         formData={formData}
       />
     </div>

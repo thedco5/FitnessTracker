@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ModalProps } from './types';
 import './modalx.css';
 import { getAccessToken } from '../../auth';
@@ -9,6 +10,7 @@ export const Modal: React.FC<ModalProps> = ({
   handleSubmit,
   handleChange,
   handleImageChange,
+  fetchExercises,
   formData,
 }) => {
   const showHideClassName = showModal ? 'modal display-block' : 'modal display-none';
@@ -21,11 +23,11 @@ export const Modal: React.FC<ModalProps> = ({
       description: formData.description,
       calories: formData.calories,
       duration: formData.duration,
-      durationType: formData.durationType.toUpperCase(),
-      difficulty: formData.difficulty.toUpperCase().replace(' ', '_'),
-      type: 'UPPER_BODY', 
-      visibility: formData.visibility.toUpperCase(),
-      image: formData.image ? { data: "formData.image" } : null,
+      durationType: formData.durationType ? formData.durationType.toUpperCase() : "REPETITIONS",
+      difficulty: formData.difficulty ? formData.difficulty.toUpperCase().replace(' ', '_') : "VERY_EASY",
+      type: "WHOLE_BODY", 
+      visibility: formData.visibility ? formData.visibility.toUpperCase() : "PUBLIC",
+      image: formData.image ? { data: formData.image } : null,
     };
 
     try {
@@ -44,6 +46,7 @@ export const Modal: React.FC<ModalProps> = ({
         const data = await response.text();
         console.log('Exercise added:', data);
         closeModal();
+        fetchExercises();
       } else {
         const errorText = await response.text();
         console.error(`Failed to add exercise: ${errorText}`);
@@ -75,9 +78,9 @@ export const Modal: React.FC<ModalProps> = ({
             <input type="number" name="duration" value={formData.duration} onChange={handleChange} required />
           </div>
           <div className="form-group">
-            <label htmlFor="durationType">Duration Type:</label>
+            <label htmlFor="difficulty">Duration Type:</label>
             <select name="durationType" value={formData.durationType} onChange={handleChange}>
-              <option value="reps">Reps</option>
+              <option value="repetitions" defaultChecked>Reps</option>
               <option value="seconds">Seconds</option>
               <option value="pairs">Pairs</option>
             </select>
@@ -95,7 +98,7 @@ export const Modal: React.FC<ModalProps> = ({
           <div className="form-group">
             <label htmlFor="visibility">Visibility:</label>
             <select name="visibility" value={formData.visibility} onChange={handleChange}>
-              <option value="public">Public</option>
+              <option value="public" defaultChecked>Public</option>
               <option value="private">Private</option>
             </select>
           </div>

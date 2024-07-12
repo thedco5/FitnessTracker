@@ -6,9 +6,10 @@ interface ModalProps {
   handleClose: () => void;
   setIsSignedIn: (isSignedIn: boolean) => void;
   setUserInfo: (userInfo: { username: string; email: string; image: string | null }) => void;
+  fetchExercises: () => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUserInfo }) => {
+export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, setUserInfo, fetchExercises }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
   const [emailOrUsername, setEmailOrUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -43,6 +44,7 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
         setIsSignedIn(true);
         handleClose();
         console.log("Logged in.");
+        window.location.reload();
       } else {
         setError('Sign-in failed. Please check your credentials.');
       }
@@ -68,7 +70,6 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
 
       if (response.ok) {
         const data = await response.json();
-        console.log("User Info:", data);
         setUserInfo({ username: data.username, email: data.email, image: data.image?.data || null });
       } else {
         setError('Failed to fetch user info.');
@@ -245,7 +246,6 @@ export const Modal: React.FC<ModalProps> = ({ show, handleClose, setIsSignedIn, 
           <div className="modal-buttons">
             <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
             <button type="button" onClick={() => { setError(''); handleClose(); }}>Close</button>
-            <button type="button" onClick={handleGo}>Go</button>
           </div>
         </form>
         <div className="toggle-form">
