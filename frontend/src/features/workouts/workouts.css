@@ -77,13 +77,13 @@
 .workout-card-stats span {
     display: flex;
     align-items: center;
-    font-size: 18px; /* Увеличиваем размер текста */
+    font-size: 18px;
 }
 
 .workout-card-stats img {
-    width: 20px; /* Уменьшаем размер иконок */
-    height: 20px; /* Уменьшаем размер иконок */
-    margin-right: 5px; /* Добавляем отступ между иконкой и текстом */
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
 }
 
 .workout-card-description {
@@ -202,38 +202,35 @@
 .checkbox-label {
     display: inline-block;
     position: relative;
-    padding-left: 30px; /* Отступ слева для круглого стилизованного чекбокса */
-    cursor: pointer; /* Делает курсор при наведении на label */
-
-    /* Высота и ширина для области нажатия */
+    padding-left: 30px;
+    cursor: pointer;
     height: 20px;
     line-height: 20px;
 }
 
-/* Стили для псевдоэлемента, который будет стилизовать сам чекбокс */
 .checkbox-label::before {
     content: '';
     position: absolute;
     left: 0;
     top: 0;
-    width: 20px; /* Размер круга */
-    height: 20px; /* Размер круга */
-    border: 2px solid #ffffff; /* Цвет границы круга */
-    border-radius: 50%; /* Делает круглым */
-    background-color: white; /* Цвет фона */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background-color: white;
 }
 
-/* Стилизация псевдоэлемента при активации чекбокса (когда он checked) */
+
 .checkbox-label input:checked + ::before {
-    background-color: #cb3535; /* Цвет заливки круга */
+    background-color: #cb3535;
 }
 
-/* Стилизация псевдоэлемента при наведении на label */
+
 .checkbox-label:hover::before {
-    border-color: #4ad7ff; /* Изменение цвета границы при наведении */
+    border-color: #4ad7ff;
 }
 
-/* Скрытие оригинального чекбокса */
+
 .checkbox-label input {
     opacity: 0;
     position: absolute;

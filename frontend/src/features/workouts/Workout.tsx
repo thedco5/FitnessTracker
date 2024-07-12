@@ -159,7 +159,7 @@ export const Workout = () => {
   const createNewCard = () => {
     const selectedExercise = exercisesMockup.find(exercise => exercise.id === exerciseCardFilds.exId);
     if (!selectedExercise) {
-      return null; // обработка случая, если выбранное упражнение не найдено
+      return null;
     }
 
     const calloriesPerMinute = selectedExercise.caloriesPerMinute || 0;

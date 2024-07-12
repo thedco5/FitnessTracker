@@ -20,6 +20,9 @@ const customFetch = (URL: string, method: string, body: {} | null) => {
 export default customFetch;
 
 
+const setError = (str: string) => {}
+
+
 /* LOGIN */
 try {
   const response = await customFetch(
@@ -354,7 +357,7 @@ try {
   const accessToken = localStorage.getItem('accessToken');
   const response = await customFetch(
     '/workout/'
-    + INSERT_WORKOUT_ID
+    + INSERT_WORKOUT_ID,
     'PUT',
     {
       // "calories": 0,

@@ -28,5 +28,4 @@ export const ExerciseCard: React.FC<ExtendedExerciseType> = ({
       </div>
     </div>
   );
-
 };
