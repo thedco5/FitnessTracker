@@ -12,23 +12,23 @@ import timeblack from '../../Images/Timeblack.svg';
 import WorkOut from '../../Images/WorkOut.svg';
 import add from "../../Images/add.svg";
 import hover from "../../Images/hover.svg";
-import commentShow from "../../Images/comment.svg"
-import commentHide from "../../Images/commentOff.svg"
-import onCircle from "../../Images/on.svg"
-import offCircle from "../../Images/off.svg"
+import commentShow from "../../Images/comment.svg";
+import commentHide from "../../Images/commentOff.svg";
+import onCircle from "../../Images/on.svg";
+import offCircle from "../../Images/off.svg";
 import {exercisesMockup} from "../exercises/constants.ts";
 import {useGetWorkoutsQuery} from "../../api/dataApi/dataApi.ts";
 
 const addWorkoutToDatabase = async (workout: {
-    id: string; name: string; createdBy: string; image: string; exercises: never[]; likes: never[]; comments: never[]; // Initialize comments array
-    favorites: boolean;
-  }) => {
+  id: string; name: string; createdBy: string; image: string; exercises: never[]; likes: never[]; comments: never[]; // Initialize comments array
+  favorites: boolean;
+}) => {
   return new Promise((resolve) => {
     setTimeout(() => resolve({success: true, data: workout}), 500);
   });
 };
 
-const WorkoutCard = ({workout, myUserId}: { workout: Workout }) => {
+const WorkoutCard = ({workout, myUserId}: { workout: Workout, myUserId: string }) => {
   const [totalWorkoutCalories, setTotalWorkoutCalories] = useState<number>(0);
   const [totalWorkoutTime, setTotalWorkoutTime] = useState<number>(0);
   const [currentLikes, setCurrentLikes] = useState(workout.likes);
@@ -39,7 +39,8 @@ const WorkoutCard = ({workout, myUserId}: { workout: Workout }) => {
   const hasLike = currentLikes?.includes(myUserId);
 
   const {data, isLoading} = useGetWorkoutsQuery();
-  console.log('data: ', data)
+  console.log('data: ', data);
+
   const handleChangeLike = () => {
     const newLikes = hasLike
       ? currentLikes.filter(el => el !== myUserId)
@@ -82,12 +83,9 @@ const WorkoutCard = ({workout, myUserId}: { workout: Workout }) => {
           <div className="workout-card-details">
             <h3 className="workout-card-title">{workout.name}</h3>
             <div className="workout-card-stats">
-              <h3 className="workout-card-Time"><img src={timeblack} alt="Time"/>{totalWorkoutTime} Minutes</h3>
-              <h3 className="workout-card-Calories"><img src={Caloriesblack}
-                                                         alt="Calories"/> {totalWorkoutCalories} Kcal</h3>
-              <h3 className="workout-card-Exercises"><img src={WorkOut}
-                                                          alt="Exercises"/> {workout.exercises.length} Exercises</h3>
-
+              <h3 className="workout-card-Time"><img src={timeblack} alt="Time"/> {totalWorkoutTime} Minutes</h3>
+              <h3 className="workout-card-Calories"><img src={Caloriesblack} alt="Calories"/> {totalWorkoutCalories} Kcal</h3>
+              <h3 className="workout-card-Exercises"><img src={WorkOut} alt="Exercises"/> {workout.exercises.length} Exercises</h3>
             </div>
             <div className="workout-card-like">
               <button onClick={(e) => {
@@ -110,7 +108,6 @@ const WorkoutCard = ({workout, myUserId}: { workout: Workout }) => {
           </div>
           <div className="workout-card-actions">
             <p className="workout-card-description">{workout.description}</p>
-
           </div>
         </div>
         <img src={workout.image} alt={workout.name} className="workout-card-image"/>
@@ -156,7 +153,9 @@ export const Workouts = ({isSignedIn}) => {
 
   useEffect(() => {
     let filtered = workouts.filter(workout =>
-      workout.name.toLowerCase().includes(searchTerm.toLowerCase()) && likedOnly ? workout.likes.includes(userId) : true
+      (workout.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        workout.createdBy.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (likedOnly ? workout.likes.includes(userId) : true)
     );
 
     if (filter === 'mostLikes') {
@@ -234,7 +233,7 @@ export const Workouts = ({isSignedIn}) => {
       <div className="container">
         <input
           type="text"
-          placeholder="Search workouts by name..."
+          placeholder="Search workouts by name or creator..."
           value={searchTerm}
           onChange={handleSearchChange}
         />
