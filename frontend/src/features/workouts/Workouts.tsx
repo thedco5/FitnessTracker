@@ -14,6 +14,8 @@ import add from "../../Images/add.svg";
 import hover from "../../Images/hover.svg";
 import commentShow from "../../Images/comment.svg"
 import commentHide from "../../Images/commentOff.svg"
+import onCircle from "../../Images/on.svg"
+import offCircle from "../../Images/off.svg"
 import {exercisesMockup} from "../exercises/constants.ts";
 import {useGetWorkoutsQuery} from "../../api/dataApi/dataApi.ts";
 
@@ -246,6 +248,11 @@ export const Workouts = ({isSignedIn}) => {
             type="checkbox"
             checked={likedOnly}
             onChange={() => setLikedOnly(prevState => !prevState)}
+          />
+          <img
+            src={likedOnly ? onCircle : offCircle}
+            alt="checkbox icon"
+            className="checkbox-icon"
           />
           liked only
         </label>
