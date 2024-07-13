@@ -1,8 +1,8 @@
-import {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
-import {Modalx} from './modalx';
-import {workoutMockup} from "./constants.ts";
-import {Workout} from "./types.ts";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Modalx } from './modalx';
+import { workoutMockup } from "./constants.ts";
+import { Workout } from "./types.ts";
 import './workouts.css';
 import './searchbar.css';
 import likeoff from '../../Images/likeoff.svg';
@@ -16,29 +16,28 @@ import commentShow from "../../Images/comment.svg";
 import commentHide from "../../Images/commentOff.svg";
 import onCircle from "../../Images/on.svg";
 import offCircle from "../../Images/off.svg";
-import {exercisesMockup} from "../exercises/constants.ts";
-import {useGetWorkoutsQuery} from "../../api/dataApi/dataApi.ts";
+import MostLikes from "../../Images/highToLow.svg";
+import LeastLikes from "../../Images/lowToHigh.svg";
+import { exercisesMockup } from "../exercises/constants.ts";
+import { useGetWorkoutsQuery } from "../../api/dataApi/dataApi.ts";
 
-const addWorkoutToDatabase = async (workout: {
-  id: string; name: string; createdBy: string; image: string; exercises: never[]; likes: never[]; comments: never[]; // Initialize comments array
-  favorites: boolean;
-}) => {
+const addWorkoutToDatabase = async (workout) => {
   return new Promise((resolve) => {
-    setTimeout(() => resolve({success: true, data: workout}), 500);
+    setTimeout(() => resolve({ success: true, data: workout }), 500);
   });
 };
 
-const WorkoutCard = ({workout, myUserId}: { workout: Workout, myUserId: string }) => {
-  const [totalWorkoutCalories, setTotalWorkoutCalories] = useState<number>(0);
-  const [totalWorkoutTime, setTotalWorkoutTime] = useState<number>(0);
+const WorkoutCard = ({ workout, myUserId }) => {
+  const [totalWorkoutCalories, setTotalWorkoutCalories] = useState(0);
+  const [totalWorkoutTime, setTotalWorkoutTime] = useState(0);
   const [currentLikes, setCurrentLikes] = useState(workout.likes);
-  const [comments, setComments] = useState<string[]>(workout.comments || []);
-  const [newComment, setNewComment] = useState<string>("");
-  const [showComments, setShowComments] = useState<boolean>(false);
+  const [comments, setComments] = useState(workout.comments || []);
+  const [newComment, setNewComment] = useState("");
+  const [showComments, setShowComments] = useState(false);
 
   const hasLike = currentLikes?.includes(myUserId);
 
-  const {data, isLoading} = useGetWorkoutsQuery();
+  const { data, isLoading } = useGetWorkoutsQuery();
   console.log('data: ', data);
 
   const handleChangeLike = () => {
@@ -135,7 +134,7 @@ const WorkoutCard = ({workout, myUserId}: { workout: Workout, myUserId: string }
   );
 };
 
-export const Workouts = ({isSignedIn}) => {
+export const Workouts = ({ isSignedIn }) => {
   const [workouts, setWorkouts] = useState(workoutMockup);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
@@ -145,7 +144,8 @@ export const Workouts = ({isSignedIn}) => {
     exercises: [],
   });
   const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState(''); // Added state for filter
+  const [showSortOptions, setShowSortOptions] = useState(false);
+  const [sortOrder, setSortOrder] = useState(''); // '' | 'mostLikes' | 'leastLikes'
   const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
   const [likedOnly, setLikedOnly] = useState(false);
 
@@ -158,26 +158,26 @@ export const Workouts = ({isSignedIn}) => {
       (likedOnly ? workout.likes.includes(userId) : true)
     );
 
-    if (filter === 'mostLikes') {
+    if (sortOrder === 'mostLikes') {
       filtered.sort((a, b) => b.likes.length - a.likes.length);
-    } else if (filter === 'leastLikes') {
+    } else if (sortOrder === 'leastLikes') {
       filtered.sort((a, b) => a.likes.length - b.likes.length);
     }
 
     setFilteredWorkouts(filtered);
-  }, [workouts, searchTerm, filter, likedOnly]); // Added filter to dependency array
+  }, [workouts, searchTerm, sortOrder, likedOnly]);
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name]: value});
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData({...formData, image: file});
+    setFormData({ ...formData, image: file });
   };
 
   const handleSubmit = async (e) => {
@@ -218,16 +218,29 @@ export const Workouts = ({isSignedIn}) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleFilterChange = (e) => {
-    setFilter(e.target.value);
+  const handleSortToggle = () => {
+    setShowSortOptions(!showSortOptions);
+    if (!showSortOptions) {
+      setSortOrder('mostLikes');
+    } else {
+      setSortOrder('');
+    }
+  };
+
+  const handleSortOrderChange = () => {
+    if (sortOrder === 'mostLikes') {
+      setSortOrder('leastLikes');
+    } else if (sortOrder === 'leastLikes') {
+      setSortOrder('mostLikes');
+    }
   };
 
   return (
     <div className="gray-bg">
       {isSignedIn && (
         <button className="add-exercise-button" onClick={openModal}>
-          <img src={add} alt="add" className="default-image"/>
-          <img src={hover} alt="add-hover" className="hover-image"/>
+          <img src={add} alt="add" className="default-image" />
+          <img src={hover} alt="add-hover" className="hover-image" />
         </button>
       )}
       <div className="container">
@@ -237,11 +250,23 @@ export const Workouts = ({isSignedIn}) => {
           value={searchTerm}
           onChange={handleSearchChange}
         />
-        <select onChange={handleFilterChange} value={filter} className="filter-select">
-          <option value="">No Sort</option>
-          <option value="mostLikes">Most Likes</option>
-          <option value="leastLikes">Least Likes</option>
-        </select>
+        <button onClick={handleSortToggle} className="sort-toggle-button">
+          <img
+            src={!showSortOptions ? offCircle : sortOrder === 'mostLikes' ? onCircle : onCircle}
+            alt="sort icon"
+            className="sort-icon"
+          />
+        </button>
+        <div className="label">sort by likes</div>
+        {showSortOptions && (
+          <button onClick={handleSortOrderChange} className="sort-order-button">
+            <img
+              src={sortOrder === 'mostLikes' ? MostLikes : LeastLikes}
+              alt="sort order icon"
+              className="sort-icon"
+            />
+          </button>
+        )}
         <label className="checkbox-label">
           <input
             type="checkbox"
@@ -255,12 +280,11 @@ export const Workouts = ({isSignedIn}) => {
           />
           liked only
         </label>
-        {/*<div className="search"></div>*/}
       </div>
       <div className="main-wrapper">
         <div className="workouts-list-wrapper">
           {filteredWorkouts.map((workout) => (
-            <WorkoutCard key={workout.id} workout={workout} myUserId={userId}/>
+            <WorkoutCard key={workout.id} workout={workout} myUserId={userId} />
           ))}
         </div>
       </div>

@@ -207,7 +207,7 @@ export const Workout = () => {
                   <h2 className="workoutMinutes"><img src={timeblack} alt="Time" /> {totalWorkoutTime} min</h2>
                   <h2 className="workoutKcal"><img src={Caloriesblack} alt="Calories" /> {totalWorkoutCallories/1000} Kcal</h2>
                 </div>
-                <button onClick={handelChangeLike} className="likeIcon">
+                <button onClick={handelChangeLike} className="likeIcon" style={{color: "white"}}>
                   {hasLike
                     ? <span><img src={likeon} alt="like on icon" /> {currentLikes?.length}</span>
                     : <span><img src={likeoff} alt="like off icon" /> {currentLikes?.length}</span>}

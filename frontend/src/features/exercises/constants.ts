@@ -53,7 +53,7 @@ export const exercisesMockup: Exercise[] = [
     {
         id: '5',
         name: 'Leg Press',
-        image: Plank,
+        image: legpress,
         type: 'time',
         description: 'Building lower body strength',
         caloriesPerMinute: 250,
@@ -62,7 +62,7 @@ export const exercisesMockup: Exercise[] = [
     {
         id: '6',
         name: 'TRX Suspension Straps',
-        image: Plank,
+        image: TRXsuspensionStraps,
         type: 'time',
         description: 'Full body workout',
         caloriesPerMinute: 300,

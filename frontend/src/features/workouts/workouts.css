@@ -200,6 +200,7 @@
 }
 
 .checkbox-label {
+    margin-left: 20px;
     display: inline-flex;
     align-items: center;
     cursor: pointer; /* Makes the cursor a pointer when hovering over the label */
@@ -218,4 +219,20 @@
     margin-right: 10px; /* Space between the icon and the text */
 }
 
+.sort-toggle-button, .sort-order-button {
+    background-color: transparent; /* Прозрачный фон кнопок */
+    border: none; /* Убираем границу кнопок */
+    cursor: pointer; /* Указываем, что кнопки являются интерактивными */
+}
+
+.sort-icon {
+    width: 20px; /* Задаем размер иконкам */
+    height: 20px;
+}
+
+.label {
+    font-size: 25px; /* Размер текста "sort by likes" */
+    margin-bottom: 5px;
+    color: #ffffff; /* Белый цвет текста */
+}
 
